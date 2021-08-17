@@ -1,0 +1,302 @@
+<%@ Page Title="" Language="VB" MasterPageFile="~/Views/CMM/_LayoutMain.Master" Inherits="System.Web.Mvc.ViewPage" %>
+
+<%--
+'====================================================================================================
+' 프로그램 설명
+'----------------------------------------------------------------------------------------------------
+' 업무분야
+'====================================================================================================
+--%>
+<asp:Content ID="Content1" ContentPlaceHolderID="HeaderContent" runat="server">
+    <script>
+        function funcAdd() {
+            funcDialogSet(900, 900, 480)
+            var iFrame = $('#iframe1')
+            iframe1.location.href = "/NsmdG/CM/WCM010_U101/main/?pp=Y";
+            $('#iframe1').css('height', $('#dialog').height() - 5);
+            $('#iframe1').css('width', $('#dialog').width() - 0);
+           // open("/NsmdG/CM/WCM010_U101/main/?pp=Y", "mngOfficeStaffA", cnjOpenShape(900, 480, 'no'));
+        }
+
+        function funcEdit() {
+            var f = document.frm;
+            var field = f.userIdx;
+            if (field == undefined) {
+                alert("<%=RLINK.GetConvertText(10003, "Please, Select record.")%>")
+                return;
+            } else if (field.length == undefined) {
+                if (field.checked) {
+                    funcDialogSet(900, 900, 480)
+                    var iFrame = $('#iframe1')
+                    iframe1.location.href = "/NsmdG/CM/WCM010_U101/main/?pp=Y&CMS_CD=" + field.value + "&O_URL=/NsmdG/CM/WCM010_S101/main/";
+                    $('#iframe1').css('height', $('#dialog').height() - 5);
+                    $('#iframe1').css('width', $('#dialog').width() - 0);
+                    //open("/NsmdG/CM/WCM010_U101/main/?pp=Y&CMS_CD=" + field.value + "&O_URL=/NsmdG/CM/WCM010_S101/main/", "mngOfficeStaffA", cnjOpenShape(900, 500, 'no'));
+                } else {
+                    alert("<%=RLINK.GetConvertText(10003, "Please, Select record.")%>")
+                    return;
+                }
+            } else {
+                var checkflag2 = 0;
+                var checkflag3 = "";
+                for (i = 0; i < field.length; i++) {
+                    if (field[i].checked) {
+                        checkflag2 = checkflag2 + 1;
+                        checkflag3 = i;
+                    }
+                }
+                if (checkflag2 == 1) {
+                    funcDialogSet(900, 900, 480)
+                    var iFrame = $('#iframe1')
+                    iframe1.location.href = "/NsmdG/CM/WCM010_U101/main/?pp=Y&CMS_CD=" + field[checkflag3].value + "&O_URL=/NsmdG/CM/WCM010_S101/main/";
+                    $('#iframe1').css('height', $('#dialog').height() - 5);
+                    $('#iframe1').css('width', $('#dialog').width() - 0);
+                    //open("/NsmdG/CM/WCM010_U101/main/?pp=Y&CMS_CD=" + field[checkflag3].value + "&O_URL=/NsmdG/CM/WCM010_S101/main/", "mngOfficeStaffA", cnjOpenShape(900, 500, 'no'));
+                } else {
+                    alert("<%=RLINK.GetConvertText(10003, "Please, Select record.")%>");
+                    return;
+                }
+            }
+        }
+
+        function funcDel() {
+            var f = document.frm;
+            var field = f.userIdx;
+            f.TPROC.value = "DEL";
+
+            if (field == undefined) {
+                alert("<%=RLINK.GetConvertText(10003, "Please, Select record.")%>")
+                return;
+            } else if (field.length == undefined) {
+                if (field.checked) {
+                    if (true == confirm("<%=RLINK.GetConvertText(11026, "Do you want to delete selected data?")%>")) {
+                        f.action = "/NsmdG/CM/WCM010_S101/mainTran/"
+                        f.submit();
+                    }
+                } else {
+                    alert("<%=RLINK.GetConvertText(10003, "Please, Select record.")%>")
+                    return;
+                }
+            } else {
+                var checkflag2 = "false"
+                for (i = 0; i < field.length; i++) {
+                    if (field[i].checked) {
+                        checkflag2 = "true"
+                    }
+                }
+                if (checkflag2 == "true") {
+                    if (true == confirm("<%=RLINK.GetConvertText(11026, "Do you want to delete selected data?")%>")) {
+                        f.action = "/NsmdG/CM/WCM010_S101/mainTran/"
+                        f.submit();
+                    }
+                } else {
+                    alert("<%=RLINK.GetConvertText(10003, "Please, Select record.")%>");
+                    return;
+                }
+            }
+        }
+
+        function funcSearch() {
+            var f = document.searchform
+            f.submit();
+        }
+        function keydown_handler(e) {
+            if (window.event.keyCode == 13) //Only for Microsoft Internet Explorer
+            {
+                funcSearch()
+                return false;
+            }
+        }
+
+
+        $(document).ready(function () {
+            $('body').keydown(function () {
+                var keyCode = event.keyCode;
+                //F2
+                if (keyCode == 113) {
+                    funcSearch('');
+                }
+                if (keyCode == 117) {
+                    funcAdd();
+                }
+            });
+        });
+
+        var iFrameTem = "<iframe name=\"iframe1\" id=\"iframe1\" src=\"\" width=\"100%\" height=\"\" frameborder=\"0\" scrolling=\"no\" onload=\"\"></iframe>"
+        function funcDialogSet(valWidth1, valWidth2, valHeight) {
+            //Dialog 세팅
+            $('#dialog').dialog({
+                autoOpen: false,
+                width: valWidth1,
+                css: true
+            });
+
+            $('#dialog').empty();
+            $('#dialog').html(iFrameTem);
+
+            $('#dialog').dialog('open');
+
+            $('#dialog').width(valWidth2);
+            $('#dialog').height(valHeight);
+        }
+    </script>
+</asp:Content>
+
+<asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
+    <%
+        Dim rs = ViewData("resultrs")
+        Dim strParam = ViewData("strParam")
+        Dim paramVO = ViewData("resultVO")
+        Dim _commonFunction As New RLINK.CommonFunction(ViewContext.HttpContext, ViewData("sessionInfo").officeNo)
+        Dim recordCount = ViewData("resultVO").recordCount
+        Dim Gotopage = ViewData("resultVO").Gotopage
+        Dim pagesize = ViewData("resultVO").pagesize
+        Dim pagecount = ViewData("resultVO").pagecount
+        Dim recnum = ViewData("resultVO").recnum
+
+        Dim CMS_NM = ViewData("resultVO").CMS_NM
+
+        '' excel 용 변수
+        Dim ex_sql = ViewData("resultVO").ex_sql
+        Dim ex_cond = ViewData("resultVO").ex_cond
+        Dim ex_title = ViewData("resultVO").ex_title
+        Dim ex_head = ViewData("resultVO").ex_head
+        Dim ex_datatype = ViewData("resultVO").ex_datatype
+        Dim ex_column = ViewData("resultVO").ex_column
+        Dim ex_page = ViewData("resultVO").ex_page
+
+    %>
+    <div id="dialog" title="" style="padding:0 0 0 0"></div>
+    <h2 class="pagetitle"><%=RLINK.GetConvertText(12540, "Master")%></h2>
+    <div class="pageid" id="noprint">CM010 S101</div>
+    <!-- excel 다운로드용 start -->
+    <form name="exfrm" method="post" action="/NsmdG/cmm/excel_02/main/" target="_self">
+        <input type="hidden" name="ex_sql" value="<%=ViewData("resultVO").ex_sql%>">
+        <input type="hidden" name="ex_title" value="<%=ViewData("resultVO").ex_title%>">
+        <input type="hidden" name="ex_cond" value="<%=ViewData("resultVO").ex_cond%>">
+        <input type="hidden" name="ex_head" value="<%=ViewData("resultVO").ex_head%>">
+        <input type="hidden" name="ex_datatype" value="<%=ViewData("resultVO").ex_datatype%>">
+        <input type="hidden" name="ex_column" value="<%=ViewData("resultVO").ex_column%>">
+        <input type="hidden" name="ex_page" value="/NsmdG/CM/WCM010_S101/main/">
+    </form>
+    <%--    <a href="javascript:document.exfrm.submit();">
+        <img src="/Content/images/xls.gif"></a>--%>
+    <!-- excel 다운로드용 end -->
+
+    <div class="search">
+        <form name="searchform" method="get" action="/NsmdG/CM/WCM010_S101/main/">
+            <table width="100%">
+                <tr>
+                    <td width="100" align="right">CMS <%=RLINK.GetConvertText(12225, "Name")%>
+                    </td>
+                    <td width="110">
+                        <input type="text" name="CMS_NM" value="<%=CMS_NM%>" style="ime-mode: active;" onblur="injectioncheck(this)" size="20">
+                    </td>
+                    <td style="padding-right: 2px; padding-left: 2px; text-align: right">
+                        <input type="button" class="RLINK_button82" onclick="funcSearch();" value="<%=RLINK.GetConvertText(11540, "Search")%>(F2)" id="noprint" border="0" />
+                        <input type="button" class="RLINK_button62" onclick="funcAdd();" value="<%=RLINK.GetConvertText(12501, "Add")%>" id="noprint" border="0" />
+                        <input type="button" class="RLINK_button62" onclick="funcEdit();" value="<%=RLINK.GetConvertText(12502, "Modify")%>" id="noprint" border="0" />
+                        <input type="button" class="RLINK_button62" onclick="funcDel();" value="<%=RLINK.GetConvertText(11664, "Delete")%>" id="noprint" border="0" />
+                        <a href="javascript:document.exfrm.submit();">
+                            <img src="/Content/images/icons/xls.gif" id="noprint"></a>
+                        <a href="javascript:printWindow('', '', 0, 0, 20, 0, 1, '');">
+                            <img src="/Content/images/icons/icoprint.gif" /></a>
+                    </td>
+                </tr>
+            </table>
+            <table width="100%">
+                <tr>
+                    <td valign="middle" colspan="6">
+                        <!--총 <%=recordCount%>건-->
+                    </td>
+                    <td width="6"></td>
+                    <td width="300" align="right"></td>
+                </tr>
+            </table>
+
+        </form>
+
+        <br />
+
+    </div>
+
+    <div class="info">
+        <form name="frm" method="post" action="">
+            <input type="hidden" name="TPROC" value="">
+            <input type="hidden" name="O_URL" value="/EBANK/CM/WCM010_S101/main/">
+
+            <table width="100%" border="0" cellspacing="1" cellpadding="0" bgcolor="#C0C0C0" class="f4tbl">
+                <tr>
+                    <th width="30">
+                        <input type="checkbox" onclick="chkboxall();"></th>
+                    <th width="30" height="25">NO</th>
+                    <th width="100"><%=RLINK.GetConvertText(11053, "Cdoe")%></th>
+                    <th width="330">Cms <%=RLINK.GetConvertText(12225, "Name")%></th>
+                    <th width="70"><%=RLINK.GetConvertText(11668, "Contract")%></th>
+                    <th width="50"><%=RLINK.GetConvertText(11540, "Use")%></th>
+                    <th width="80"><%=RLINK.GetConvertText(12250, "Insert")%></th>
+                    <th width="*"><%=RLINK.GetConvertText(11952, "Insert Date")%></th>
+                </tr>
+                <%  If recordCount = 0 Then%>
+                <tr id="tr0" bgcolor="#FEFEFE">
+                    <td height="20" colspan="8"><%=RLINK.GetConvertText(10007, "No Data")%>
+                    </td>
+                </tr>
+                <%
+                    Else
+                        'Dim recnum As Integer
+                        Dim inxSeq As Integer
+                        Do While Not rs.eof
+                            recnum = recnum + 1
+                            inxSeq = inxSeq + 1
+                %>
+                <tr align="center" id="tr<%=inxSeq%>" onmouseover="cellOver(this)" onmouseout="cellOut(this)" bgcolor="FEFEFE">
+                    <td>
+                        <input type="checkbox" name="userIdx" value="<%=rs("CMS_CD").value.ToString%>" onclick="chkboxcel('tr<%=inxSeq%>', this);"></td>
+                    <td><%=recnum%></td>
+                    <td><%=rs("CMS_CD").value.ToString%></td>
+                    <td align="left"><%=rs("CMS_NM").value.ToString%></td>
+                    <td><%=rs("CONTRACT_YN").value.ToString%></td>
+                    <td><%=rs("USE_FLAG").value.ToString%></td>
+                    <td><%=rs("insert_id").value.ToString%></td>
+                    <td align="left"><%=rs("insert_date").value.ToString.Trim %></td>
+                </tr>
+                <%
+                            rs.movenext()
+                        Loop
+                    End If
+                %>
+                <tr bgcolor="#F7F7F7" align="right">
+                    <td id="noprint" colspan="20">
+                        <%
+
+                            Dim blockpage, k As Integer
+                            blockpage = Int((Gotopage - 1) / 10) * 10 + 1
+                            If blockpage = 1 Then
+                                Response.Write("<img src=""/content/images/btn/btn_pre_off.gif"" border=""0"" align=""absmiddle"">")
+                            Else
+                                Response.Write("<a href=""/NsmdG/CM/WCM010_S101/main/?gotopage=" & blockpage - 10 & "&pagesize=" & pagesize & strParam & """><img src=""/content/images/btn/btn_pre_on.gif"" border=""0"" align=""absmiddle""></a>")
+
+                            End If
+                            k = 1
+                            Do Until k > 10 Or blockpage > pagecount
+                                If blockpage = Int(Gotopage) Then
+                                    Response.Write(" <font style=""font-size: 12px; color: red""><b>[" & blockpage & "]</b></font>")
+                                Else
+                                    Response.Write(" <a href='/NsmdG/CM/WCM010_S101/main/?gotopage=" & blockpage & "&pagesize=" & pagesize & strParam & "'><font style=""font-size: 9pt; color:#666666"">[" & blockpage & "]</font></a> ")
+                                End If
+                                blockpage = blockpage + 1
+                                k = k + 1
+                            Loop
+                            If blockpage > pagecount Then
+                                Response.Write("<img src=""/content/images/btn/btn_next_off.gif"" border=""0"" align=""absmiddle"">")
+                            Else
+                                Response.Write("<a href=""/NsmdG/CM/WCM010_S101/main/?gotopage=" & blockpage & "&pagesize=" & pagesize & strParam & """><img src=""/content/images/btn/btn_next_on.gif"" border=""0"" align=""absmiddle""></a>")
+                            End If
+                        %>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</asp:Content>

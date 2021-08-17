@@ -1,0 +1,176 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title><%=ViewData("title")%></title>
+
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <link rel="Shortcut Icon" href="/Content/r_favicon_rlink.png" />
+    <link href="/Content/css/basic.css" type="text/css" rel="stylesheet" />
+    <link href="/Content/css/print.css" type="text/css" rel="stylesheet" media="print" />
+    <link href="/Content/js/jquery/selectbox/css/jquery.selectbox.css" rel="stylesheet" type="text/css" />
+    <script src="https://code.jquery.com/jquery-2.2.1.min.js" type="text/javascript"></script>
+    <!-- Uncaught TypeError: Cannot read property 'msie' of undefined 오류 처리 -->
+    <script type="text/javascript">
+        jQuery.browser = {};
+        (function () {
+            jQuery.browser.msie = false;
+            jQuery.browser.version = 0;
+            if (navigator.userAgent.match(/MSIE ([0-9]+)\./)) {
+                jQuery.browser.msie = true;
+                jQuery.browser.version = RegExp.$1;
+            }
+        })();
+
+        jQuery.curCSS = function (element, prop, val) {
+            return jQuery(element).css(prop.val)
+        };
+    </script>
+    <script src="/Content/js/jquery/jquery-1.7.1.min.js" type="text/javascript"></script>
+   <%-- <script src="/Content/js/jquery/jquery-1.7.1.min.js" type="text/javascript"></script>--%>
+    <script src="/Content/js/jquery/jquery.jqPrint.js" type="text/javascript"></script>
+    <script src="/Content/js/jquery/jquery.selectbox-0.6.1.js" type="text/javascript" ></script>
+    <script src="/Content/js/jquery/jquery.maskedinput.js" type="text/javascript"></script>
+    <script src="/Content/js/jquery/ui/jquery-ui-1.8.16.custom.js" type="text/javascript"></script>
+    <link href="/Content/js/jquery/ui/themes/base/jquery.ui.all.css" rel="stylesheet" type="text/css" />
+    <script src="/Content/js/common.js" type="text/javascript"></script>
+    <script src="/Content/js/select_sub.js" type="text/javascript"></script>
+    <script src="/Content/js/print.js" type="text/javascript"></script>
+    <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <asp:ContentPlaceHolder ID="HeaderContent" runat="server" />
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('body').keydown(function () {
+                try {
+                    keydown_handler(window.event.keyCode);
+                } catch (e) {
+
+                }
+            });
+
+            funcMaskedInputBox();
+        });
+
+        // back-space 컨트롤
+        ////////////////////////////////////////////////////////////////////////////////////////////
+        var b_space = false;
+        $(document).ready(function () {
+            $(document).keydown(function () {
+                if (event.keyCode == "8") {
+                    if (b_space == false) {
+                        return false;
+                    }
+                }
+            });
+        });
+
+        $(document).ready(function () {
+            // ID enable_backspace만 한정되게 backspace입력가능 적용
+            //$('#enable_backspace').focus(function () { injectioncheck(this); b_space = true; });
+            //$('#enable_backspace').blur(function () { b_space = false; });
+            // 모든input에 backspace입력가능 적용
+            $('input').focus(function () { injectioncheck(this); b_space = true; });
+            $('input').blur(function () { b_space = false; });
+            // 모든textarea에 backspace입력가능 적용
+            $('textarea').focus(function () { injectioncheck(this); b_space = true; });
+          $('textarea').blur(function () { b_space = false; });
+          $("input[numberonly]").on("keyup", function () { this.value = NumberOnly(this.value) });
+        });
+        ////////////////////////////////////////////////////////////////////////////////////////////
+
+        function NumberOnly(val) {
+          var chkChar;
+          var checkValue = "1234567890";
+          var returnValue = "";
+
+          for (i = 0; i < val.length; i++) {
+            chkChar = val.substring(i, i + 1);
+
+            if (checkValue.indexOf(chkChar) >= 0) {
+              returnValue += chkChar;
+            }
+          }
+
+          return returnValue;
+        }
+
+        function funcMaskedInputBox() {
+            $(".maskfloat").mask("999.9");
+            $(".maskbiz").mask("999-99-9999");
+            $(".maskssn").mask("999999-9999999");
+            $(".maskdate").mask("9999-99-99").datepicker({ dateFormat: "yy-mm-dd", buttonImage: "/content/images/btn/btnDate.gif", buttonImageOnly: false, autoSize: true, autoFocusNextInput: true });
+            $(".masktime").mask("99:99");
+        }
+
+        var iFrameTemG = "<iframe name=\"iframeG\" id=\"iframeG\" src=\"\" width=\"100%\" height=\"\" frameborder=\"0\" scrolling=\"auto\" onload=\"\"></iframe>"
+
+        function funcDialogSetG(valWidth1, valWidth2, valHeight, valBtnDisplay) {
+            /////////////////////////////
+            //Dialog 세팅
+            if (valBtnDisplay == 'N') {
+                $('#dialogG').dialog({
+                    autoOpen: false,
+                    width: valWidth1,
+                    css: true,
+                    buttons: {}
+                });
+            }
+            else {
+                $('#dialogG').dialog({
+                    autoOpen: false,
+                    width: valWidth1,
+                    css: true,
+                    buttons: {
+                        "Close": function () {
+                            $(this).dialog("close");
+                        }
+                    }
+                });
+            }
+
+            $('#dialogG').empty();
+            $('#dialogG').html(iFrameTemG);
+
+            $('#dialogG').dialog('open');
+
+            $('#dialogG').width(valWidth2);
+            $('#dialogG').height(valHeight);
+            ////////////////////////////
+        }
+    </script>
+</head>
+<body>
+    <!-- 전체 영역 시작 -->
+    <div id="wbody">
+        <!-- Top Menu Area Start -->
+        <div id="divHeader">
+            {% include "CMM/wcm_010.html" %}
+            <% Html.RenderPartial("~/Views/CMM/wcm_010.ascx") %>
+        </div>
+        <!-- //Top Menu Area End -->
+        <div id="divMiddle">
+            <!-- Left Menu Area Start -->
+            <div id="divLeftArea">
+            <% Html.RenderPartial("~/Views/CMM/wcm_200.ascx")%>
+            </div>
+            <!-- //Left Menu Area End -->
+            <!-- Contents Area End -->
+            <div id="divContents">
+                <!-- <asp:ContentPlaceHolder ID="MainContent" runat="server" /> -->
+            </div>
+            <!-- //Contents Area End -->
+        </div>
+		<div style="clear:both;overflow:auto;zoom:1;"></div>
+        <div id="divFooter">
+            <% Html.RenderPartial("~/Views/CMM/wcm_030.ascx") %>
+        </div>
+    </div>
+    <!-- //전체 영역 종료 -->
+    <object id="IEPageSetupX" style="width:0;height:0" classid="clsid:41C5BC45-1BE8-42C5-AD9F-495D6C8D7586" codebase="/Content/cab/IEPageSetupX.cab#version=1,0,20,4" width="0" height="0">
+        <param name="copyright" value="http://isulnara.com" />
+    </object>
+    <!-- ui-dialogG -->
+    <div id="dialogG" title="" style="padding:0 0 0 0"></div>
+</body>
+</html>
