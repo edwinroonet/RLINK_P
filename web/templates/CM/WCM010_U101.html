@@ -1,0 +1,241 @@
+{% extends "CMM/_LayoutMainMaster.html" %}
+{% load i18n %}
+
+{% block head %}
+    <script type="text/javascript">
+        function funcSubmit() {
+
+            if (document.frm.CMS_CD.value == "") {
+                alert("{% trans "Please, Enter code." %}");
+                document.frm.CMS_CD.focus();
+                return;
+            }
+            if (document.frm.CMS_NM.value == "") {
+               alert("{% trans "Please, Enter Name." %}(kor)");
+                document.frm.CMS_NM.focus();
+                return;
+            }
+
+            if (true == confirm("{% trans "Do you want to save?" %}")) {
+                frm.action = "/CM/WCM010_U101"
+                //"/CM/WCM010_U101/mainTran/"
+                frm.submit();
+            }
+        }
+
+
+        function enterNext(val) {
+            var keyCode = event.keyCode;
+
+            //alert(keyCode);
+            if (keyCode != 13 && keyCode != 9) {
+                //alert(keyCode);
+                return;
+            }
+            else {
+                //
+            }
+
+            if (keyCode == 9) {
+                event.returnValue = false;
+            }
+
+            //엔터키 입력시 포커스 이동 설정
+            if (keyCode == 13 || keyCode == 9) {
+                var tmpVal = val.replaceAll("inputBox", "");
+
+
+                //9번항목 Hidden 필드
+                if (tmpVal == "9") { tmpVal = "10" }
+
+
+                event.returnValue = false;
+                $("#inputBox" + (parseInt(tmpVal) + 1)).focus();
+                $("#inputBox" + (parseInt(tmpVal) + 1)).select();
+            }
+
+        }
+
+    </script>
+{% endblock head %}
+
+{% block body %}
+<!--
+    <%
+        Dim _commonFunction As New RLINK.CommonFunction(ViewContext.HttpContext, ViewData("sessionInfo").officeNo)
+        Dim paramVO = ViewData("resultVO")
+
+    %>
+-->
+    <h2 class="pagetitle"><%=RLINK.GetConvertText(12540, "Master")%></h2>
+    <div class="pageid" id="noprint">CM010 U101</div>
+
+    <div class="info">
+        <form name="frm" method="post" action="WCM010_U101">
+            <input type="hidden" name="tProc" value="{{resultVO.tProc}}">
+            <table width="100%" class="f4tblview">
+                <colgroup>
+                    <col width="15%" />
+                    <col width="32%" />
+                    <col width="2%" />
+                    <col width="15%" />
+                    <col width="36%" />
+                </colgroup>
+                <tr>
+                    <th>{% trans "Code" %}
+                    </th>
+                    <td>
+                        <input type="text" name="CMS_CD" maxlength="10" style="width: 70px" value="{{resultVO.CMS_CD}}" {% if resultVO.tProc == "EDIT" %} readonly="readonly" {% endif %}>
+                    </td>
+                    <td width="2%"></td>
+                    <th>{% trans "Use" %}  </th>
+                    <td>
+                        <select id="Select1" name="use_flag" style="width: 40px;">
+                            <option {% if resultVO.use_flag == "Y" %}selected {% endif %} value="Y">Y</option>
+                            <option {% if resultVO.use_flag == "N" %}selected {% endif %} value="N">N</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th>{% trans "Name" %}(kor)  </th>
+                    <td>
+                        <input type="text" name="CMS_NM" onblur="chkInjection(this,100)" style="width: 100px" value="{{resultVO.CMS_NM}}">
+                    </td>
+                    <td></td>
+                    <th>{% trans "Contract" %}  </th>
+                    <td>
+                        <select id="CONTRACT_YN" name="CONTRACT_YN" style="width: 40px;">
+                            <option {% if resultVO.CONTRACT_YN == "Y" %}selected {% endif %} value="Y">Y</option>
+                            <option {% if resultVO.CONTRACT_YN == "N" %}selected {% endif %} value="N">N</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th>{% trans "Name" %}(Eng)  </th>
+                    <td>
+                        <input type="text" name="CMS_ENM" onblur="chkInjection(this,100)" style="width: 100px" value="{{resultVO.CMS_ENM}}">
+                    </td>
+                    <td></td>
+                    <th>{% trans "Master" %}  </th>
+                    <td>
+                        <input type="text" class="inputText maskdate" style="width: 80px; background-color: #ffcef4; font-weight: bold; color: #f0177e; ime-mode: disabled;" name="CONTRACT_START" value="{{resultVO.CONTRACT_START}}" />
+                        ~
+                                                            <input type="text" class="inputText maskdate" style="width: 80px; background-color: #ffcef4; font-weight: bold; color: #f0177e; ime-mode: disabled;" name="CONTRACT_END" value="{{resultVO.CONTRACT_END}}" />
+                    </td>
+                </tr>
+                <tr>
+                    <th>{% trans "Office Tel" %}  </th>
+                    <td>
+                        <input type="text" name="TEL_NO" onblur="chkInjection(this,50)" style="width: 100px" value="{{resultVO.TEL_NO}}">
+                    </td>
+                    <td></td>
+                    <th>>{% trans "Fax" %} </th>
+                    <td>
+                        <input type="text" name="FAX_NO" onblur="chkInjection(this,50)" style="width: 100px" value="{{resultVO.FAX_NO}}">
+                    </td>
+                </tr>
+                <tr>
+                    <th>{% trans "Incharge Name" %}  </th>
+                    <td>
+                        <input type="text" name="INCHARGE_NM" onblur="chkInjection(this,50)" style="width: 100px" value="{{resultVO.INCHARGE_NM}}">
+                    </td>
+                    <td></td>
+                    <th>{% trans "Tel" %} </th>
+                    <td>
+                        <input type="text" name="INCHARGE_TEL" onblur="chkInjection(this,50)" style="width: 100px" value="{{resultVO.INCHARGE_TEL}}">
+                    </td>
+                </tr>
+                <tr>
+                    <th>{% trans "Email" %}  </th>
+                    <td>
+                        <input type="text" name="INCHARGE_EMAIL" onblur="chkInjection(this,100)" style="width: 300px" value="{{resultVO.INCHARGE_EMAIL}}">
+                    </td>
+                    <td></td>
+                    <th>Fax{% trans "Fax" %} </th>
+                    <td>
+                        <input type="text" name="INCHARGE_FAX" onblur="chkInjection(this,50)" style="width: 100px" value="{{resultVO.INCHARGE_FAX}}">
+                    </td>
+                </tr>
+
+
+                            <tr>
+                                <th align="right">
+                                    Rm/T API
+                                </th>
+                                <td   colspan="4">
+                                    <select name="ROOMTYPE_API" id="ROOMTYPE_API" style="ime-mode: inactive;width:100px;" class="inputText" onBlur="chkInjection(this);">
+                                        {% load SetSelectBox1 %}
+                                        {% SetSelectBox1 "ROOMTYPE_API" resultVO.ROOMTYPE_API "--" "" "" request sessionInfo.OfficeNo %}
+                                    </select>
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <th align="right" height="27" bgcolor="#F7F0F8" class="txt_roomviwe">
+                                    {% trans "Server Ip" %}
+                                </th>
+                                <td   colspan="4">
+
+                                    <input type="text" name="SERVER_IP" class="inputText"  onBlur="chkInjection(this,10)" style="width:100px" value="{{resultVO.SERVER_IP}}">
+                                    {% trans "Port" %}
+                                    <input type="text" name="SERVER_PORT" class="inputText"  onBlur="chkInjection(this,30)" style="width:100px" value="{{resultVO.SERVER_PORT}}">
+                                    {% trans "Catalog" %}
+                                    <input type="text" name="CATALOG" class="inputText"  onBlur="chkInjection(this,30)" style="width:100px" value="{{resultVO.CATALOG}}">
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <th align="right">
+                                   ID
+                                </th>
+                                <td colspan="4">
+                                    <input type="text" name="USER_ID2" class="inputText"  onBlur="chkInjection(this,30)" style="width:100px" value="{{resultVO.USER_ID2}}">
+                                    Pwd
+                                    <input type="text" name="USER_PWD" class="inputText"  onBlur="chkInjection(this,30)" style="width:100px" value="{{resultVO.USER_PWD}}">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th align="right">
+                                    API URL{% trans "Master" %}
+                                </th>
+                                <td colspan="4">
+                                    <input type="text" name="API_URL" class="inputText"  onBlur="chkInjection(this,255)" style="width:500px" value="{{resultVO.API_URL}}">
+                                </td>
+
+                            </tr>
+
+
+                <tr>
+                    <th>{% trans "Remark" %} </th>
+                    <td colspan="4">
+                        <textarea name="remark" rows="3" style="width: 500px;">{{resultVO.remark}}</textarea>
+                    </td>
+
+                </tr>
+                {% if resultVO.tProc == "EDIT" %}
+                <tr>
+                    <th> {% trans "Input" %}
+                    </th>
+                    <td>
+                        {{resultVO.Input_User}}
+                    </td>
+                    <td></td>
+                    <th> {% trans "Update" %}
+                    </th>
+                    <td>
+                        {{resultVO.Update_User}}
+                    </td>
+                </tr>
+                {% endif %}
+            </table>
+            <table width="100%">
+                <tr  align="center">
+                    <td colspan="5">
+                       <input type="button" class="RLINK_button62" onclick="funcSubmit();" value="{% trans 'Save' %}" id="noprint" border="0" />
+                        <a onclick="parent.$('#dialog').dialog('close');"><input type="button" class="RLINK_button62" onclick="funcClose();" value="{% trans 'Close' %}" id="noprint" border="0" /></a>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+{% endblock body %}

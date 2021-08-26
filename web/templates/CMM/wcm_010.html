@@ -1,25 +1,5 @@
-<%@ Control Language="VB" Inherits="System.Web.Mvc.ViewUserControl" %>
-<%Dim filterContext As System.Web.Mvc.ActionExecutingContext%>
-<%
-    Dim _commonFunction As New RLINK.CommonFunction(ViewContext.HttpContext, ViewData("sessionInfo").officeNo)
-    Dim wcm = ViewData("wcm")
-    If String.IsNullOrEmpty(wcm) Then
-        wcm = "001"
-    End If
-%>
-<% 'If ViewData("sessionInfo").officeno = "AA000" Or ViewData("sessionInfo").officeNo = "MMONS" Then ''AUTO SEARCH AND POPUP %>
-<!--<script  type="text/JavaScript">
-    $(document).ready(function () {
-        //alert("@!!!!!");
-        setInterval("funcEventChangeSearch()", 45000);  //1000=1초
-
-    });
-</script>--->
-<% 'end if%>
-
-
+{% load i18n %}
 <script type="text/javascript">
-
 
     function funcEventChangeSearch() {
 
@@ -28,7 +8,7 @@
       }
 
       //alert( "<%=ViewData("sessionInfo").G_PGM_ID %>");
-      if ("<%=ViewData("sessionInfo").G_PGM_ID %>" == "wev100_u201" || "<%=ViewData("sessionInfo").G_PGM_ID %>" == "WEV100_U201") {
+      if ("{{sessionInfo.G_PGM_ID}}" == "wev100_u201" || "{{sessionInfo.G_PGM_ID}}" == "WEV100_U201") {
       //alert("@222222");
          return; //행사메인화면에서는 팝업 표시 안함
       }
@@ -37,7 +17,7 @@
       var ErrorCD = "";
       var Result = "";
       $.ajax({
-          url: "/NsmdG/EV/WEV100_U201/procNewChangeEvent/",
+          url: "/EV/WEV100_U201/procNewChangeEvent/",
           type: 'POST',
           data: this.param,
           dataType: 'json',
@@ -53,13 +33,13 @@
       //alert ("<%=ViewData("sessionInfo").NoReadChangeEvent%>" );
       //alert (Result);
       if (Result == "Y") {
-          funcViewNewEventList("<%=ViewData("sessionInfo").loginID %>");
+          funcViewNewEventList("{{sessionInfo.loginID}}");
       }
 
     } ///funcEventChangeSearch
 
     function funcViewNewEventList(osid) {
-        open("/NsmdG/cmm/wcm_114/main/?pp=Y&OSTAFF_ID=" + osid, "wcm_112", cnjOpenShape(600, 320, 'no'));
+        open("/cmm/wcm_114/main/?pp=Y&OSTAFF_ID=" + osid, "wcm_112", cnjOpenShape(600, 320, 'no'));
     }
     // menu mouse on over
     $(document).ready(function () {
@@ -123,137 +103,122 @@
     // 메인 메뉴 이미지 토글
     function funcToggleImg(id, mode) {
         try {
-            $(id).attr('src', '/Content/images/Skin/' + $(id).attr('id') + '_' + mode + '.gif');
+            $(id).attr('src', '/static/images/Skin/' + $(id).attr('id') + '_' + mode + '.gif');
         } catch (e) {
             // 이미지 토글 오류
             alert(e);
         }
     }
 
-    function tmenu001() { location.href = '/NsmdG/cmm/wcm_110/main/?wcm=001'; } //홈화면
-    function tmenu002() { location.href = '/NsmdG/MB/Wmb_102/main/'; } // 로그아웃
+    function tmenu001() { location.href = '/CMM/wcm_110/main/?wcm=001'; } //홈화면
+    function tmenu002() { location.href = '/MB/WMB_102/main/'; } // 로그아웃
 
 </script>
 
-<% If ViewData("sessionInfo").loginLevel >= "SA" And ViewData("sessionInfo").membertype = "REG" Then%>
+{% if sessionInfo.LoginLevel >= "SA" and sessionInfo.MemberType == "REG" %}
 <script type="text/javascript">
-    function tmenu900() { location.href = '/NsmdG/mb/wmb110_s101/main/?wcm=900'; } // 운영센터 System Operation
+    function tmenu900() { location.href = '/MB/WMB110_S101/main/?wcm=900'; } // 운영센터 System Operation
 </script>
-<% End If%>
+{% endif %}
 
-<% If ViewData("sessionInfo").loginLevel >= "OA" And ViewData("sessionInfo").membertype = "REG" Then%>
+{% if sessionInfo.LoginLevel >= "OA" and sessionInfo.MemberType == "REG" %}
 <script  type="text/JavaScript">
 
-    <%if ViewData("sessionInfo").TLLC_YN = "Y" then %>
-    function tmenu010() { location.href = '/NsmdG/RV/WRV900_S101/main/?wcm=010'; } // 티엘린칸예약리스트
-    <%Else%>
-    function tmenu010() { location.href = '/NsmdG/CM/WCM200_S101/main/?wcm=010'; } // 기타API예약리스트
-    <%END If%>
+    {% if sessionInfo.TLLC_YN == "Y" %}
+    function tmenu010() { location.href = '/RV/WRV900_S101?wcm=010'; } // 티엘린칸예약리스트
+    {% else %}
+    function tmenu010() { location.href = '/CM/WCM200_S101?wcm=010'; } // 기타API예약리스트
+    {% endif %}
 
+    function tmenu020() { location.href = '/RV/WRV100_s102?wcm=020'; } // 투숙관리 Registration
+    function tmenu030() { location.href = '/RV/WRV400_S102?wcm=030'; } // 정산관리 Cashiering
+    function tmenu031() { location.href = '/AR/WAR100_S101?wcm=031'; } // 후불관리 Account Receivable
+    function tmenu080() { location.href = '/EV/WEV100_S102?wcm=080'; } // 연회관리 Event
 
-    function tmenu020() { location.href = '/NsmdG/RV/WRV100_s102/main/?wcm=020'; } // 투숙관리 Registration
-    function tmenu030() { location.href = '/NsmdG/RV/WRV400_S102/main/?wcm=030'; } // 정산관리 Cashiering
-    function tmenu031() { location.href = '/NsmdG/AR/WAR100_S101/main/?wcm=031'; } // 후불관리 Account Receivable
-    function tmenu080() { location.href = '/NsmdG/EV/WEV100_S102/main/?wcm=080'; } // 연회관리 Event
+    function tmenu040() { location.href = '/RM/WRM200_S102?wcm=040'; } // 객실관리 House Keeping
+    //function tmenu050() { location.href = '/RV/WRM200_S400?wcm=050'; }   // 레포트   Report
 
-    function tmenu040() { location.href = '/NsmdG/RM/WRM200_S102/main/?wcm=040'; } // 객실관리 House Keeping
-    //function tmenu050() { location.href = '/NsmdG/RV/WRM200_S400/main/?wcm=050'; }   // 레포트   Report
+    function tmenu060() { location.href = '/RV/WRV100_s401?wcm=060'; } // 실적관리 Management
+    //function tmenu060() { location.href = '/RV/WRV100_S210?wcm=060'; } // 실적관리 Management
 
-    function tmenu060() { location.href = '/NsmdG/RV/WRV100_s401/main/?wcm=060'; } // 실적관리 Management
-    //function tmenu060() { location.href = '/NsmdG/RV/WRV100_S210/main/?wcm=060'; } // 실적관리 Management
+    //function tmenu070() { location.href = '/BD/WBD110_S101?wcm=070&BD_CD=01'; } // 환경설정 Configuration
+    function tmenu070() { location.href = '/BD/WCM100_S101?wcm=070'; } // 환경설정 Configuration
 
-    //function tmenu070() { location.href = '/NsmdG/BD/WBD110_S101/main/?wcm=070&BD_CD=01'; } // 환경설정 Configuration
-    function tmenu070() { location.href = '/NsmdG/BD/WCM100_S101/main/?wcm=070'; } // 환경설정 Configuration
-
-    function tRM300S101() { location.href = '/NsmdG/RM/WRM300_S101/main/?wcm=001'; } // ROOM INDICATOR
-    function tRM200S101() { location.href = '/NsmdG/RM/WRM200_S101/main/?wcm=001'; } // ROOM AVAILABLE
-    function funcFdeskClone() { window.open('/NsmdG/MB/WMB_100/main/') }
+    function tRM300S101() { location.href = '/RM/WRM300_S101?wcm=001'; } // ROOM INDICATOR
+    function tRM200S101() { location.href = '/RM/WRM200_S101?wcm=001'; } // ROOM AVAILABLE
+    function funcFdeskClone() { window.open('/MB/WMB_100') }
 
 </script>
-<% End If%>
+{% endif %}
 
-<% If ViewData("sessionInfo").loginLevel >= "OA" And ViewData("sessionInfo").membertype = "AS3" Then%>
+{% if sessionInfo.LoginLevel >= "OA" and sessionInfo.MemberType == "AS3" %}
 <script  type="text/JavaScript">
-    function tmenu330() { location.href = '/NsmdG/MA/WMA200_S102/main/?wcm=330'; }   // DAILY REPORT 레포트   Report AS33
+    function tmenu330() { location.href = '/MA/WMA200_S102/main/?wcm=330'; }   // DAILY REPORT 레포트   Report AS33
 </script>
-<% End If%>
-<%Dim LANG As String
-    LANG = ViewData("sessionInfo").pms_lang
-    %>
-
+{% endif %}
 
 <div class="tnb">
     <div class="logo">
-		<img src="/Content/images/Skin/login/logo_title_rlink.png" alt="" />
+        <img src="/static/images/Skin/login/logo_title_rlink.png" alt="" />
 
     </div>
     <div class="hotlink">
-        <%--<ul>
+        <!--<ul>
             <li><a href="/NsmdG/HT/WHT100_S101/main/?wcm=010">예약리스트</a></li>
             <li><a href="/NsmdG/RM/WRM020_S101/main/?wcm=010">상품정보</a></li>
             <li><a href="/NsmdG/BD/wbd510_s101/main/?wcm=170&BD_CD=sb010">공지사항</a></li>
-        </ul>--%>
-		<% If ViewData("sessionInfo").membertype = "REG" Then%>
-		<a href="javascript:funcFdeskClone();">NewDesk</a>
-		<%End If %>
+        </ul>-->
+        {% if sessionInfo.MemberType == "REG" %}
+        <a href="javascript:funcFdeskClone();">NewDesk</a>
+        {% endif %}
         &nbsp;
         <span class="usernm">
-			<%=viewdata("sessionInfo").LoginName %><font>님</font>
-			<a href="javascript:funcModifyMember();"><img src="/Content/images/skin/Btype/icon_05.png" alt="" /></a>
-			<a href="javascript:tmenu002();"><img src="/Content/images/skin/Btype/icon_06.png" alt="" /></a>
-		</span>
+            {{sessionInfo.LoginName}}<font>님</font>
+            <a href="javascript:funcModifyMember();"><img src="/static/images/skin/Btype/icon_05.png" alt="" /></a>
+            <a href="javascript:tmenu002();"><img src="/static/images/skin/Btype/icon_06.png" alt="" /></a>
+        </span>
                 <div class="section_Lang">
-			<%
-                Dim multi_lang As String = ViewData("sessioninfo").multi_lang
-                If multi_lang.Length > 1 Then
-                    For i As Integer = 0 To multi_lang.Length - 1
-                        Dim strLangCd As String = multi_lang.Substring(i, 1)
-                        Dim strCss As String = String.Empty
-                        If i = 0 Then
-                            strCss = "first"
-                        ElseIf i = multi_lang.Length - 1 Then
-                            strCss = "last"
-                        End If
-			%>
-				<label class="<%=strCss %> <%If strLangCd = LANG Or (strLangCd = "E" And String.IsNullOrEmpty(LANG)) Then%> on<%End If%>" data-val="<%=strLangCd %>"><%=strLangCd %></label>
-			<%
-					next
-				End If
-			%>
-
-		</div>
+                {% if sessionInfo.multi_lang|length > 1 %}
+                    {% for strLangCd in sessionInfo.multi_lang %}
+                        {% if forloop.counter0 == 0 %}
+                        <label class="first{% if strLangCd == sessionInfo.Pms_lang or strLangCd == 'E' and sessionInfo.pms_lang == '' %} on{% endif %}" data-val="{{strLangCd}}">{{strLangCd}}</label>
+                        {% elif forloop.counter0 == sessionInfo.multi_lang|length|add:-1 %}
+                        <label class="last{% if strLangCd == sessionInfo.Pms_lang or strLangCd == 'E' and sessionInfo.Pms_lang == '' %} on{% endif %}" data-val="{{strLangCd}}">{{strLangCd}}</label>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+        </div>
     </div>
 </div>
 
 
 <div class="gnb">
-	<ul>
-		<!-- smarliesk logo -->
-		<li class="fst">
-			<span class="officenm"><%=ViewData("sessionInfo").OfficeNm %></span>
-		</li>
-
-        <% If ViewData("sessionInfo").membertype = "REG" Then%>
-        <li><a href="javascript:tmenu001();"><img src="/Content/images/Skin/menu01_ov.gif" id="gwcm_001" class="menuimg" alt="Home"    /><span class="menunm">Home</span></a></li>
-        <%End if %>
-
-        <% If ViewData("sessioninfo").AcctAuth >= "R1" And ViewData("sessionInfo").membertype = "REG" Then%>
-        <li><a href="javascript:tmenu010();"><img src="/Content/images/Skin/menu02_ov.gif" id="gwcm_010" class="menuimg" alt="예약관리" /><span class="menunm"><%=RLINK.GetConvertText(11509, "Reservation")%></span></a></li>
-        <%End if %>
-        <% If ViewData("sessioninfo").ProductionAuth >= "R1" And ViewData("sessionInfo").membertype = "REG" Then%>
-        <li><a href="javascript:tmenu070();"><img src="/Content/images/Skin/menu08_ov.gif" id="gwcm_070" class="menuimg" alt="코드관리" /><span class="menunm"><%=RLINK.GetConvertText(12034, "Config")%></span></a></li>
-        <%End if %>
-
-        <% If ViewData("sessionInfo").LoginLevel >= "SA" And ViewData("sessionInfo").membertype = "REG" Then%>
-        <li><a href="javascript:tmenu900();"><img src="/Content/images/Skin/menu10_ov.gif" id="gwcm_900" class="menuimg" alt="운영센터" /><span class="menunm"><%=RLINK.GetConvertText(12037, "Operation")%></span></a></li>
-        <%  End If%>
-
-
-        <li><a href="javascript:funcFdeskClone();"><img src="/Content/images/Skin/menu99_ov.gif" alt="New Desk" /><span class="menunm">New Desk</span></a></li>
-        <li><a href="javascript:tmenu002();"><img src="/Content/images/Skin/menu00_ov.gif" alt="LogOut" /><span class="menunm">LogOut</span></a></li>
-        <li class="lst">
-            <img src="/Content/images/Skin/n_login_img.png" alt="system log" width="70" />
+    <ul>
+        <!-- smarliesk logo -->
+        <li class="fst">
+            <span class="officenm">{{sessionInfo.OfficeNm}}</span>
         </li>
 
-	</ul>
+        {% if sessionInfo.MemberType == "REG" %}
+        <li><a href="javascript:tmenu001();"><img src="/static/images/Skin/menu01_ov.gif" id="gwcm_001" class="menuimg" alt="Home"    /><span class="menunm">Home</span></a></li>
+        {% endif %}
+
+        {% if sessionInfo.AcctAuth >= "R1" and sessionInfo.MemberType == "REG" %}
+        <li><a href="javascript:tmenu010();"><img src="/static/images/Skin/menu02_ov.gif" id="gwcm_010" class="menuimg" alt="예약관리" /><span class="menunm">{% trans 'Reservation' %}</span></a></li>
+        {% endif %}
+        {% if sessionInfo.ProductionAuth >= "R1" and sessionInfo.MemberType == "REG" %}
+        <li><a href="javascript:tmenu070();"><img src="/static/images/Skin/menu08_ov.gif" id="gwcm_070" class="menuimg" alt="코드관리" /><span class="menunm">{% trans 'Config' %}</span></a></li>
+        {% endif %}
+
+        {% if sessionInfo.LoginLevel >= "SA" and sessionInfo.MemberType == "REG" %}
+        <li><a href="javascript:tmenu900();"><img src="/static/images/Skin/menu10_ov.gif" id="gwcm_900" class="menuimg" alt="운영센터" /><span class="menunm">{% trans 'Operation' %}</span></a></li>
+        {% endif %}
+
+        <li><a href="javascript:funcFdeskClone();"><img src="/static/images/Skin/menu99_ov.gif" alt="New Desk" /><span class="menunm">New Desk</span></a></li>
+        <li><a href="javascript:tmenu002();"><img src="/static/images/Skin/menu00_ov.gif" alt="LogOut" /><span class="menunm">LogOut</span></a></li>
+        <li class="lst">
+            <img src="/static/images/Skin/n_login_img.png" alt="system log" width="70" />
+        </li>
+
+    </ul>
 </div>

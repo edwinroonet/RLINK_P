@@ -1,0 +1,81 @@
+<%@ Master Language="VB" Inherits="System.Web.Mvc.ViewMasterPage" %>
+<html>
+<head runat="server">
+    <%--<title><%=Session("HTML_WWW_TITLE") %></title>--%>
+    <title>Smart Hotel</title>
+   <%-- <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+
+    <link rel="shortcut icon" href="/static/r_favicon_rbooking.png" type="image/x-icon" />
+    <link rel="icon" href="/static/r_favicon_rbooking.png" type="image/x-icon" />
+    <script type="text/javascript" src="/static/js/Rbooking/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="/static/js/Rbooking/Layout.js"></script>
+    <script type="text/javascript" src="/static/js/Rbooking/selectbox-min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="/static/css/RG_common.css" />
+    <link rel="stylesheet" type="text/css" href="/static/css/RG_layout.css" />
+
+    <script src="/static/js/common.js" type="text/javascript"></script>
+     <script src="/static/js/jquery/jquery-1.7.1.min.js" type="text/javascript"></script>
+
+    <link href="/static/css/RG_jquery.selectbox.css" rel="stylesheet" type="text/css" />
+     <link href="/static/js/jquery/ui/themes/base/jquery.ui.all.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="/static/css/layer_popup.css" />
+    <script src="//code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
+    <script type="text/javascript" src="/static/js/layer_popup.js"></script>
+    <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+        <!-- js calendar -->
+    <link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.9.1.js"></script>
+    <script type="text/javascript" src="/static/js/Rbooking/jquery-ui-1.9.1.custom.min.js"></script>
+    <!-- js select -->
+    <link rel="stylesheet" type="text/css" href="/static/css/RG_reservation.css" />--%>
+
+    <meta name="viewport" content="user-scalable=yes, width=device-width"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/RG_style.css" />
+    <script src="/static/js/RG/custom.js" type="text/javascript"></script>
+    <script src="/static/js/RG/jquery-2.1.1.min.js" type="text/javascript"></script>
+    <script src="/static/js/RG/prefixfree.min.js" type="text/javascript"></script>
+
+<script language="javascript">
+<!--
+function LockF5(){
+	if (event.keyCode == 116) {
+		event.keyCode = 0;
+		return false;
+	}
+}
+document.onkeydown = LockF5;
+//-->
+</script>
+<%--<script
+    src="https://www.paypal.com/sdk/js?client-id=Ac9aQ7QQPbOe9nX4kGuC5NQ3VuLsZYDvwXkcMnWVxe3ULYTGmrc9bzYOhC16AdKPEk4LKjGPiqw6q0Dm"><%--<!-- PayPal 생성한 Rsvn Test 앱 -->--%>
+<%--</script>--%>
+
+<asp:ContentPlaceHolder ID="HeaderContent" runat="server" />
+
+</head>
+    <body>
+
+    <div id="wbody">
+        <%If ViewData("RB_URL") <> "wrb900_s102" And ViewData("RB_URL") <> "wrb900_s130spcready" Then%>
+         <% Html.RenderPartial("~/Views/RG/inc_RGheader.ascx") %>
+        <%End If %>
+		<div id="divMiddle">
+            <div id="divContents">
+                
+                <asp:ContentPlaceHolder ID="MainContent" runat="server">
+                    
+                </asp:ContentPlaceHolder>
+            </div>
+		</div>
+    </div>
+       <%If ViewData("RB_URL") <> "wrb900_s102" And ViewData("RB_URL") <> "wrb900_s130spcready" Then%>
+     <% Html.RenderPartial("~/Views/RG/inc_RGfooter.ascx") %>
+         <%End If %>
+
+
+</body>
+</html>

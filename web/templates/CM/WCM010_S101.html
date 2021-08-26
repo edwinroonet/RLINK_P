@@ -1,21 +1,14 @@
-<%@ Page Title="" Language="VB" MasterPageFile="~/Views/CMM/_LayoutMain.Master" Inherits="System.Web.Mvc.ViewPage" %>
+{% extends "CMM/_LayoutMainMaster.html" %}
 
-<%--
-'====================================================================================================
-' 프로그램 설명
-'----------------------------------------------------------------------------------------------------
-' 업무분야
-'====================================================================================================
---%>
-<asp:Content ID="Content1" ContentPlaceHolderID="HeaderContent" runat="server">
+{% block head %}
     <script>
         function funcAdd() {
             funcDialogSet(900, 900, 480)
             var iFrame = $('#iframe1')
-            iframe1.location.href = "/NsmdG/CM/WCM010_U101/main/?pp=Y";
+            iframe1.location.href = "/CM/WCM010_U101/main/?pp=Y";
             $('#iframe1').css('height', $('#dialog').height() - 5);
             $('#iframe1').css('width', $('#dialog').width() - 0);
-           // open("/NsmdG/CM/WCM010_U101/main/?pp=Y", "mngOfficeStaffA", cnjOpenShape(900, 480, 'no'));
+           // open("/CM/WCM010_U101/main/?pp=Y", "mngOfficeStaffA", cnjOpenShape(900, 480, 'no'));
         }
 
         function funcEdit() {
@@ -28,10 +21,10 @@
                 if (field.checked) {
                     funcDialogSet(900, 900, 480)
                     var iFrame = $('#iframe1')
-                    iframe1.location.href = "/NsmdG/CM/WCM010_U101/main/?pp=Y&CMS_CD=" + field.value + "&O_URL=/NsmdG/CM/WCM010_S101/main/";
+                    iframe1.location.href = "/CM/WCM010_U101/main/?pp=Y&CMS_CD=" + field.value + "&O_URL=/CM/WCM010_S101/main/";
                     $('#iframe1').css('height', $('#dialog').height() - 5);
                     $('#iframe1').css('width', $('#dialog').width() - 0);
-                    //open("/NsmdG/CM/WCM010_U101/main/?pp=Y&CMS_CD=" + field.value + "&O_URL=/NsmdG/CM/WCM010_S101/main/", "mngOfficeStaffA", cnjOpenShape(900, 500, 'no'));
+                    //open("/CM/WCM010_U101/main/?pp=Y&CMS_CD=" + field.value + "&O_URL=/CM/WCM010_S101/main/", "mngOfficeStaffA", cnjOpenShape(900, 500, 'no'));
                 } else {
                     alert("<%=RLINK.GetConvertText(10003, "Please, Select record.")%>")
                     return;
@@ -48,10 +41,10 @@
                 if (checkflag2 == 1) {
                     funcDialogSet(900, 900, 480)
                     var iFrame = $('#iframe1')
-                    iframe1.location.href = "/NsmdG/CM/WCM010_U101/main/?pp=Y&CMS_CD=" + field[checkflag3].value + "&O_URL=/NsmdG/CM/WCM010_S101/main/";
+                    iframe1.location.href = "/CM/WCM010_U101/main/?pp=Y&CMS_CD=" + field[checkflag3].value + "&O_URL=/CM/WCM010_S101/main/";
                     $('#iframe1').css('height', $('#dialog').height() - 5);
                     $('#iframe1').css('width', $('#dialog').width() - 0);
-                    //open("/NsmdG/CM/WCM010_U101/main/?pp=Y&CMS_CD=" + field[checkflag3].value + "&O_URL=/NsmdG/CM/WCM010_S101/main/", "mngOfficeStaffA", cnjOpenShape(900, 500, 'no'));
+                    //open("/CM/WCM010_U101/main/?pp=Y&CMS_CD=" + field[checkflag3].value + "&O_URL=/CM/WCM010_S101/main/", "mngOfficeStaffA", cnjOpenShape(900, 500, 'no'));
                 } else {
                     alert("<%=RLINK.GetConvertText(10003, "Please, Select record.")%>");
                     return;
@@ -70,7 +63,7 @@
             } else if (field.length == undefined) {
                 if (field.checked) {
                     if (true == confirm("<%=RLINK.GetConvertText(11026, "Do you want to delete selected data?")%>")) {
-                        f.action = "/NsmdG/CM/WCM010_S101/mainTran/"
+                        f.action = "/CM/WCM010_S101/mainTran/"
                         f.submit();
                     }
                 } else {
@@ -86,7 +79,7 @@
                 }
                 if (checkflag2 == "true") {
                     if (true == confirm("<%=RLINK.GetConvertText(11026, "Do you want to delete selected data?")%>")) {
-                        f.action = "/NsmdG/CM/WCM010_S101/mainTran/"
+                        f.action = "/CM/WCM010_S101/mainTran/"
                         f.submit();
                     }
                 } else {
@@ -140,9 +133,10 @@
             $('#dialog').height(valHeight);
         }
     </script>
-</asp:Content>
+{% endblock head %}
 
-<asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
+{% block content %}
+<!--
     <%
         Dim rs = ViewData("resultrs")
         Dim strParam = ViewData("strParam")
@@ -166,25 +160,27 @@
         Dim ex_page = ViewData("resultVO").ex_page
 
     %>
+-->
     <div id="dialog" title="" style="padding:0 0 0 0"></div>
     <h2 class="pagetitle"><%=RLINK.GetConvertText(12540, "Master")%></h2>
     <div class="pageid" id="noprint">CM010 S101</div>
     <!-- excel 다운로드용 start -->
-    <form name="exfrm" method="post" action="/NsmdG/cmm/excel_02/main/" target="_self">
-        <input type="hidden" name="ex_sql" value="<%=ViewData("resultVO").ex_sql%>">
-        <input type="hidden" name="ex_title" value="<%=ViewData("resultVO").ex_title%>">
-        <input type="hidden" name="ex_cond" value="<%=ViewData("resultVO").ex_cond%>">
-        <input type="hidden" name="ex_head" value="<%=ViewData("resultVO").ex_head%>">
-        <input type="hidden" name="ex_datatype" value="<%=ViewData("resultVO").ex_datatype%>">
-        <input type="hidden" name="ex_column" value="<%=ViewData("resultVO").ex_column%>">
-        <input type="hidden" name="ex_page" value="/NsmdG/CM/WCM010_S101/main/">
+
+    <form name="exfrm" method="post" action="/CMM/excel_02/main/" target="_self">
+        <input type="hidden" name="ex_sql" value="{{ex_sql}}">
+        <input type="hidden" name="ex_title" value="{{ex_title}}">
+        <input type="hidden" name="ex_cond" value="{{ex_cond}}">
+        <input type="hidden" name="ex_head" value="{{ex_head}}">
+        <input type="hidden" name="ex_datatype" value="{{ex_datatype}}">
+        <input type="hidden" name="ex_column" value="{{ex_column}}">
+        <input type="hidden" name="ex_page" value="/CM/WCM010_S101/main/">
     </form>
     <%--    <a href="javascript:document.exfrm.submit();">
-        <img src="/Content/images/xls.gif"></a>--%>
+        <img src="/static/images/xls.gif"></a>--%>
     <!-- excel 다운로드용 end -->
 
     <div class="search">
-        <form name="searchform" method="get" action="/NsmdG/CM/WCM010_S101/main/">
+        <form name="searchform" method="get" action="/CM/WCM010_S101/main/">
             <table width="100%">
                 <tr>
                     <td width="100" align="right">CMS <%=RLINK.GetConvertText(12225, "Name")%>
@@ -193,14 +189,14 @@
                         <input type="text" name="CMS_NM" value="<%=CMS_NM%>" style="ime-mode: active;" onblur="injectioncheck(this)" size="20">
                     </td>
                     <td style="padding-right: 2px; padding-left: 2px; text-align: right">
-                        <input type="button" class="RLINK_button82" onclick="funcSearch();" value="<%=RLINK.GetConvertText(11540, "Search")%>(F2)" id="noprint" border="0" />
-                        <input type="button" class="RLINK_button62" onclick="funcAdd();" value="<%=RLINK.GetConvertText(12501, "Add")%>" id="noprint" border="0" />
-                        <input type="button" class="RLINK_button62" onclick="funcEdit();" value="<%=RLINK.GetConvertText(12502, "Modify")%>" id="noprint" border="0" />
-                        <input type="button" class="RLINK_button62" onclick="funcDel();" value="<%=RLINK.GetConvertText(11664, "Delete")%>" id="noprint" border="0" />
+                        <input type="button" class="RLINK_button82" onclick="funcSearch();" value="{% trans 'Search' %}(F2)" id="noprint" border="0" />
+                        <input type="button" class="RLINK_button62" onclick="funcAdd();" value="{% trans 'Add' %}" id="noprint" border="0" />
+                        <input type="button" class="RLINK_button62" onclick="funcEdit();" value="{% trans 'Modify' %}" id="noprint" border="0" />
+                        <input type="button" class="RLINK_button62" onclick="funcDel();" value="{% trans 'Delete' %}" id="noprint" border="0" />
                         <a href="javascript:document.exfrm.submit();">
-                            <img src="/Content/images/icons/xls.gif" id="noprint"></a>
+                            <img src="/static/images/icons/xls.gif" id="noprint"></a>
                         <a href="javascript:printWindow('', '', 0, 0, 20, 0, 1, '');">
-                            <img src="/Content/images/icons/icoprint.gif" /></a>
+                            <img src="/static/images/icons/icoprint.gif" /></a>
                     </td>
                 </tr>
             </table>
@@ -237,11 +233,14 @@
                     <th width="80"><%=RLINK.GetConvertText(12250, "Insert")%></th>
                     <th width="*"><%=RLINK.GetConvertText(11952, "Insert Date")%></th>
                 </tr>
-                <%  If recordCount = 0 Then%>
+                {% if resultVO.recordCount == 0 %}
                 <tr id="tr0" bgcolor="#FEFEFE">
                     <td height="20" colspan="8"><%=RLINK.GetConvertText(10007, "No Data")%>
                     </td>
                 </tr>
+                {% else %}
+                    {% for rs in resultrs %}
+<!--
                 <%
                     Else
                         'Dim recnum As Integer
@@ -249,41 +248,67 @@
                         Do While Not rs.eof
                             recnum = recnum + 1
                             inxSeq = inxSeq + 1
-                %>
-                <tr align="center" id="tr<%=inxSeq%>" onmouseover="cellOver(this)" onmouseout="cellOut(this)" bgcolor="FEFEFE">
-                    <td>
-                        <input type="checkbox" name="userIdx" value="<%=rs("CMS_CD").value.ToString%>" onclick="chkboxcel('tr<%=inxSeq%>', this);"></td>
-                    <td><%=recnum%></td>
-                    <td><%=rs("CMS_CD").value.ToString%></td>
-                    <td align="left"><%=rs("CMS_NM").value.ToString%></td>
-                    <td><%=rs("CONTRACT_YN").value.ToString%></td>
-                    <td><%=rs("USE_FLAG").value.ToString%></td>
-                    <td><%=rs("insert_id").value.ToString%></td>
-                    <td align="left"><%=rs("insert_date").value.ToString.Trim %></td>
-                </tr>
-                <%
+                %>-->
+                    <tr align="center" id="tr{{forloop.counter}}" onmouseover="cellOver(this)" onmouseout="cellOut(this)" bgcolor="FEFEFE">
+                        <td>
+                            <input type="checkbox" name="userIdx" value="{{rs.CMS_CD}}" onclick="chkboxcel('tr{{forloop.counter}}', this);"></td>
+                        <td>{{resultVO.recnum|add:forloop.counter}}</td>
+                        <td>{{rs.CMS_CD}}</td>
+                        <td align="left">{{rs.CMS_NM}}</td>
+                        <td>{{rs.CONTRACT_YN}}</td>
+                        <td>{{rs.USE_FLAG}}</td>
+                        <td>{{rs.insert_id}}</td>
+                        <td align="left">{{rs.insert_date|Trim}}</td>
+                    </tr>
+                    {% endfor %}
+                {% endif %}
+                <!--<%
                             rs.movenext()
                         Loop
                     End If
-                %>
+                %>-->
                 <tr bgcolor="#F7F7F7" align="right">
                     <td id="noprint" colspan="20">
+                        {% with blockpage=resultVO.Gotopage|blockpage %}
+                        {% if blockpage == 1 %}
+                        <img src="/static/images/btn/btn_pre_off.gif" border="0" align="absmiddle">
+                        {% else %}
+                        <a href="/CM/WCM010_S101?gotopage={{blockpage|add:-10}}&pagesize={{resultVO.pagesize}}{{strParam}}"><img src="/static/images/btn/btn_pre_on.gif" border="0" align=absmiddle"></a>
+                        {% endif %}
+                        {% with ''|center:10 as range %}
+                        {% for k in range %}
+                            {% if not blockpage|add:forloop.counter0 > resultVO.pagecount %}
+                                {% if blockpage|add:forloop.counter0 == resultVO.Gotopage %}
+                                <font style="font-size: 12px; color: red"><b>[{{blockpage|add:forloop.counter0}}]</b></font>
+                                {% else %}
+                                <a href='/CM/WCM010_S101?gotopage={{blockpage|add:forloop.counter0}}&pagesize={{resultVO.pagesize}}{{strParam}}'><font style="font-size: 9pt; color:#666666">{{blockpage|add:forloop.counter0}}</font></a>
+                                {% endif %}
+                            {% endif %}
+                        {% endfor %}
+                        {% endwith %}
+                        {% if blockpage > resultVO.pagecount %}
+                        <img src="/static/images/btn/btn_next_off.gif" border="0" align="absmiddle">
+                        {% else %}
+                        <a href="/CM/WCM010_S101?gotopage={{blockpage}}&pagesize={{resultVO.pagesize}}{{strParam}}"><img src="/static/images/btn/btn_next_on.gif" border="0" align="absmiddle"></a>
+                        {% endif %}
+                        {% endwith %}
+                        <!--
                         <%
 
                             Dim blockpage, k As Integer
                             blockpage = Int((Gotopage - 1) / 10) * 10 + 1
                             If blockpage = 1 Then
-                                Response.Write("<img src=""/content/images/btn/btn_pre_off.gif"" border=""0"" align=""absmiddle"">")
+                                Response.Write("<img src="/static/images/btn/btn_pre_off.gif" border="0" align="absmiddle">")
                             Else
-                                Response.Write("<a href=""/NsmdG/CM/WCM010_S101/main/?gotopage=" & blockpage - 10 & "&pagesize=" & pagesize & strParam & """><img src=""/content/images/btn/btn_pre_on.gif"" border=""0"" align=""absmiddle""></a>")
+                                Response.Write("<a href="/CM/WCM010_S101/main/?gotopage={{blockpage|add:-10}}&pagesize={{resultVO.pagesize}}{{strParam}}"><img src="/static/images/btn/btn_pre_on.gif" border="0" align=absmiddle"></a>")
 
                             End If
                             k = 1
                             Do Until k > 10 Or blockpage > pagecount
                                 If blockpage = Int(Gotopage) Then
-                                    Response.Write(" <font style=""font-size: 12px; color: red""><b>[" & blockpage & "]</b></font>")
+                                    Response.Write(" <font style="font-size: 12px; color: red"><b>[" & blockpage & "]</b></font>")
                                 Else
-                                    Response.Write(" <a href='/NsmdG/CM/WCM010_S101/main/?gotopage=" & blockpage & "&pagesize=" & pagesize & strParam & "'><font style=""font-size: 9pt; color:#666666"">[" & blockpage & "]</font></a> ")
+                                    Response.Write(" <a href='/CM/WCM010_S101/main/?gotopage=" & blockpage & "&pagesize=" & pagesize & strParam & "'><font style=""font-size: 9pt; color:#666666"">[" & blockpage & "]</font></a> ")
                                 End If
                                 blockpage = blockpage + 1
                                 k = k + 1
@@ -291,12 +316,13 @@
                             If blockpage > pagecount Then
                                 Response.Write("<img src=""/content/images/btn/btn_next_off.gif"" border=""0"" align=""absmiddle"">")
                             Else
-                                Response.Write("<a href=""/NsmdG/CM/WCM010_S101/main/?gotopage=" & blockpage & "&pagesize=" & pagesize & strParam & """><img src=""/content/images/btn/btn_next_on.gif"" border=""0"" align=""absmiddle""></a>")
+                                Response.Write("<a href=""/CM/WCM010_S101/main/?gotopage=" & blockpage & "&pagesize=" & pagesize & strParam & """><img src=""/content/images/btn/btn_next_on.gif"" border=""0"" align=""absmiddle""></a>")
                             End If
                         %>
+                        -->
                     </td>
                 </tr>
             </table>
         </form>
     </div>
-</asp:Content>
+{% endblock content %}

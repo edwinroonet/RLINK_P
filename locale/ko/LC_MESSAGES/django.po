@@ -1,0 +1,63 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-08-23 15:24+0900\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: .\rlink\settings.py:129
+msgid "Korean"
+msgstr ""
+
+#: .\rlink\settings.py:130
+msgid "English"
+msgstr ""
+
+#: .\web\view\CM\WCM010_S101.py:29
+msgid "안녕하세요"
+msgstr ""
+
+msgid "10001"
+msgstr "저장 하시겠습니까?"
+
+msgid "Reservation"
+msgstr "예약관리"
+
+msgid "Config"
+msgstr "환경설정"
+
+msgid "Operation"
+msgstr "운영센터"
+
+msgid "Reseve"
+msgstr "Reseve"
+
+msgid "Booking List"
+msgstr "예약 목록"
+
+msgid "Booking TL-Lincoln"
+msgstr "TL-링컨 예약"
+
+msgid "Booking API List"
+msgstr "예약 API 목록"
+
+msgid "Execute"
+msgstr "실행"
+
+msgid "Log"
+msgstr "로그"
+
+msgid "Changed"
+msgstr "변경됨"

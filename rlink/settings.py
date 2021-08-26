@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from pathlib import Path
+from django.utils.translation import ugettext_lazy as _
 import os, datetime
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -50,6 +51,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -86,19 +88,15 @@ WSGI_APPLICATION = 'rlink.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'segong',
-        'USER': 'segong',
-        'PASSWORD': 'segong1!',
-        'HOST': '118.67.135.90',
-        #'NAME': 'RLINK_DEV',
-        #'USER': 'rlinkdev',
-        #'PASSWORD': 'rdev210730!',
-        #'HOST': '61.74.156.122',
-        #'PORT': '3366',
-        'OPTIONS': {
-            'init_command': 'SET sql_mode="STRICT_TRANS_TABLES"'
-        }
+        "ENGINE": "sql_server.pyodbc",
+        "NAME": "RLINK_DEV",
+        "USER": "rlinkdev",
+        "PASSWORD": "rdev210730!",
+        "HOST": "61.74.156.122",
+        "PORT": "3366",
+        "OPTIONS": {
+            'driver': 'ODBC Driver 17 for SQL Server',
+        },
     }
 }
 
@@ -127,6 +125,15 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'ko-kr'
 
+LANGUAGES = [
+    ('ko', _('Korean')),
+    ('en', _('English')),
+]
+
+LOCALE_PATHS = (
+    os.path.join(BASE_DIR, 'locale'),
+)
+
 TIME_ZONE = 'Asia/Seoul'
 
 USE_I18N = True
@@ -146,6 +153,8 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'), ]
 #
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+
+#
 
 
 LOGGING = {

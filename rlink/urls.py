@@ -20,10 +20,19 @@ from django.conf.urls.static import static
 from django.conf import settings
 from web import views
 from web.view.CM import WCM010_S101
+from web.view.CMM import WCM_110
+from web.view.CMM import WCM_200
+from web.view.MB import WMB_100
 
 urlpatterns = [
+    
     path('CM/WCM010_S101', WCM010_S101.main, name='WCM010_S101'), #
+    path('MB/WMB_100', WMB_100.main, name='WMB_100'), #
+    path('CMM/WCM_110', WCM_110.main, name='WCM_110'), #
+    path('CMM/WCM_200', WCM_200.procPmsLang, name="WCM_200"), #
 
+    #path('', WMB_100.main, name='WMB_100'), #디폴트경로
+    path('', WMB_100.main, name='WMB_100'), #디폴트경로
 
 ]
 

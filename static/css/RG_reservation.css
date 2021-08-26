@@ -1,0 +1,458 @@
+* {padding:0;margin:0; -webkit-text-size-adjust:none}
+html, body {width:100%;height:100%;}
+body {-webkit-user-select:none;-webkit-touch-callout:none;-webkit-tap-highlight-color:rgba(0,0,0,0)}
+html, body, blockquote, caption, dd, div, dl, dt, fieldset, form, frame, h1, h2, h3, h4, h5, h6, hr,
+iframe, input, legend, li, object, ol, p, pre, q, select, table, textarea, ul, tr, td { margin:0; padding:0;}
+fieldset, img { border:0 none; vertical-align:top; }
+h1, h2, h3, h4, h5, h6 { font-style:normal;}
+hr { display:none; heightL0}
+ul,ol,li,dd,dt {list-style:none}
+table { width:100%;border-collapse:collapse; border:0; empty-cells:show;}
+button{border: 0;padding:0;margin: 0;}
+p { display:block}
+ul { display:inline-block}
+
+/* common */
+body {font-family:'nanumgothic','Arial', 'AppleGothic'; font-size:0.75em; color:#333;line-height:1.3; }
+a {color:#555;text-decoration:none;}
+a:hover { color:#00243f; text-decoration:none;}
+img {vertical-align:top;font-size:0px;border:0 none;}
+input, select, textarea { vertical-align:middle; border:1px solid #656565; font-family:'nanumgothic','Arial', 'AppleGothic';}
+/* 크롬,안드로이드 인풋박스 input[type="checkbox"]{-webkit-appearance:none;-webkit-border-radius:0}*/
+button,textarea {border-radius:0;-webkit-appearance:none; font-family:'nanumgothic','돋움','nanumgothic';}
+select {border-radius:0;}
+input[type=text], input[type=password], input[type=submit], input[type=search], textarea { -webkit-appearance:none;}
+input[type="radio"]{-webkit-appearance:radio;border-radius:10px;}
+button,input[type="button"],input[type="submit"],input[type="reset"],input[type="file"]{-webkit-appearance:button;border-radius:0; border-radius:0px 0px;}
+/*select{-webkit-appearance:menulist-text;}*/
+textarea { line-height:1.5; border:1px solid #656565; padding:0 3px;color:#333;}
+em, address {font-style:normal;}
+table { width:100%; position:relative;}
+caption {position:absolute; visibility:hidden; width:0; height:0; overflow:hidden; font-size:0;} 
+.skipNAvi, legend  { position:absolute; visibility:hidden; line-height:0; width:0; height:0; font-size:0; left:-5000px; top:-5000px;}
+address, article, aside, blockquote, body, center, dd, dir, div, dl, dt, figure, figcaption, footer, form, h1, h2, h3, h4, h5, h6, header,
+hgroup, html, legend, listing, menu, nav, ol, p, plaintext, pre,section, summary, ul, xmp { display: block; }
+hr{height:0;display:none}
+
+.book_wrap { max-width:1000px; margin:0 auto;    
+    background: #f2f2f2;
+    position: relative;}			/*	max-width:832px */
+.book_wrap1 { max-width:1000px; margin:0 auto; padding-left: 20px; padding-top:5px; 
+    position: relative;}
+p {font-family:'nanumgothic','nanumgothic','돋움';}
+/* step1*/
+.book_wrap .bookarea { width:100%; margin:0 auto; position:relative;font-family:'nanumgothic','nanumgothic','돋움';}
+.book_wrap .bookarea .book_step { display:inline-block; width:100%; padding:20px 0;}
+.book_wrap .bookarea .book_step li { float:left; font-size:23px; width:21%; text-align:center; background: url('../../../img/bookstep_off.gif') right 1px no-repeat; 
+												color:#818181; letter-spacing:-1px; font-weight:600; margin:0 2%; }
+.book_wrap .bookarea .book_step li:first-child { width:21%}
+.book_wrap .bookarea .book_step li.on {color:#d1d219;  background:url('../../../img/bookstep.gif') right 1px no-repeat; }
+.book_wrap .bookarea .book_step li.last { background:none}
+.book_wrap .bookarea .book_step li span { font-size:14px;  letter-spacing:0px; line-height:20px;}
+.book_wrap .bookarea .book_day { display:inline-block; width:100%; padding-bottom:40px}
+.book_wrap .bookarea .book_day li { float:left; font-size:12px}
+.book_wrap .bookarea .book_day li.title { font-size:15px; line-height:18px; font-weight:600; padding-right:20px;}
+.book_wrap .bookarea .book_day li input { width:75px; padding:0 5px; margin-left:2px; height:26px; line-height:26px; border:1px solid #ccc; font-size:11px; color:#333; background: url(/img/calender.png) 70px 5px no-repeat #fff; vertical-align:middle; }
+.book_wrap .bookarea .book_day li ul {}
+.book_wrap .bookarea .book_day li ul li {padding-right:20px}
+.book_wrap .bookarea .book_room { width:100%; }
+.book_wrap .bookarea .book_room li	{ font-size:15px; font-weight:600; margin:0 0 0 10px;}
+.book_wrap .bookarea .book_room li ul {display:inline-block; width:100%; padding-top:15px; }
+.book_wrap .bookarea .book_room li ul li { float:left; width:19%; margin-left:10px; padding-bottom:3px;}
+.book_wrap .bookarea .book_room li ul li:first-child { margin-left:0}
+.book_wrap .bookarea .book_room li ul li .roomtype {border:1px solid #ccc; overflow:hidden;background:#f5f5f5;}
+.book_wrap .bookarea .book_room li ul li .roomtype p { width:99%; margin:0 auto; min-height:50px; font-size:11px; color:#333;}   /* 50 -> 70 */
+.book_wrap .bookarea .book_room li ul li .roomtype p span { float:left; padding:10px 0 0 2px}
+.book_wrap .bookarea .book_room li ul li .roomtype p input { float:left; margin:0px 2px 0 0; } 
+.book_wrap .bookarea .book_room li ul li .roomtype img { width:100%; cursor:pointer; height:97px;}  /* height 속성 없었음 */
+.book_wrap .bookarea .book_table {overflow:hidden;}/*margin-right:10px;margin-left:10px;*/
+.book_wrap .bookarea .book_table .title {font-size:15px; font-weight:600;  padding-top:40px;}
+.book_wrap .bookarea .book_table .year_mon {font-size:25px; font-weight:600;  width:63%; text-align:center}/*padding:20px 0 10px;*/
+.book_wrap .bookarea .book_table .year_mon a { margin:0 15px}
+.book_wrap .bookarea .book_table .tbl1 { /*width:70%;*/ float:left}
+.book_wrap .bookarea .book_table .tbl1 th { background:#a6a5a5; border:1px solid #fff; color:#fff; text-align:center; padding:11px 0; font-weight:600; letter-spacing:0}
+.book_wrap .bookarea .book_table .tbl1 th.sun { color:#a71b1b}
+.book_wrap .bookarea .book_table .tbl1 td { padding:10px 5px; background:#e0e0e0; border:1px solid #fff; line-height:20px; font-size:11px;font-weight:600; color:#7d7d7d} /* padding 8-> 5 */
+.book_wrap .bookarea .book_table .tbl1 td em { color:#333; display:block}
+.book_wrap .bookarea .book_table .tbl1 td.done { background:#efefef;  color:#c5c5c5}
+.book_wrap .bookarea .book_table .tbl1 td.done em { color:#333; display:block}
+.book_wrap .bookarea .book_table .tbl1 td.none { background:#fff}
+.book_wrap .bookarea .book_table .tbl1 td.on { background:#a9bbe1;}
+.book_wrap .bookarea .book_table .tbl1 td.war { background:#fff}
+.book_wrap .bookarea .book_table .tbl1 td.qn { color:#649005}
+.book_wrap .bookarea .book_table .tbl1 td img { vertical-align:middle}
+.book_wrap .bookarea .book_table .tbl2 {width:29%; float:right; margin-bottom:5px}
+.book_wrap .bookarea .book_table .tbl2 th {background:#a6a5a5; border:1px solid #fff; color:#fff; text-align:center; padding:10px 0; font-weight:600; letter-spacing:0}
+.book_wrap .bookarea .book_table .tbl2 td {padding:7px 10px;background:#efefef; border:none;font-size:11px; vertical-align:top}
+.book_wrap .bookarea .book_table .tbl2 td label { padding:0 20px 0 5px}
+.book_wrap .bookarea .book_table .tbl2 td.td_title {} 
+.book_wrap .bookarea .book_table .tbl2 td .twxt {width:80%; padding:0 5px; height:20px; line-height:20px; border:1px solid #ccc; font-size:11px; color:#333; background:#fff;}
+.book_wrap .bookarea .book_table .tbl2 td select {width:80%; padding:2px; margin-bottom:5px; height:24px; border:1px solid #ccc; font-size:11px; color:#333; background:#fff;}
+.book_wrap .bookarea .book_table .tbl2 td select.time { width:40%}
+.book_wrap .bookarea .btn_next { float:right; padding-right:10px}
+.book_wrap .bookarea .btn_next a { background:#a71b1b; color:#fff; text-align:center; display:block; width:120px; padding:5px 0}
+
+.book_wrap .bookarea .layer { position:absolute; top:10%; left:10%; width:395px; height:225px; z-index:9999; box-shadow: 7px 7px 7px #666; background-color:#FFF;} /* height:330px */
+.book_wrap .bookarea .layer img { width:100%}
+.book_wrap .bookarea .layer .close { position:absolute; top:0; right:0; width:30px; height:30px; display:block; cursor:pointer}
+
+
+/* step2*/
+.book_wrap .bookarea .book_info { overflow:hidden; width:100%}
+.book_wrap .bookarea .book_info .book_left { float:left; width:63%;}
+.book_wrap .bookarea .book_info .ny_txt { font-size:15px; padding-bottom:15px; line-height:21px; font-weight:600}
+.book_wrap .bookarea .book_info .book_right { float:right; width:35%; padding-top:20px;}
+.book_wrap .bookarea .book_info table { width:100%}
+.book_wrap .bookarea .book_info table th {background:#e5e5e5; border:1px solid #ccc; color:#333; text-align:center; padding:10px 0; font-weight:600}
+.book_wrap .bookarea .book_info table td {padding:6px 8px; background:#fff; border:1px solid #ccc; text-align:center; line-height:18px; font-size:11px; }
+.book_wrap .bookarea .book_info table td.total { background:#f1f1f1;}
+.book_wrap .bookarea .book_info table td.bold { font-weight:700; border-bottom:none; text-align:right;padding-right:15px;}
+.book_wrap .bookarea .book_info table td.bold_ { border-top:none; text-align:left; }
+.book_wrap .bookarea .book_info table td.radio { text-align:left}
+.book_wrap .bookarea .book_info table td.radio input { margin:0 2px 0 5px} 
+.book_wrap .bookarea .book_info table td.radio a { font-weight:700; text-decoration:underline; color:#000 }
+.book_wrap .bookarea .book_info table td.left { text-align:left}
+.book_wrap .bookarea .book_info table td.left input {width:120px; padding:0 5px; height:26px; line-height:26px; border:1px solid #ccc; font-size:11px; color:#333; background:#fff; vertical-align:middle;}
+.book_wrap .bookarea .book_info table td select {width:50%; padding:2px; height:24px; border:1px solid #ccc; font-size:11px; color:#333; background:#fff;}
+.book_wrap .bookarea .book_info table td select.sel2 {width:20%;}
+.book_wrap .bookarea .book_info table td textarea {width:90%; padding:5px; height:45px; line-height:25px; border:1px solid #ccc; font-size:11px; color:#333; background:#fff; margin-top:10px}
+.book_wrap .bookarea .btn_area { text-align:center; padding:20px 0}
+.book_wrap .bookarea .btn_area a {background:#a71b1b; color:#fff; text-align:center; display:inline-block; width:120px; padding:5px 0}
+.book_wrap .bookarea .btn_area a.prev { background:#666; color:#fff}
+
+/* step3 */
+.book_wrap .bookarea .book_step3 { overflow:hidden; padding:0 10px; }
+.book_wrap .bookarea .book_step3 .book_left { float:left; width:63%; margin-bottom:20px;}
+.book_wrap .bookarea .book_step3 .book_left table.promoCode {margin-top:20px;}
+.book_wrap .bookarea .book_step3 .book_right { float:right; width:35%; padding-top: 0px;}
+.book_wrap .bookarea .book_step3 .book_right .tbl2 {}
+.book_wrap .bookarea .book_step3 .book_right .tbl2 td.bold { font-weight:700; border-bottom:none; text-align:right;padding-right:15px }
+.book_wrap .bookarea .book_step3 .book_right .tbl2 td.bold_ { border-top:none; text-align:left; }
+.book_wrap .bookarea .book_step3 .ny_txt { font-size:15px; padding-bottom:0px; line-height:21px; font-weight:600; }
+.book_wrap .bookarea .book_step3 .ny_txt2 { font-size:15px; padding-bottom:0px; line-height:21px; font-weight:600; padding-top: 20px;}
+.book_wrap .bookarea .book_step3 table { width:100%}
+.book_wrap .bookarea .book_step3 table th {background:#e5e5e5; border:1px solid #ccc; color:#333; text-align:right; padding:11px 0; font-weight:600;padding-right:15px;}
+.book_wrap .bookarea .book_step3 table th.all { background:#fff; border-right:0; font-size:15px;font-weight:600}
+.book_wrap .bookarea .book_step3 table td.all { border-left:0; font-size:15px;font-weight:600}
+.book_wrap .bookarea .book_step3 table td {padding:10px 8px; background:#fff; border:1px solid #ccc; text-align:center; line-height:18px;  }
+.book_wrap .bookarea .book_step3 table td.impor { background:#eee; }
+.book_wrap .bookarea .book_step3 table td.td_left { text-align:left}
+.book_wrap .bookarea .book_step3 table td p { line-height:17px; padding-top:5px}
+.book_wrap .bookarea .book_step3 .booklist { width:100%}
+.book_wrap .bookarea .book_step3 table td .type1 {width:12%; padding:0 5px; height:24px; line-height:24px; border:1px solid #ccc; font-size:11px; color:#333; background:#fff; margin:0 5px} 
+.book_wrap .bookarea .book_step3 table td .type2 {width:7%; padding:0 5px; height:24px; line-height:24px; border:1px solid #ccc; font-size:11px; color:#333; background:#fff;margin:0 5px} 
+.book_wrap .bookarea .book_step3 table td .type3 {width:65%; padding:0 5px; height:24px; line-height:24px; border:1px solid #ccc; font-size:11px; color:#333; background:#fff;margin:0 5px}
+.book_wrap .bookarea .book_step3 table td .type4 {width:50%; padding:0 5px; height:24px; line-height:24px; border:1px solid #ccc; font-size:11px; color:#333; background:#fff; margin:0 5px} 
+.book_wrap .bookarea .book_step3 table td.bn { border-top:none; border-bottom:none}
+.book_wrap .bookarea .book_step3 table td span { }
+.book_wrap .bookarea .book_step3 table td select {width:8%; padding:2px; height:24px; border:1px solid #ccc; font-size:11px; color:#333; background:#fff;}
+.book_wrap .bookarea .book_step3 table td textarea {width:70%; padding:5px; height:80px; line-height:24px; border:1px solid #ccc; font-size:11px; color:#333; background:#fff;}
+.book_wrap .bookarea .book_step3 table td .pass { width:100%; display:inline-block}
+.book_wrap .bookarea .book_step3 table td .pass li { float:left; text-align:left;  vertical-align:top; padding:0 10px 5px 0}
+.book_wrap .bookarea .book_step3 table td .pass li img { vertical-align:top}
+.book_wrap .bookarea .book_step3 table td .pass li .passinput {max-width:100px; padding:0 5px; height:24px; line-height:24px; border:1px solid #ccc; font-size:11px; color:#333; background:#fff; margin: 0 5px} 
+.book_wrap .bookarea .book_step3 table td .pass li .passinput2 {max-width:150px; padding:0 5px; height:24px; line-height:24px; border:1px solid #ccc; font-size:11px; color:#333; background:#fff; margin: 0 5px} 
+
+
+/* step4 */
+.book_wrap .bookarea .book_step4 { width:98%; border:1px solid #ccc; text-align:center}
+.book_wrap .bookarea .book_step4 .title { background:#f5f5f5; padding:35px 0; font-size:36px; color:#333}
+.book_wrap .bookarea .book_step4 .guid { font-size:20px; color:#666;padding:20px}
+.book_wrap .bookarea .book_step4 .guid span {font-size:15px;}
+.book_wrap .bookarea .book_step4 .guid img { vertical-align:top; padding:12px}
+.book_wrap .bookarea .book_step4 .guid img.call { padding-top:3px}
+#S_readMore {display:none;border:1px solid #666}
+
+.born { *border:none} 
+.m360br_ {display:none}
+.m400br_ {display:none}
+
+/*  find my reservation */
+.book_wrap .bookarea .findbook {padding-top:10px; position:relative; width:100%}
+.book_wrap .bookarea .findbook .search { display:inline-block;  width:100%;}
+.book_wrap .bookarea .findbook .search li { float:left; width:100%;}
+.book_wrap .bookarea .findbook .search li input {width:100%;  height:24px; line-height:24px; border:1px solid #ccc; font-size:11px; color:#333; background:#fff; }
+.book_wrap .bookarea .findbook .search li span { display:inline-block; }
+.book_wrap .bookarea .findbook .search li a {display:inline-block; }
+.book_wrap .bookarea .findbook .search li a img { vertical-align:middle}
+.book_wrap .bookarea .findbook table { margin-top:10px; font-size:13px; width:100%}
+.book_wrap .bookarea .findbook table  th {background:#e5e5e5; border:1px solid #ccc; color:#333; text-align:center; padding:11px 0; font-weight:600}
+.book_wrap .bookarea .findbook table td {padding:10px 8px; background:#fff; border:1px solid #ccc; text-align:center; line-height:22px;  }
+.book_wrap .bookarea .findbook table td a { text-decoration:underline}
+.book_wrap .bookarea .findbook table td .print {background:#a71b1b; color:#fff; text-align:center; padding:0 5px; cursor:pointer}
+.book_wrap .bookarea .findbook .txt { padding:10px; background:#f1f1f1; border-bottom:1px solid #ccc;} 
+.book_wrap .bookarea .findbook .txt li {font-size:13px; color:#818181; padding:0 0 5px 10px; background:url(/img/blit.gif) left 5px no-repeat;}
+.book_wrap .bookarea .findbook .print_layer { position:absolute; top:0; left:0; width:90%; background:#f1f1f1; padding:20px; z-index:999; box-shadow: 7px 7px 7px #666;font-weight:600}
+.book_wrap .bookarea .findbook .print_layer .title { font-size:20px}
+.book_wrap .bookarea .findbook .print_layer .btna { text-align:right; padding:10px 0 10px}
+.book_wrap .bookarea .findbook .print_layer .btna a { width:65px; height:20px; line-height:20px; display:inline-block; color:#fff; text-align:center; background:#666; margin:0 2px}
+.book_wrap .bookarea .findbook .print_layer .btna a.close_print { background:#a71b1b}
+.book_wrap .bookarea .findbook .print_layer .list1 { width:100%; display:inline-block}
+.book_wrap .bookarea .findbook .print_layer .list1 li { float:left; width:50%; padding-bottom:10px; border-bottom:1px solid #ccc; color:#818181; letter-spacing:0}
+.book_wrap .bookarea .findbook .print_layer .list1 li span { font-weight:700; padding-right:10px; color:#444}
+.book_wrap .bookarea .findbook .print_layer .list2 { width:100%; display:inline-block; padding-bottom:15px}
+.book_wrap .bookarea .findbook .print_layer .list2 li {width:100%;padding:4px 0; border-bottom:1px solid #ccc; color:#818181; letter-spacing:0; font-size:11px}
+.book_wrap .bookarea .findbook .print_layer .list2 li span { font-weight:700; padding-right:10px; color:#444}
+.book_wrap .bookarea .findbook .print_layer .map {width:95%; text-align:center; border:4px solid #444; background:#fff}
+.book_wrap .bookarea .findbook .print_layer .map img { width:95%}
+.book_wrap .bookarea .findbook .print_layer .map p {background:#444; color:#fff; font-size:12px; padding:5px; text-align:left;}
+.book_wrap .bookarea .findbook .print_layer .list { padding-top:10px}
+.book_wrap .bookarea .findbook .print_layer .list li {font-size:11px; color:#818181; padding:0 0 5px 10px; background:url(/img/blit.gif) left 5px no-repeat; line-height:20px}
+#blind_box {position:absolute; top:0; left:0; width:100%; height:100%; background:#fff; z-index:50;}
+
+.m650 { display:none}
+
+.pl10 { padding-left:10px}
+.ml10mr5 { margin:0 5px 0 10px}
+.pt30 { padding-top:30px}
+.mpl10 {padding-left:10px}
+.alc {text-align:center;}
+.mb10 {margin-bottom:10px;}
+.mt10 {margin-top:10px;}
+
+
+
+div#footer {padding-bottom:46px; board:red solid 1px;}
+div#footer .f_box {position:relative;width:950px;margin:0 auto;}
+div#footer .f_box .util {height:36px;padding-top:17px;text-align:center;}
+div#footer .f_box .util a {margin-left:15px;padding-left:15px;font-weight:bold;color:#626262;background:url("../images/inc/ico_bar_2.gif") 0 3px no-repeat;}
+div#footer .f_box .util a:first-child {margin:0;padding:0;background:none;}
+div#footer .f_box .f_logo {position:absolute;top:83px;left:0;}
+div#footer .f_box .copyright {margin:26px 0 0 227px;color:#626262;line-height:20px;}
+div#footer .f_box .sns {position:absolute;top:80px;right:0;}
+div#footer hr{height:0;display:none}
+
+@media all and (max-width:760px) {
+	.book_wrap .bookarea .book_table .tbl1 { width:100%; }
+	.book_wrap .bookarea .book_table .tbl2 { width:100%; float:none}
+	.book_wrap .bookarea .book_table .year_mon { width:100%}
+	.book_wrap .bookarea .book_room li ul li { margin-left:2px}
+}
+
+@media all and (max-width:650px) {
+	.m650 { display:inline-block}
+	.book_wrap .bookarea .book_step li:first-child { width:100%}
+	.book_wrap .bookarea .book_step li { width:100%; font-size:17px; float:none; background:none; padding-bottom:5px; text-align:left}
+	.book_wrap .bookarea .book_step li.on {background:none; }
+	.book_wrap .bookarea .book_room li ul li { width:35%}
+}
+
+@media all and (max-width:750px) {
+	.book_wrap .bookarea .btn_next { padding-top:15px}	
+}
+
+@media all and (max-width:570px) {
+	.book_wrap .bookarea .findbook .search li {float:left; padding-bottom:10px}
+	.book_wrap .bookarea .findbook .print_layer .list1 li { float:none; width:100%; }
+}
+
+@media all and (max-width:550px) {
+	.book_wrap .bookarea .book_info .book_left .ny_txt { font-size:12px; line-height:18px}
+	.book_wrap .bookarea .book_info .book_left { float:left; width:100%;}
+	.book_wrap .bookarea .book_info .book_right { float:left; width:100%;}
+	.book_wrap .bookarea .book_info table th { padding:5px}
+	.book_wrap .bookarea .book_info table td { padding:5px}
+	
+	.book_wrap .bookarea .book_step3 .book_left { float:left; width:100%;}
+	.book_wrap .bookarea .book_step3 .book_right { float:left; width:100%;}
+	.book_wrap .bookarea .book_step3 table th { padding:5px}		/* 추가 : 2019.05.20 */
+	.book_wrap .bookarea .book_step3 table td { padding:5px}		/* 추가 : 2019.05.20 */
+	.book_wrap .bookarea .book_step3 table td .type1 {width:23%;} 	
+	.book_wrap .bookarea .book_step3 table td .type2 {width:12%;} 
+	.book_wrap .bookarea .book_step3 table td .type3 {width:80%;}
+	.book_wrap .bookarea .book_step3 table td select {width:35%;}	
+	.book_wrap .bookarea .book_info table.tbl2 { margin-top:20px}
+
+	.book_wrap .bookarea .book_step4 .title { font-size:24px; color:#333}
+	.book_wrap .bookarea .book_step4 .guid { font-size:15px; color:#666; line-height:24px;}
+	.book_wrap .bookarea .book_step4 .guid span {font-size:12px;}
+}
+
+@media all and (max-width:480px) {
+	
+	.mblock { display:none !important}
+	.book_wrap .bookarea .book_step li:first-child { width:100%}
+	.book_wrap .bookarea .book_step li { width:100%; text-align:left; padding-bottom:10px; font-size:13px; background:none; padding-right:0px}
+	.book_wrap .bookarea .book_step li.on {background:none;}
+
+	.book_wrap .bookarea .book_day li {float:none}
+	.book_wrap .bookarea .book_day li ul { padding-top:10px}
+	.book_wrap .bookarea .book_day li ul li { float:none; padding-bottom:10px}
+
+	.book_wrap .bookarea .book_step3 .book_left { float:none; width:98%}
+	.book_wrap .bookarea .book_step3 .book_left table{margin-bottom:10px}
+	.book_wrap .bookarea .book_step3 .book_right { float:none; width:98%}
+	.book_wrap .bookarea .book_step3 .book_right table{margin-bottom:10px}
+	.book_wrap .bookarea .book_room li ul li { width:35%}
+	
+}
+
+@media all and (max-width:460px) {
+.book_wrap .bookarea .book_step3 table td .pass li { float:none;  padding-bottom:4px}
+}
+
+@media all and (max-width:400px) {
+.m400br_ {display:inline}
+}
+
+
+@media all and (max-width:414px) {
+	.book_wrap .bookarea .book_table .tbl1 th {padding:0}
+	.book_wrap .bookarea .book_table .tbl1 td {padding:0; font-size:10px}
+	.book_wrap .bookarea .book_table .tbl1 table { width:100%}
+
+	.book_wrap .bookarea .book_step li { font-size:13px; }
+	.book_wrap .bookarea .book_step li span {font-size:13px; }
+
+	.book_wrap .bookarea .findbook .search li a { margin-top:5px}
+
+	.book_wrap .bookarea .layer { width:300px; height:251px; left:0}
+	.book_wrap .bookarea .book_step3 .book_left { float:none; width:98%}
+	.book_wrap .bookarea .book_step3 .book_left table{margin-bottom:10px}
+	.book_wrap .bookarea .book_step3 .book_right { float:none; width:98%}
+		.book_wrap .bookarea .book_step3 .book_right table{margin-bottom:10px}
+	.book_wrap .bookarea .book_step3 table td select { width:28%}
+
+	.book_wrap .bookarea .findbook table { font-size:11px}
+	.m360br {display:none}
+	.m360br_ {display:inline}
+	.mpl10 {padding-left:0px}
+	.book_wrap .bookarea .book_step3 table td span { padding-bottom:10px; display:inline-block}
+}
+
+@media all and (max-width:320px) {
+.book_wrap .bookarea .book_info table td.m320font { font-size:10px; !important }
+.book_wrap .bookarea .findbook table td { padding:10px 0}
+.mpl60 { padding-left:60px;}
+.book_wrap .bookarea .book_info table td {padding:3px}
+ 
+.book_wrap .bookarea .findbook .search li span.emailm { width:100%; margin-bottom:5px;}
+
+}
+.am_list {padding:20px 0 20px 20px; }
+.am_list li { height:30px; float:left; padding-top:3px; padding-left:40px; margin-bottom:10px; text-align:left !important; line-height:normal !important;}
+.am_list li.ic_01 { width:100px; background:url(/Content/images/Rbooking/img/Facility/icon_BF_AVAIL.png) no-repeat; }
+.am_list li.ic_02 { width:100px; background:url(/Content/images/Rbooking/img/facility/icon_BF_FREE.png) no-repeat; }
+.am_list li.ic_03 { width:100px; background:url(/Content/images/Rbooking/img/facility/icon_DINING.png) no-repeat; }
+.am_list li.ic_04 { width:100px; background:url(/Content/images/Rbooking/img/facility/icon_DRINK.png) no-repeat; }
+.am_list li.ic_05 { width:100px; background:url(/Content/images/Rbooking/img/facility/icon_SNACKS.png) no-repeat; }
+.am_list li.ic_06 { width:100px; background:url(/Content/images/Rbooking/img/facility/icon_RM_SVC.png) no-repeat; }
+.am_list li.ic_07 { width:100px; background:url(/Content/images/Rbooking/img/facility/icon_TV.png) no-repeat; }
+.am_list li.ic_08 { width:100px; background:url(/Content/images/Rbooking/img/facility/icon_LAN_INTERNET.png) no-repeat; }
+.am_list li.ic_09 { width:100px; background:url(/Content/images/Rbooking/img/facility/icon_WIFI_INTERNET.png) no-repeat; }
+.am_list li.ic_10 { width:100px; background:url(/Content/images/Rbooking/img/facility/icon_WIFI_ROOMFREE.png) no-repeat; }
+.am_list li.ic_11 { width:100px; background:url(/Content/images/Rbooking/img/facility/icon_PC.png) no-repeat; }
+.am_list li.ic_12 { width:100px; background:url(/Content/images/Rbooking/img/facility/icon_GAME.png) no-repeat; }
+.am_list li.ic_13 { width:100px; background:url(/Content/images/Rbooking/img/facility/icon_MOVIES.png) no-repeat; }
+.am_list li.ic_14 { width:100px; background:url(/Content/images/Rbooking/img/facility/icon_BOARD.png) no-repeat; }
+.am_list li.ic_15 { width:100px; background:url(/Content/images/Rbooking/img/facility/icon_BOOKS.png) no-repeat; }
+.am_list li.ic_16 { width:100px; background:url(/Content/images/Rbooking/img/facility/icon_AIRCON.png) no-repeat; }
+.am_list li.ic_17 { width:100px; background:url(/Content/images/Rbooking/img/facility/icon_HEATER.png) no-repeat; }
+.am_list li.ic_18 { width:100px; background:url(/Content/images/Rbooking/img/facility/icon_SLEEPWEAR.png) no-repeat; }
+.am_list li.ic_19 { width:100px; background:url(/Content/images/Rbooking/img/facility/icon_SLIPPERS.png) no-repeat; }
+.am_list li.ic_20 { width:100px; background:url(/Content/images/Rbooking/img/facility/icon_LINENS.png) no-repeat; }
+.am_list li.ic_21 { width:100px; background:url(/Content/images/Rbooking/img/facility/icon_REFRIGERATOR.png) no-repeat; }
+.am_list li.ic_22 { width:100px; background:url(/Content/images/Rbooking/img/facility/icon_E_KETTLE.png) no-repeat; }
+.am_list li.ic_23 { width:100px; background:url(/Content/images/Rbooking/img/facility/icon_DESK.png) no-repeat; }
+.am_list li.ic_24 { width:100px; background:url(/Content/images/Rbooking/img/facility/icon_TELEPHONE.png) no-repeat; }
+.am_list li.ic_25 { width:100px; background:url(/Content/images/Rbooking/img/facility/icon_LAMP.png) no-repeat; }
+.am_list li.ic_26 { width:100px; background:url(/Content/images/Rbooking/img/facility/icon_HANGER.png) no-repeat; }
+.am_list li.ic_27 { width:100px; background:url(/Content/images/Rbooking/img/facility/icon_CLOCK.png) no-repeat; }
+.am_list li.ic_28 { width:100px; background:url(/Content/images/Rbooking/img/facility/icon_WAKEUP_CALL.png) no-repeat; }
+.am_list li.ic_29 { width:100px; background:url(/Content/images/Rbooking/img/facility/icon_BLACKOUT_CURTAIN.png) no-repeat; }
+.am_list li.ic_30 { width:100px; background:url(/Content/images/Rbooking/img/facility/icon_BABY_BED.png) no-repeat; }
+.am_list li.ic_31 { width:100px; background:url(/Content/images/Rbooking/img/facility/icon_HUMIDIFIER.png) no-repeat; }
+.am_list li.ic_32 { width:100px; background:url(/Content/images/Rbooking/img/facility/icon_BATHTUB.png) no-repeat; }
+.am_list li.ic_33 { width:100px; background:url(/Content/images/Rbooking/img/facility/icon_HAIRDRYER.png) no-repeat; }
+.am_list li.ic_34 { width:100px; background:url(/Content/images/Rbooking/img/facility/icon_TOWELS.png) no-repeat; }
+.am_list li.ic_35 { width:100px; background:url(/Content/images/Rbooking/img/facility/icon_BIDET.png) no-repeat; }
+.am_list li.ic_36 { width:100px; background:url(/Content/images/Rbooking/img/facility/icon_TOILETRIES.png) no-repeat; }
+.am_list li.ic_37 { width:100px; background:url(/Content/images/Rbooking/img/facility/icon_HOUSEKEEPING.png) no-repeat; }
+.am_list li.ic_38 { width:100px; background:url(/Content/images/Rbooking/img/facility/icon_DRYCLEANING.png) no-repeat; }
+.am_list li.ic_39 { width:100px; background:url(/Content/images/Rbooking/img/facility/icon_LAUNDRY.png) no-repeat; }
+.am_list li.ic_40 { width:100px; background:url(/Content/images/Rbooking/img/facility/icon_BUSINESS_CENTER.png) no-repeat; }
+.am_list li.ic_41 { width:100px; background:url(/Content/images/Rbooking/img/facility/icon_COPY_MACHINE.png) no-repeat; }
+.am_list li.ic_42 { width:100px; background:url(/Content/images/Rbooking/img/facility/icon_FAX.png) no-repeat; }
+.am_list li.ic_43 { width:100px; background:url(/Content/images/Rbooking/img/facility/icon_FRONTDESK.png) no-repeat; }
+.am_list li.ic_44 { width:100px; background:url(/Content/images/Rbooking/img/facility/icon_ELEVATOR.png) no-repeat; }
+.am_list li.ic_45 { width:100px; background:url(/Content/images/Rbooking/img/facility/icon_PETS.png) no-repeat; }
+.am_list li.ic_46 { width:100px; background:url(/Content/images/Rbooking/img/facility/icon_PARKING.png) no-repeat; }
+.am_list li.ic_47 { width:100px; background:url(/Content/images/Rbooking/img/facility/icon_SMOKE_AREA.png) no-repeat; }
+.am_list li.ic_48 { width:100px; background:url(/Content/images/Rbooking/img/facility/icon_LUGGAGE_STORAGE.png) no-repeat; }
+.am_list li.ic_49 { width:100px; background:url(/Content/images/Rbooking/img/facility/icon_SAUNA.png) no-repeat; }
+.am_list li.ic_50 { width:100px; background:url(/Content/images/Rbooking/img/facility/icon_SPA.png) no-repeat; }
+.am_list li.ic_51 { width:100px; background:url(/Content/images/Rbooking/img/facility/icon_MASSAGE.png) no-repeat; }
+.am_list li.ic_52 { width:100px; background:url(/Content/images/Rbooking/img/facility/icon_GYM.png) no-repeat; }
+.am_list li.ic_53 { width:100px; background:url(/Content/images/Rbooking/img/facility/icon_HAIR_SHOP.png) no-repeat; }
+
+
+/* 상단헤더 */
+.h_explain {position:relative;width:100%; background:#283150;  }
+.h_explain li {padding:5px 10px;}
+.bt1 {border-top:1px solid #fff;}
+.h_logo { float:left; margin:5px 0 0 5px; font-size:14px; color:#fff; font-weight:bold;}
+.h_right {float:right; } 
+.h_right li {float:left; padding:0px !important; margin:5px 0 0 0; color:#fff;} 
+.h_right li.h_btn {  font-size:11px; color:#363636; letter-spacing:normal; }
+.h_right li.h_btn span { display:inline-block; font-size:11px; font-weight:normal; border:1px solid #ddd; padding:0 5px; height:18px;}
+.h_right li.h_btn span a { color:#fff; }
+
+.h_explain li.h_name{ position:relative; text-align:center; font-size:20px; color:#fff; font-weight:bold; line-height:20px; margin-top:48px; padding-top:10px;}
+.h_explain li.h_name strong {margin-left:0px;}
+
+.h_favor {float:right;}
+.h_favor a {font-size:13px; color:#fff;letter-spacing:normal;font-weight:normal;}
+.h_explain li.h_adr { position:relative; line-height:20px; font-size:13px; color:#fff; text-align:right;  padding-bottom:15px;}
+.h_explain li.h_adr_c { position:relative; line-height:20px; font-size:13px; color:#fff; text-align:center;  padding-bottom:15px;}
+
+.mr5 {margin-right:5px;}
+.mt6 {margin-top:6px;}
+
+
+
+.h_explain_f {position:relative; float:left; width:100%; height:50px; display:inline-block; background:#3a85bf; padding-top:20px; border-top:1px solid #fff; margin-top:20px;}
+.h_explain_f li {padding:0 20px;}
+.h_copy {float:left; color:#fff; font-size:13px;}
+.h_clink {float:right; }
+.h_clink a {text-align:right; color:#fff; font-size:13px;}
+
+
+/* js select */
+.jsselect {  letter-spacing:normal; }
+.sbHolder{background:transparent;font-family: Malgun Gothic;font-size: 11px;font-weight: normal;height:22px;position:relative;width:50px;text-align:left !important; }
+.sbSelector{display: block;width:100%;height: 22px;padding-top:0px;top: 0;left:0;line-height:17px;outline: none;overflow: hidden;position: absolute;text-indent: 10px;}
+.sbSelector:link, .sbSelector:visited, .sbSelector:hover{color: #fff;outline: none;text-decoration: none;font-size: 11px;}
+.sbToggle{background: url("/img/select-icons.png") 0 -103px no-repeat;display: block;height: 22px;outline: none;position: absolute;right: 5px;top:8px;width: 14px;}
+.sbToggle:hover{background: url("/img/select-icons.png") 0 0 no-repeat;}
+.sbToggleOpen{background: url("/img/select-icons.png") 0 0 no-repeat;top:1px;}
+.sbToggleOpen:hover{background: url("/img/select-icons.png") 0 0px no-repeat;}
+.sbHolderDisabled{background-color: #3C3C3C;border: solid 1px #fff;}
+.sbHolderDisabled .sbHolder{}
+.sbHolderDisabled .sbToggle{}
+.sbOptions{background-color:#fff;list-style: none;left:0;margin-top:1px;padding:0;position: absolute;top: 20px;width:100%;z-index: 1;overflow-y: auto;}
+.sbOptions li{width:70px;padding: 0 0;}
+.sbOptions a{display: block;outline: none;padding:5px 7px 5px 10px;font-size:12px; letter-spacing:normal;}
+.sbOptions a:link, .sbOptions a:visited{color: #666;text-decoration: none;}
+.sbOptions a:hover{color: #000; background-color:#FFF;}
+.sbOptions li.last a{border-bottom: none;}
+
+.mr_none { margin-right:0 !important; }
+
+
+.contentSize {font-size:12px!important;}
+.titleSize {font-size:14px!important;width:125px;}
+
+.titleInfo {
+    background: #a6a5a5;
+    border: 1px solid #fff;
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+    font-weight: 600;
+    letter-spacing: 0;
+    width: 284px;
+    font-size: 18px;
+    float: right;
+}
+
+

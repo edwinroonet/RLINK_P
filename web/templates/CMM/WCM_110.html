@@ -1,0 +1,200 @@
+{% extends "CMM/_LayoutMainMaster.html" %}
+
+{% block head %}
+    <script  type="text/javascript" src="/static/js/contextmenu.js"></script>
+    <script  type="text/JavaScript">
+        function wsitebd(arg1, arg2, arg3) {
+            location.href = "/BD/WBD510_S101?wcm=270&BD_CD=sb010&ref=" + arg1 + "&step=" + arg2 + "&level=" + arg3;
+        }
+
+        function wbd110_s102(ns, bd_cd) {
+            location.href = "/BD/WBD110_S102?wcm=620&nSeq=" + ns + "&BD_CD=" + bd_cd;
+        }
+
+        function wto112(bc, ws) {
+            open("/TO/WTO110_U101?BD_CD=" + bc + "&pp=Y&sWorkSeq=" + ws + "&OPEN_URL=CMM/WCM_110", "mngWorka", cnjOpenShape(820, 520, 'yes'));
+        }
+        // 링크
+        function wsitebdmain(arg1, arg2, arg3) {
+            location.href = "/BD/WBD510_S101?wcm=270&BD_CD=sb010";
+        }
+
+        function wbd110_s101main() {
+            location.href = "/BD/WBD110_S101?wcm=620&BD_CD=05";
+        }
+        function wbd110_s102main() {
+            location.href = "/BD/WBD110_S101?wcm=620&BD_CD=02";
+        }
+
+        function wto112main() {
+            location.href = "/TO/WTO110_S101?wcm=230&W_CD=02";
+        }
+
+        function wmp100_s101() {
+            location.href = "/MP/WMP100_S101?wcm=620";
+        }
+
+        function wto130_u101(id, sq, ssq) {
+            open("/TO/WTO130_U101?pp=Y&staff_id=" + id + "&sq=" + sq + "&OPEN_URL=/SMDG/cmm/wcm_110/main/", "wto130_u101", cnjOpenShape(750, 450, 'no'));
+        }
+
+        function wto137_u101(id, sq, ssq) {
+            open("/TO/WTO137_U101?pp=Y&staff_id=" + id + "&sq=" + sq + "&OPEN_URL=/SMDG/cmm/wcm_110/main/", "wto137_u101", cnjOpenShape(750, 450, 'no'));
+        }
+
+        function wto130_s201() {
+            location.href = "/TO/WTO130_S201?wcm=230";
+        }
+
+        function wto137_s201() {
+            location.href = "/TO/WTO137_S201?wcm=230";
+        }
+
+        function wto140_s101() {
+            location.href = "/TO/WTO140_S101?wcm=610&rpt_all=Y";
+        }
+
+
+        function wto141_s201(flag) {
+            if (flag == "N") {
+                location.href = "/TO/WTO141_S201?wcm=610&rconfirm_state=N";
+            }
+            else if (flag == "Y") {
+                location.href = "/TO/WTO141_S201?wcm=610&app_id_flag=11&rconfirm_state=Y";
+            }
+            else {
+                location.href = "/TO/WTO141_S201?wcm=610&app_id_flag=11";
+            }
+        }
+
+        function wfo100_s102(cid) {
+            location.href = "/FO/WFO100_S102?wcm=210?claim_no=" + cid;
+        }
+
+        function wfo100_s301(w7_flag) {
+            location.href = "/FO/WFO100_S301?wcm=210&w7_flag=" + w7_flag;
+        }
+
+        function funcViewMyPlan(osid) {
+            open("/CMM/WCM_112?pp=Y&OSTAFF_ID=" + osid, "wcm_112", cnjOpenShape(350, 290, 'no'));
+        }
+        function funcViewMyDuty(osid) {
+            open("/CMM/WCM_113?pp=Y&OSTAFF_ID=" + osid, "wcm_113", cnjOpenShape(470, 270, 'no'));
+        }
+
+        function funcViewNewEventList(osid) {
+           // open("/CMM/WCM_114?pp=Y&OSTAFF_ID=" + osid, "wcm_112", cnjOpenShape(600, 320, 'no'));
+        }
+
+        function funcEventChangeSearch() {
+          this.param = {
+              TPROC: "EVENT"
+          }
+
+          var ErrorCD = "";
+          var Result = "";
+          $.ajax({
+          url: "/EV/WEV100_U201/procNewChangeEvent/",
+          type: 'POST',
+          data: this.param,
+          dataType: 'json',
+          timeout: 1000,
+          async: false,
+          ifModified:ue,
+          success: function (data) {
+              ErrorCD = data.ErrorCD;
+              Result = data.Result;
+          }
+          });
+
+          //alert("@@@@");
+          //if ("<%=ViewData("sessionInfo").NoReadChangeEvent%>" == "Y") {
+          if (Result == "Y") {
+              funcViewNewEventList("{{sessionInfo.loginID}}");
+          }
+        } ///funcEventChangeSearch
+
+
+        //alert("<%=ViewData("sessionInfo").officeNo%>");
+
+        function wps110() { location.href = "/ps/wps110_s101?wcm=270"; } //이용료결제화면
+
+        function wmb630_s101(lm) {
+            location.href = "/mb/wmb630_s101?wcm=" + lm;
+        }
+        function wto140_s100() {
+            location.href = "/TO/wto140_s100?wcm=610";
+        }
+    </script>
+    <script type="text/javascript">
+        function wbd110_s190main() {
+            location.href = "/BD/wbd510_s101?wcm=270&BD_CD=sb030";
+        }
+    </script>
+{% endblock head %}
+
+{% block content %}
+  <!--  <%
+        Dim intSeq As Integer = 0
+        Dim _commonFunction As New RLINK.CommonFunction(ViewContext.HttpContext, ViewData("sessionInfo").officeNo)
+        'Response.Write(HttpContext.Current.Request.UserHostAddress)
+    %>
+-->
+    <table style="border-bottom:2px solid #000;width:800px;margin-top:10px;">
+        <tr>
+            <td><img src="/static/images/logo/main_img_{{sessionInfo.OfficeNo}}.gif" onerror="this.src='/static/images/logo/main_img_AA000.gif';" border="0"/></td>
+            <td valign="top">
+                <div style="border:1px solid #aaa;border-radius:5px;padding:13px 5px;display:inline-block;width:230px;height:115px;background-color:#fff;">
+                    <table width="100%" class="f4tbl f4tblline">
+                        <tr>
+                            <td width="50%" bgcolor="#e8e8e8" >
+                                User Name</td>
+                            <td bgcolor="#FFFFFF" >
+                                {{resultVO.loginName}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td bgcolor="#e8e8e8" >
+                                Department</td>
+                            <td bgcolor="#FFFFFF" >
+                                {{resultVO.dept_nm}}
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </td>
+        </tr>
+    </table>
+    <table style="width:800px;">
+        <tr>
+            <td>
+                <img src="/static/images/Skin/main/02_140313.png" alt="" />
+            </td>
+        </tr>
+    </table>
+
+    <script type="text/javascript">
+        function funcTabHide(id) {
+
+            for (var i = 1; i <= 3; i++) {
+                document.getElementById("TabMenu0" + i).style.display = "none";
+            }
+
+            document.getElementById("TabMenu0" + id).style.display = "inline";
+
+        }
+    </script>
+    <!--
+    <%' If ViewData("resultVO").sReadTodayOrder = "N" Then%>
+<%--        <script  type="text/javascript">
+            funcViewMyDuty('<%=ViewData("sessionInfo").loginId %>');
+        </script>--%>
+    <%' End If%>
+    <%' If ViewData("resultVO").sReadTodayPlan = "N" Then%>
+<%--        <script  type="text/javascript">
+            funcViewMyPlan('<%=ViewData("sessionInfo").loginId %>');
+        </script>--%>
+    <%' End If%>
+-->
+
+{% endblock content %}

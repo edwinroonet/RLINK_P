@@ -1,0 +1,25 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
+<title>텍스트박스 자동 완성 기능</title>
+<link href="common/css/jquery.autocomplete.css" rel="stylesheet"type="text/css" />
+<script
+	src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js "
+	type="text/javascript"></script>
+<script src="common/js/jquery.autocomplete.js" type="text/javascript"></script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		var data = "ASP JSP PHP Ajax Silverlight JAVA CSS 한글 영문".split(' ');
+		$('#search').autocomplete(data);
+	});
+</script>
+</head>
+<body>
+	상품검색 :
+	<input type="text" id="search" />
+</body>
+</html>
+
+
+

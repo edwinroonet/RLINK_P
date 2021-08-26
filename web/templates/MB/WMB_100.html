@@ -1,0 +1,189 @@
+{% extends "CMM/_LayoutMaster.html" %}
+
+{% block content %}
+<div ID="Content1" ContentPlaceHolderID="HeaderContent" runat="server">
+	<style>
+		.pop-layer .pop-container {padding: 20px 25px;}
+		.pop-layer p.ctxt {color: #666;line-height: 25px;}
+		.pop-layer .btn-r {width: 100%;margin: 10px 0 20px;padding-top: 10px;border-top: 1px solid #DDD;text-align: right;}
+		.pop-layer {display: none;position: absolute;top: 50%;left: 50%;width: 330;height: auto;background-color: #fff;border: 5px solid #3571B5;z-index: 10;}
+		.dim-layer {display: none;position: fixed;_position: absolute;top: 0;left: 0;width: 100%;height: 100%;z-index: 100;}
+		.dim-layer .dimBg {position: absolute;top: 0;left: 0;width: 100%;height: 100%;background: #000;opacity: .5;filter: alpha(opacity=50);}
+		.dim-layer .pop-layer {display: block;}
+		a.btn-layerClose {display: inline-block;height: 25px;padding: 0 14px 0;border: 1px solid #304a8a;background-color: #3f5a9d;font-size: 13px;color: #fff;line-height: 25px;text-decoration:none;}
+		a.btn-layerClose:hover {border: 1px solid #091940;background-color: #1f326a;color: #fff;}
+	</style>
+    <script >
+
+        //function MM_openBrWindow(theURL,winName,features) { //v2.0
+        //   window.open(theURL,winName,features);
+        //}
+
+        function na_open_window(name, url, left, top, width, height, toolbar, menubar, statusbar, scrollbar, resizable) {
+            toolbar_str = toolbar ? 'yes' : 'no';
+            menubar_str = menubar ? 'yes' : 'no';
+            statusbar_str = statusbar ? 'yes' : 'no';
+            scrollbar_str = scrollbar ? 'yes' : 'no';
+            resizable_str = resizable ? 'yes' : 'no';
+            window.open(url, name, 'left=' + left + ',top=' + top + ',width=' + width + ',height=' + height + ',toolbar=' + toolbar_str + ',menubar=' + menubar_str + ',status=' + statusbar_str + ',scrollbars=' + scrollbar_str + ',resizable=' + resizable_str);
+        }
+
+    </script>
+    <script >
+
+        function MM_openBrWindow(theURL, winName, features) { //v2.0
+            window.open(theURL, winName, features);
+        }
+
+        function openEvtWin1() {
+            cookiedata = document.cookie;
+            if (cookiedata.indexOf('p091023_ERPG', 'checked', 1) < 0) {
+                // window.open("/static/html/cmm/evt/popup_091023_ERPG.asp","p091023","width=400,height=320,top=0,left=0,scrollbars=no");
+            }
+        }
+
+        function openEvtWin2() {
+            cookiedata = document.cookie;
+            if (cookiedata.indexOf('p091105_ERPG', 'checked', 1) < 0) {
+                // window.open("/static/html/cmm/evt/popup_091105_ERPG.asp","p091105","width=400,height=320,top=400,left=0,scrollbars=no");
+            }
+        }
+
+    </script>
+    <script  type="text/JavaScript">
+
+        function funcSubmit() {
+            var f = document.frm;
+            //if ((f.txtBizNo.value == "") || (f.txtBizNo.value.length != 5)) {
+            //    alert("SITE NO 를 입력하십시요..");
+            //    f.txtBizNo.focus();
+            //    return;
+            //}
+            if (f.txtLoginId.value == "") {
+                alert("아이디를 입력하십시요");
+                f.txtLoginId.focus();
+                return;
+            }
+            if (f.txtLoginPass.value == "") {
+                alert("비밀번호를 입력하십시요");
+                f.txtLoginPass.focus();
+                return;
+            }
+
+
+            f.action = window.location.href
+            //f.target = "_parent"
+            f.submit();
+        }
+        function keydown_handler(e) {
+            if (window.event.keyCode == 13) //Only for Microsoft Internet Explorer
+            {
+                funcSubmit()
+                return false;
+            }
+        }
+        function getParameter(name, url) {
+            var rtnval = '';
+            var nowAddress = unescape(url);
+            var parameters = (nowAddress.slice(nowAddress.indexOf('?') + 1, nowAddress.length)).split('&');
+
+            for (var i = 0; i < parameters.length; i++) {
+                var varName = parameters[i].split('=')[0];
+                if (varName.toUpperCase() == name.toUpperCase()) {
+                    rtnval = parameters[i].split('=')[1];
+                    break;
+                }
+            }
+            return rtnval;
+        }
+	// 2019-05-20  Layer Pop
+        function layer_popup(el) {
+        	var $el = $(el);        //레이어의 id를 $el 변수에 저장
+        	var isDim = $el.prev().hasClass('dimBg');   //dimmed 레이어를 감지하기 위한 boolean 변수
+        	isDim ? $('.dim-layer').fadeIn() : $el.fadeIn();
+        	var $elWidth = ~~($el.outerWidth()),
+		$elHeight = ~~($el.outerHeight()),
+		docWidth = $(document).width(),
+		docHeight = $(document).height();
+
+        	// 화면의 중앙에 레이어를 띄운다.
+        	if ($elHeight < docHeight || $elWidth < docWidth) {
+        		$el.css({
+        			marginTop: -$elHeight / 2,
+        			marginLeft: -$elWidth / 2
+        		})
+        	} else {
+        		$el.css({ top: 0, left: 0 });
+        	}
+        	$el.find('a.btn-layerClose').click(function () {
+        		var href = $(this).attr("href");
+        		isDim ? $('.dim-layer').fadeOut() : $el.fadeOut(); // 닫기 버튼을 클릭하면 레이어가 닫힌다.
+        		if (href != "#") {
+        			location.href = href;
+        		}
+        		return false;
+        	});
+
+        	$('.layer .dimBg').click(function () {
+        		$('.dim-layer').fadeOut();
+        		return false;
+        	});
+
+        }
+    </script>
+	<style type="text/css">
+        body {background-color: #fff;}
+        #wbody {height: 100%;}
+        #divMiddle {width: 100%;height: 100%;display: table;}
+        #divContents {position: relative !important;left: auto !important;top: auto !important;height:100%;display:table-cell;vertical-align:middle;}
+        .site_logo {position:absolute;top:0;left:30px;}
+    </style>
+</div>
+
+<div ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
+
+        <div class="loginarea">
+		    <form name="frm" method="post" action="">
+                {% csrf_token %}
+                <input type="hidden" name="fcn" value="procOpen" />
+			    <input type="hidden" name="title_gubun" value="{{title_gubun}}" />
+			    <!--접속URL-->
+			    <input type="hidden" name="txtBizNo" value="{{cookie_site_no}}" />
+			    <input type="password" name="dumy" style="display:none;" />
+                <div class="logo">
+				    <img src="/static/images/Skin/login/logo_title_rlink.png">
+                </div>
+                <div class="loginform">
+                    <table>
+                        <tr>
+                            <td><input type="text" name="txtLoginId" style="ime-mode: disabled;" maxlength="15" tabindex="1" onkeydown="if(event.keyCode==13) event.keyCode=9;" value="rlinkdev03" /></td>
+                            <td rowspan="2"><a href="javascript:funcSubmit();"><img src="/static/images/Skin/login/btn_login.png" alt="Log-in" /></a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="password" name="txtLoginPass" tabindex="2" value="devv0301!!" /></td>
+                        </tr>
+                    </table>
+                    <img src="/static/images/Skin/login/n_login_img.gif" class="site_logo" />
+                </div>
+                <a class="link" href="http://www.roonets.co.kr" target="_blank"></a>
+                <a class="mail_link" href="mailto:pms@roonets.co.kr" target="_blank"></a>
+	        </form>
+        </div>
+<!--
+	<div class="dim-layer">
+		<div class="dimBg"></div>
+			<div id="layer" class="pop-layer">
+				<div class="pop-container">
+					<div class="pop-conts">
+					<p class="ctxt mb20"><img src="/static/images/pop_190520.jpg" /></p>
+
+					<div class="btn-r"><a href="http://www.rlink.info" class="btn-layerClose"> rlink.info 로 이동</a>&nbsp;&nbsp;&nbsp;<a href="#" class="btn-layerClose">Close</a></div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+	<script>layer_popup("#layer");</script>
+-->
+</div>
+{% endblock content %}

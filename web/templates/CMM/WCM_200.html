@@ -1,0 +1,345 @@
+
+{% load i18n %}
+<script type="text/javascript">
+    function wto112main() {
+        location.href = "/TO/wto110_s101/main/?wcm=230&W_CD=02";
+    }
+
+    function funcModifyMember() {
+        funcDialogSet(800, 800, 650)
+        var iFrame = $('#iframe1')
+        iframe1.location.href = "/mb/Wmb100_u101/main/?pp=Y&sOstaffId={{sessionInfo.LoginId}}&O_URL=/cmm/wcm_110/main/";
+        $('#iframe1').css('height', $('#dialog').height() - 5);
+        $('#iframe1').css('width', $('#dialog').width() - 0);
+        // open("/NSMDG/mb/wmb100_u110/main/?pp=Y&O_URL=/nSMDG/cmm/wcm_110/main/?wcm=200", "mngOfficeStaff", cnjOpenShape(700, 500, 'no'));
+       // open("/NsmdG/mb/Wmb100_u101/main/?pp=Y&sOstaffId={{sessionInfo.LoginId}}&O_URL=/NsmdG/cmm/wcm_110/main/", "mngOfficeStaff", cnjOpenShape(800, 650, 'no'));
+    }
+
+    function tmenu002() { location.href = '/MB/Wmb_102/main/'; } // 로그아웃
+
+    function lmTapShowHide(fl) {
+        if (fl == '1') {
+            document.getElementById("lMenuTap01").style.display = "inline";
+            document.getElementById("lMenuTap02").style.display = "none";
+            document.getElementById("lMenuTap").src = "/static/images/Skin/main/lMenuTap01.gif";
+        }
+        else {
+            document.getElementById("lMenuTap01").style.display = "none";
+            document.getElementById("lMenuTap02").style.display = "inline";
+            document.getElementById("lMenuTap").src = "/static/images/Skin/main/lMenuTap02.gif";
+        }
+    }
+
+    function funcGo(strUrl) {
+        if (strUrl == "http://") {
+            alert("System Unstable.  Please, Try to connect again.");
+            return;
+        }
+        location.href = strUrl;
+    }
+
+    function funcGo1(strUrl) {
+        if (strUrl == "http://") {
+            alert("System Unstable.  Please, Try to connect again!");
+            return;
+        }
+        location.href = "/to/wto000_s101/main/?wcm=230&strUrl=" + strUrl;
+    }
+
+    function funcChgOffice2(ono, onm) {
+        if (true == confirm("시스템을 [ " + onm + " ] 이용환경으로 변경 하시겠습니까 ???")) {
+             parent.location.href = "/CMM/WCM_201/main22/?A_OFFICE_NO=" + ono + "&A_OFFICE_NM=" + onm;
+         }
+    }
+    var iFrameTem = "<iframe name=\"iframe1\" id=\"iframe1\" src=\"\" width=\"100%\" height=\"\" frameborder=\"0\" scrolling=\"no\" onload=\"\"></iframe>"
+    function funcDialogSet(valWidth1, valWidth2, valHeight) {
+        //Dialog 세팅
+        $('#dialog').dialog({
+            autoOpen: false,
+            width: valWidth1,
+            css: true
+        });
+
+        $('#dialog').empty();
+        $('#dialog').html(iFrameTem);
+
+        $('#dialog').dialog('open');
+
+        $('#dialog').width(valWidth2);
+        $('#dialog').height(valHeight);
+    }
+</script>
+
+<!-- 영업일자 표시 (dbo.getsalesdate())
+<span style="font-weight:bold; font-size:11pt; color:#f0177e;">
+<br />{{G_SALEDATE}} (<%=_commonFunction.fn_weekday(ViewData("G_SALESDATE"))%>)</span>-->
+
+{% if wcm == "010" %}
+<span><img src="/static/images/Skin/left_010.jpg" alt="" /></span>
+<ul class="filetree">
+    <li><span class="root">{% trans "Reseve" %}</span>
+        <ul>
+            <!--
+            <li><span class="square"><a href="javascript:funcGo('/NsmdG/RV/WRV900_S101/main/');">Rsvn Retrieve</a></span></li>
+            <li><span class="square"><a href="javascript:funcGo('/NsmdG/RV/WRV900_S101/main/');">Rm/A Changed</a></span></li>
+            -->
+
+            <li><span class="folder">{% trans "Booking List" %}</a></span>
+                <ul>
+        {% if sessionInfo.TLLC_YN == "Y" %}
+                     <li><span class="square"><a href="javascript:funcGo('/RV/WRV900_S101/main/');">{% trans "Booking TL-Lincoln" %}</a></span></li>
+        {% endif %}
+                     <li><span class="square"><a href="javascript:funcGo('/CM/WCM200_S101/main/');">{% trans "Booking API List" %}</a></span></li>
+                </ul>
+            </li>
+
+            <!--
+            <li><span class="folder"><a href="javascript:funcGo('/NsmdG/tt/Wtt_s000/main/');">HOTEL</a></span>
+                <ul>
+                     <li><span class="square"><a href="javascript:funcGo('/NsmdG/RM/WRM200_S101/main/');">Room Available</a></span></li>
+                     <li><span class="square"><a href="javascript:funcGo('/NsmdG/RM/WRM200_S200/main/');">RM.Available Center</a></span></li>
+                </ul>
+            </li>
+            -->
+
+{% if sessionInfo.TLLC_YN == "Y" %}
+            <li><span class="folder">TL-Lincoln</span>
+                <ul>
+                    <li><span class="square"><a href="javascript:funcGo('/XM/WXM_TL100/main/');">API {% trans "Execute" %}</a></span></li>
+                    <li><span class="square"><a href="javascript:funcGo('/XM/WXMLOG_S101/main/');">API {% trans "Log" %}</a></span></li>
+
+        {% if sessionInfo.LoginLevel >= "ZA" %} <!--운영자용화면-->
+                     <li><span class="square"><a href="javascript:funcGo('/RM/WRM900_S101/main/');">Rm/A {% trans "Changed" %}</a></span></li>
+        {% endif %}
+                </ul>
+            </li>
+{% endif %}
+
+         </ul>
+     </li>
+ </ul>
+
+{% elif wcm == "050" %}
+<span><img src="/static/images/Skin/left_050.jpg" alt="" /></span>
+<ul class="filetree">
+    <li><span class="root">Report</span>
+        <ul>
+      <!--
+            <li><span class="square"><a href="javascript:funcGo('/NsmdG/tt/Wtt_s000/main/');">room block chart</a></span></li>
+            <li><span class="square"><a href="javascript:funcGo('/NsmdG/tt/Wtt_s000/main/');">cashier detail report</a></span></li>
+            <li><span class="square"><a href="javascript:funcGo('/NsmdG/tt/Wtt_s000/main/');">cashier detail report</a></span></li>
+            <li><span class="square"><a href="javascript:funcGo('/NsmdG/tt/Wtt_s000/main/');">Daily report</a></span></li>
+            <li><span class="square"><a href="javascript:funcGo('/NsmdG/tt/Wtt_s000/main/');">daily revenue</a></span></li>
+            <li><span class="square"><a href="javascript:funcGo('/NsmdG/tt/Wtt_s000/main/');">Sales by Account</a></span></li>
+            <li><span class="square"><a href="javascript:funcGo('/NsmdG/tt/Wtt_s000/main/');">Sales By Segment</a></span></li>
+            <li><span class="square"><a href="javascript:funcGo('/NsmdG/tt/Wtt_s000/main/');">Guest ledger summary</a></span></li>  -->
+        </ul>
+    </li>
+</ul>
+{% elif wcm == "060" %}
+<span><img src="/static/images/Skin/left_060.jpg" alt="" /></span>
+<ul class="filetree">
+    <li><span class="root"><%=RLINK.GetConvertText(12229, "Manage")%></span>
+        {% if sessionInfo.LoginLevel >= "SA" %}<!-- 운영장 -->
+                    <!--<li><span class="square"><a href="javascript:funcGo('/NsmdG/MA/WMA020_S101/main/');">Room Revenue Plan</a></span></li>-->
+        {% endif %}
+    </li>
+</ul>
+
+{% elif wcm == "070" %}
+<span><img src="/static/images/Skin/left_070.jpg" alt="" /></span>
+<ul class="filetree">
+    <li><span class="root"><%=RLINK.GetConvertText(12051, "Config")%></span>
+        <ul>
+
+
+            <li><span class="folder"><%=RLINK.GetConvertText(12255, "User")%></span>
+                <ul>
+                    <li><span class="square"><a href="javascript:funcGo('/MB/WTO100_S102/main/');"><%=RLINK.GetConvertText(11048, "Site")%></a></span></li>
+                    <li><span class="square"><a href="javascript:funcGo('/MB/WMB100_S101/main/');"><%=RLINK.GetConvertText(12255, "User")%></a></span></li>
+                    <li><span class="square"><a href="javascript:funcGo('/NsmdG/to/wto108_s101/main/');"><%=RLINK.GetConvertText(11816, "Department")%></a></span></li>
+
+                </ul>
+            </li>
+            <li><span class="folder">CMS <%=RLINK.GetConvertText(12571, "Setting")%></span>
+                <ul>
+                    <li><span class="square"><a href="javascript:funcGo('/CM/WCM100_s101/main/');">CMS <%=RLINK.GetConvertText(11003, "HOTEL")%></a></span></li>
+                    <li><span class="square"><a href="javascript:funcGo('/CM/WCM110_s101/main/');">CMS <%=RLINK.GetConvertText(11308, "RoomType")%></a></span></li>
+{% if sessionInfo.TTLC_YN == "Y" %}
+                    <li><span class="square"><a href="javascript:funcGo('/CM/WCM111_s101/main/');"><%=RLINK.GetConvertText(11308, "RoomType")%>.<%=RLINK.GetConvertText(12573, "Sub")%></a></span></li>
+{% endif %}
+{% if sessionInfo.LoginLevel >= "SA" %} <!-- 테스트 + 운영자 -->
+                    <li><span class="square"><a href="javascript:funcGo('/CM/WCM115_s101/main/');">CMS <%=RLINK.GetConvertText(12548, "Rate Type")%></a></span></li>
+                    <li><span class="square"><a href="javascript:funcGo('/CM/WCM116_s101/main/');">CMS <%=RLINK.GetConvertText(12546, " Plan Type")%></a></span></li>
+                    <li><span class="square"><a href="javascript:funcGo('/CM/WCM031_s101/main/');">CMS <%=RLINK.GetConvertText(11539, "Extra service")%></a></span></li>
+{% endif %}
+                    <li><span class="square"><a href="javascript:funcGo('/CM/WCM021_s101/main/');">OTA <%=RLINK.GetConvertText(11053, "Code")%></a></span></li>
+                    <li><span class="square"><a href="javascript:funcGo('/CM/WCM120_s101/main/');">OTA <%=RLINK.GetConvertText(11308, "RoomType")%></a></span></li>
+                    <!--<li><span class="square"><a href="javascript:funcGo('/NsmdG/XM/WXM_TL010/main/');">XM010</a></span></li>-->
+                </ul>
+            </li>
+        </ul>
+{% if sessionInfo.LoginLevel >= "SA" %} <!-- 테스트 + 운영자 -->
+        <ul>
+            <li><span class="folder">CMS <%=RLINK.GetConvertText(12576, "Block&Rate")%></span>
+                <ul>
+                    <li><span class="square"><a href="javascript:funcGo('/CM/WCM130_S101/main/');">CMS <%=RLINK.GetConvertText(12551, "Channel")%></a></span></li>
+                    <li><span class="square"><a href="javascript:funcGo('/CM/WCM140_S101/main/');">CMS <%=RLINK.GetConvertText(12577, "Sales Option")%></a></span></li>
+                    <li><span class="square"><a href="javascript:funcGo('/CM/WCM140_S201/main/');">CMS <%=RLINK.GetConvertText(12636, "Room Block&Rate")%></a></span></li>
+                </ul>
+            </li>
+        </ul>
+{% endif %}
+    </li>
+</ul>
+
+
+{% elif wcm == "330" %} <!-- for sky AS33 STAFF FLAG-->
+<span><img src="/static/images/Skin/left_060.jpg" alt="" /></span>
+<ul class="filetree">
+    <li><span class="root"><%=RLINK.GetConvertText(12229, "Manage")%></span>
+        <ul>
+            <!--<li><span class="square"><a href="javascript:funcGo('/NsmdG/RV/WRV010_s103/main/');">Rsv Inquiry Center</a></span></li>
+            <li><span class="square"><a href="javascript:funcGo('/NsmdG/RV/WRV300_S201/main/');">In House List</a></span></li>
+            <li>----------------------</span></li>
+            <li><span class="square"><a href="javascript:funcGo('/NsmdG/RV/WRV100_S401/main/');">Sales On The Books</a></span></li>
+            <li>----------------------</span></li>
+            <li><span class="square"><a href="javascript:funcGo('/NsmdG/MA/WMA200_S102/main/');">Daily Report</a></span></li>
+            <li><span class="square"><a href="javascript:funcGo('/NsmdG/MA/WMA200_S104/main/');">Daily Report Period</a></span></li>
+            <li><span class="square"><a href="javascript:funcGo('/NsmdG/BL/WBL100_S301/main/');">Detail Bill</a></span></li>
+            <li><span class="square"><a href="javascript:funcGo('/NsmdG/BL/WBL200_S301/main/');">Detail Payment</a></span></li>-->
+        </ul>
+    </li>
+</ul>
+
+{% elif wcm == "900" %} <!-- cateImg = "left_240.jpg" -->
+<span><img src="/static/images/Skin/left_900.jpg" alt="운영자용" /></span>
+<ul class="filetree">
+    <li><span class="root"><%=RLINK.GetConvertText(12054, "Operate")%></span>
+        {% if sessionInfo.LoginLevel >= "SA" %} <!-- 운영자용화면 -->
+        <ul>
+            <li><span class="folder"><%=RLINK.GetConvertText(11048, "SITE")%></span>
+                <ul>
+                    <li><span class="square"><a href="javascript:funcGo('/NsmdG/to/wto100_s101/main/');"><%=RLINK.GetConvertText(11031, "Site List")%></a></span></li>
+                    <li><span class="square"><a href="javascript:funcGo('/NsmdG/to/wto100_s111/main/');"><%=RLINK.GetConvertText(11047, "Hotel List")%></a></span></li>
+                    <li><span class="square"><a href="javascript:funcGo('/NsmdG/mb/wmb100_s101/main/');"><%=RLINK.GetConvertText(11603, "User")%></a></span></li>
+                    <li><span class="square"><a href="javascript:funcGo('/NsmdG/mb/wmb100_s401/main/');"><%=RLINK.GetConvertText(11826, "ALl User")%></a></span></li>
+                    <!--<li><span class="square"><a href="javascript:funcGo('/NsmdG/cp/wcp200_s901/main/');">전체거래처검색</a></span></li>-->
+                </ul>
+            </li>
+        </ul>
+        <ul>
+            <li><span class="folder">CMS</span>
+                <ul>
+                    <li><span class="square"><a href="javascript:funcGo('/CM/WCM010_S101/main/');"><%=RLINK.GetConvertText(12563, "Master")%> CMS</a></span></li>
+                    <li><span class="square"><a href="javascript:funcGo('/CM/WCM020_S101/main/');"><%=RLINK.GetConvertText(12563, "Master")%> OTA</a></span></li>
+                    <li><span class="square"><a href="javascript:funcGo('/NsmdG/TO/WTO200_S101/main/');"><%=RLINK.GetConvertText(12563, "Master")%> <%=RLINK.GetConvertText(11003, "Hotel")%></a></span></li>
+                    <li><span class="square"><a href="javascript:funcGo('/CM/WCM100_S201/main/');">CMS vs <%=RLINK.GetConvertText(11003, "Hotel")%></a></span></li>
+                     <li><span class="square"><a href="javascript:funcGo('/NsmdG/RV/WRV800_S101/main/');">Rsvn from CMS</a></span></li>
+                     <li><span class="square"><a href="javascript:funcGo('/NsmdG/RV/WRV800_S201/main/');"><%=RLINK.GetConvertText(11337, "Cancel")%></a></span></li>
+                </ul>
+            </li>
+        </ul>
+        <ul>
+            <li><span class="folder">CENTER</span>
+                <ul>
+
+                    <li><span class="square"><a href="javascript:funcGo('/NsmdG/mb/wmb110_s101/main/');"><%=RLINK.GetConvertText(11604, "Online User")%></a></span></li>
+                    <!--<li><span class="square"><a href="javascript:funcGo('/NsmdG/ps/wps210_s101/main/');">결제내역 상세</a></span></li>
+                    <li><span class="square"><a href="javascript:funcGo('/NsmdG/ps/wps210_s201/main/');">결제내역 일별</a></span></li>
+                    <li><span class="square"><a href="javascript:funcGo('/NsmdG/ps/wps210_s202/main/');">결제내역 월별</a></span></li>-->
+                    <li><span class="square"><a href="javascript:funcGo('/NsmdG/mb/wmb110_s103/main/');"><%=RLINK.GetConvertText(11607, "IP bandwidth List")%></a></span></li>
+                    <li><span class="square"><a href="javascript:funcGo('/NsmdG/mb/wmb110_s160/main/');"><%=RLINK.GetConvertText(11865, "P/W Error List")%></a></span></li>
+                </ul>
+            </li>
+        </ul>
+        <ul>
+            <li><span class="folder"><%=RLINK.GetConvertText(12566, "TL-Lincoln")%></span>
+                <ul>
+                    <li><span class="square"><a href="javascript:funcGo('/NsmdG/XM/WXMLOG_S101/main/?SEARCH_OPTION=ALLLOG');">API <%=RLINK.GetConvertText(12569, "Log")%></a></span></li>
+                    <li><span class="square"><a href="javascript:funcGo('/NsmdG/XM/WXM_TL100/main/');">API <%=RLINK.GetConvertText(11308, "Roomtype")%></a></span></li>
+
+                    {% if sessionInfo.LoginLevel >= "ZZ" %} <!-- 관리자/개발자용 -->
+
+
+                    {% endif %}
+                </ul>
+            </li>
+        </ul>
+        <ul>
+            <li><span class="folder"><%=RLINK.GetConvertText(12574, "Code & Control ")%></span>
+                <ul>
+                    <li><span class="square"><a href="javascript:funcGo('/NsmdG/OP/WOP010_S101/main/');">API Call</a></span></li>
+                </ul>
+            </li>
+        </ul>
+        {% endif %}
+    </li>
+</ul>
+{% elif wcm == "001" %}
+<div id="dialog" title="" style="padding:0 0 0 0"></div>
+<div id="wcm_001">
+    <div id="aside">
+        <div class="aside_top">
+            <div class="aside_btm">
+                <div class="aside_box">
+                    <div class="salesdate">
+                        {% load fn_weekday %}
+                        {{G_SALESDATE|date:"Y-m-d"}} <span class="weeknm">({% fn_weekday G_SALESDATE %})</span>
+                    </div>
+                    <div class="user_box">
+                        <p class="thumnail"><img src="/static/images/Skin/main/user_img.jpg" alt="사진" /></p>
+                        <div class="user">
+                            <p class="user_name">{{sessionInfo.LoginName}}</p>
+                            {% load Now %}
+                            <p class="date">{% Now %}</p>
+                        </div>
+                    </div>
+                    <ul class="btn_member">
+                        <li><a href="javascript:void(0);" class="btn" onclick="funcModifyMember();"><span>My Profile</span></a></li>
+                        <li><a href="javascript:void(0);" class="btn" onclick="tmenu002();"><span>Log Out</span></a></li>
+                    </ul>
+                    <ul class="find_box">
+                        <li class="slt_site">
+                            <!--<%' If ViewData("sessionInfo").LoginLevel >= "SA" Or ViewData("sessionInfo").HTLGRP_AUTHCD = "HTLALL" Then '운영자및 사이트 통합이용자용 %> -->
+                            {% if sessionInfo.HTLGRP_AUTHCD == "HTLALL" %} <!-- 운영자및 사이트 통합이용자용 -->
+                                <select name="officeNo" onchange="funcChgOffice2(this.value, this.options[this.selectedIndex].text )">
+                                    {% load SetSelectBox2 %}
+                                    {% SetSelectBox2 "Office_No" resultVO.officeNo "Select SITE" "" "" request sessionInfo.OfficeNo  %}
+                                </select>
+                            {% endif %}
+                        </li>
+                    </ul>
+                    <div class="sms_link">
+                        <!-- tab
+                        <ul class="tab_menu tab_click" id="smslinkTAB">
+                            <li><a href="#lMenuTap01"><img src="/static/images/btn/btn_sms_on.png" alt="SMS Servie" /></a></li>
+                            <li><a href="#lMenuTap02"><img src="/static/images/btn/btn_link_off.png" alt="Hot Link" /></a></li>
+                        </ul>
+                        //tab
+                        <div id="lMenuTap01" class="tab_con">
+                            <iframe src="/NsmdG/mk/wmk120_s102/main/?pp=Y" scrolling="no"></iframe>
+                        </div>
+                            <div id="lMenuTap02" class="tab_con hide">
+                            <img src="/static/images/Skin/main/left_00001.gif" width="180" border="0" usemap="#Map" alt="" />
+                            <map name="Map" id="Map">
+                                <area href="javascript:funcGo('/NsmdG/rv/wrv100_u101/main?PROC_FLAG=RSV');" shape="rect" coords="6,12,189,33" alt="RSV. FIT"/>
+                                <area href="javascript:funcGo('/NsmdG/rv/wrv100_u101/main?PROC_FLAG=CHI');" shape="rect" coords="6,39,188,62" alt="C/I. FIT"/>
+                                <area href="javascript:funcGo('/NsmdG/rv/wrv010_s101/main/');" shape="rect" coords="6,71,188,92" alt="RSV. List"/>
+                                <area href="javascript:funcGo('/NsmdG/cp/wcp300_s101/main/');" shape="rect" coords="6,102,190,124" alt="Guest Profile"/>
+                                <area href="javascript:funcGo('/NsmdG/cp/wcp200_s101/main/');" shape="rect" coords="8,132,187,154" alt="Account profile"/>
+                            </map>
+                        </div>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+<!--            <img src="/static/images/logo/logo_L_{{sessionInfo.OfficeNo}}.png" onerror="this.src='/static/images/logo/logo_L_AA000.gif';" alt="" />-->
+            <img src="/static/images/logo/logo_L_AA000.gif" onerror="this.src='/static/images/logo/logo_L_AA000.gif';" alt="" />
+            <img src="/static/images/box/box_operation.png" width="190" alt="" />
+        </div>
+    </div>
+</div>
+
+{% endif %}
