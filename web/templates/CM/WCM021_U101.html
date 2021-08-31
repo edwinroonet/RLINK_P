@@ -1,0 +1,239 @@
+{% extends "CMM/_LayoutMainMaster.html" %}
+{% load i18n %}
+
+{% block head %}
+    <script type="text/javascript">
+        function funcSubmit() {
+            var frm = document.frm
+            if (document.frm.OFFICE_NO.value == "") {
+                alert("{% trans '12288 Please select a hotel.' %}");
+                document.frm.OFFICE_NO.focus();
+                return;
+            }
+
+            if (document.frm.CMS_CD.value == "") {
+                alert("{% trans '12587 Please Input CMS!' %}");
+                document.frm.CMS_CD.focus();
+                return;
+            }
+
+            //if (document.frm.COMP_NO.value == "") {
+            //    alert("Input Account!");
+            //    document.frm.COMP_NO.focus();
+            //    return;
+            //}
+            if (document.frm.COMP_NO.value != "") {
+                if (document.frm.AMT_FLAG.value == "") {
+                    alert("{% trans '12600 Please Input AMT_FLAG' %}");
+                    document.frm.AMT_FLAG.focus();
+                    return;
+                }
+            }
+
+            if (document.frm.COMP_NO.value == "") {
+                if (document.frm.AMT_FLAG.value != "") {
+                    alert("{% trans '12601 No Input AMT_FLAG' %}");
+                    document.frm.AMT_FLAG.focus();
+                    return;
+                }
+            }
+
+            if (document.frm.COMP_DIRECTPAY.value != "") {
+                if (document.frm.AMT_FLAG2.value == "") {
+                    alert("{% trans '12600 Please Input AMT_FLAG' %} 2");
+                    document.frm.AMT_FLAG2.focus();
+                    return;
+                }
+            }
+
+            if (document.frm.COMP_DIRECTPAY.value == "") {
+                if (document.frm.AMT_FLAG2.value != "") {
+                    alert("{% trans '12601 No Input AMT_FLAG' %} 2");
+                    document.frm.AMT_FLAG2.focus();
+                    return;
+                }
+            }
+
+            if (document.frm.COMP_SPECIAL.value != "") {
+                if (document.frm.AMT_FLAG3.value == "") {
+                    alert("{% trans '12600 Please Input AMT_FLAG' %} 3");
+                    document.frm.AMT_FLAG3.focus();
+                    return;
+                }
+            }
+
+            if (document.frm.COMP_SPECIAL.value == "") {
+                if (document.frm.AMT_FLAG3.value != "") {
+                     alert("{% trans '12601 No Input AMT_FLAG' %} 3");
+                    document.frm.AMT_FLAG3.focus();
+                    return;
+                }
+            }
+
+            if (true == confirm("{% trans '10001 Do you want to save?' %}")) {
+                frm.action = "/CM/WCM021_U101"  //frm.action = "/NsmdG/CM/WCM021_U101/mainTran/"
+                frm.submit();
+            }
+        }
+
+        function enterNext(val) {
+            var keyCode = event.keyCode;
+
+            //alert(keyCode);
+            if (keyCode != 13 && keyCode != 9) {
+                //alert(keyCode);
+                return;
+            }
+            else {
+                //
+            }
+
+            if (keyCode == 9) {
+                event.returnValue = false;
+            }
+
+            //엔터키 입력시 포커스 이동 설정
+            if (keyCode == 13 || keyCode == 9) {
+                var tmpVal = val.replaceAll("inputBox", "");
+
+
+                //9번항목 Hidden 필드
+                if (tmpVal == "9") { tmpVal = "10" }
+
+
+                event.returnValue = false;
+                $("#inputBox" + (parseInt(tmpVal) + 1)).focus();
+                $("#inputBox" + (parseInt(tmpVal) + 1)).select();
+            }
+
+        }
+
+        function funcRvAccountSearchOpen(val) {
+            if (val == "1") {
+                url = "/CP/WCP200_S202?pp=Y&OPEN_URL=WCM021_U101&compno=" + $("#COMP_NO").val() + "&OFFICE_NO=" + $("#OFFICE_NO").val()
+                window.open(url, "WCM021_U101", "width=1000, height=600, scrollbar=no");
+
+            } else if (val == "2") {
+                url = "/CP/WCP200_S202?pp=Y&OPEN_URL=WCM021_U101_2&compno=" + $("#COMP_DIRECTPAY").val() + "&OFFICE_NO=" + $("#OFFICE_NO").val()
+                window.open(url, "WCM021_U101", "width=1000, height=600, scrollbar=no");
+            } else {
+                url = "/CP/WCP200_S202?pp=Y&OPEN_URL=WCM021_U101_3&compno=" + $("#COMP_SPECIAL").val() + "&OFFICE_NO=" + $("#OFFICE_NO").val()
+                window.open(url, "WCM021_U101", "width=1000, height=600, scrollbar=no");
+            }
+        }
+    </script>
+{% endblock head %}
+
+{% block content %}
+{% load SetSelectBox1 %}
+    <h2 class="pagetitle">OTA Code</h2>
+    <div class="pageid">CM021 U101</div>
+
+    <div class="info">
+
+        <!-----기본사항 시작----->
+        <form name="frm" method="post" action="WCM021_U101">
+            <input type="hidden" name="tProc" value="{{resultVO.tProc}}">
+            <input type="hidden" name="CMS_CD" value="{{resultVO.CMS_CD}}" />
+            <input type="hidden" name="TL_SOCC" value="{{resultVO.TL_SOCC}}" />
+             <input type="hidden" name="OTA_CD" value="{{resultVO.OTA_CD}}" />
+            <input type="hidden" name="OFFICE_NO" id="OFFICE_NO" value="{{resultVO.OFFICE_NO}}" />
+            <input type="hidden" name="ASSIGN" id="ASSIGN" value="{{resultVO.ASSIGN}}" />
+            <table width="100%" class="f4tblview">
+                <colgroup>
+                    <col width="15%" />
+                    <col />
+                </colgroup>
+                <tr>
+                    <th>CMS</th>
+                    <td colspan="4">
+                        {{resultVO.CMS_NM}}  {{resultVO.OFFICE_NM}}
+                    </td>
+                </tr>
+                <tr>
+                    <th>OTA</th>
+                    <td colspan="2">
+                        {{resultVO.OTA_CD}}  {{resultVO.OTA_NM}}&nbsp;&nbsp;&nbsp;/ {{resultVO.TL_SOCC}}
+                    </td>
+                    <td colspan="2"></td>
+                </tr>
+                <tr>
+                    <th>{% trans "11055 Hotel" %}</th>
+                    <td colspan="4">
+                        <input type="text" name="COMP_NO" id="COMP_NO" value="{{resultVO.COMP_NO}}" style="width: 80px;" />
+                        <img src="/static/images/icoSearch.gif" id="btnAgent" name="btnAgent" align="absmiddle" style="cursor: pointer;" onclick="javascript:funcRvAccountSearchOpen('1');" />
+                        <input type="text" name="COMP_NM" id="COMP_NM" value="{{resultVO.COMP_NM}}" style="width: 250px;" />
+
+                        &nbsp;&nbsp;&nbsp;{% trans "12553 Amount Flag" %}
+                        <select name="AMT_FLAG" id="AMT_FLAG" style="width: 120px;" onblur="chkInjection(this);" onfocus="" tabindex1="34">
+                            {% if resultVO.CMS_CD == "@@@TLLC" %}
+                                {% SetSelectBox1 "AMT_FLAG3" resultVO.AMT_FLAG "--" "" "" request sessionInfo.OfficeNo %}<!-- SELL Only-->
+                            {% else %}
+                                {% SetSelectBox1 "AMT_FLAG" resultVO.AMT_FLAG "--" "" "" request sessionInfo.OfficeNo %}<!--All : 01Net,02Sell, 04 T:Sell.D:Net-->
+                            {% endif %}
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th>{% trans "12561 Direct Pay" %}</th>
+                    <td colspan="4">
+                        <input type="text" name="COMP_DIRECTPAY" id="COMP_DIRECTPAY" value="{{result.COMP_DIRECTPAY}}" style="width: 80px;" />
+                        <img src="/static/images/icoSearch.gif" id="Img1" name="btnAgent" align="absmiddle" style="cursor: pointer;" onclick="javascript:funcRvAccountSearchOpen('2');" />
+                        <input type="text" name="COMP_NM2" id="COMP_NM2" value="{{result.COMP_NM2}}" style="width: 250px;" />
+
+                        &nbsp;&nbsp;&nbsp;{% trans "12553 Amount Flag" %}
+                        <select name="AMT_FLAG2" id="AMT_FLAG2" style="width: 120px;" onblur="chkInjection(this);" onfocus="" tabindex1="34">
+                            {% if resultVO.CMS_CD == "@@@TLLC" %}
+                                {% SetSelectBox1 "AMT_FLAG3" resultVO.AMT_FLAG2 "--" "" "" request sessionInfo.OfficeNo %}<!-- SELL Only-->
+                            {% else %}
+                                {% SetSelectBox1 "AMT_FLAG" resultVO.AMT_FLAG2 "--" "" "" request sessionInfo.OfficeNo %}<!--All : 01Net,02Sell, 04 T:Sell.D:Net-->
+                            {% endif %}
+                        </select>
+
+                    </td>
+                </tr>
+                <tr>
+                    <th>{% trans "12560 Special" %}</th>
+                    <td colspan="4">
+                        <input type="text" name="COMP_SPECIAL" id="COMP_SPECIAL" value="{{resultVO.COMP_SPECIAL}}" style="width: 80px;" />
+                        <img src="/static/images/icoSearch.gif" id="Img2" name="btnAgent" align="absmiddle" style="cursor: pointer;" onclick="javascript:funcRvAccountSearchOpen('3');" />
+                        <input type="text" name="COMP_NM3" id="COMP_NM3" value="{{resultVO.COMP_NM3}}" style="width: 250px;" />
+
+                        &nbsp;&nbsp;&nbsp;{% trans "12553 Amount Flag" %}
+                        <select name="AMT_FLAG3" id="AMT_FLAG3" style="width: 120px;" onblur="chkInjection(this);" onfocus="" tabindex1="34">
+                            {% if resultVO.CMS_CD == "@@@TLLC" %}
+                                {% SetSelectBox1 "AMT_FLAG3" resultVO.AMT_FLAG3 "--" "" "" request sessionInfo.OfficeNo %}<!-- SELL Only-->
+                            {% else %}
+                                {% SetSelectBox1 "AMT_FLAG" resultVO.AMT_FLAG3 "--" "" "" request sessionInfo.OfficeNo %}<!--All : 01Net,02Sell, 04 T:Sell.D:Net-->
+                            {% endif %}
+                        </select>
+                        <BR/><BR/>
+                        {% trans "11650 Memo" %}&nbsp;<textarea name="SPECIAL_MEMO" rows="1" style="width: 522px;">{{resultVO.SPECIAL_MEMO}}</textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <th>{% trans "11712 Remark" %}</th>
+                    <td colspan="4">
+                        <textarea name="remark" rows="3" style="width: 562px;">{{resultVO.remark}}</textarea>
+                    </td>
+                </tr>
+                {% if resultVO.tProc == "EDIT" %}
+                <tr>
+                    <th>{% trans "12087 Hotel" %}</th>
+                    <td>{{resultVO.Input_User}}</td>
+                    <td></td>
+                    <th>{% trans "12310 Update" %}</th>
+                    <td>{{resultVO.Update_User}}</td>
+                </tr>
+                {% endif %}
+
+                <tr>
+                    <td colspan="5" align="center">
+                        <input type="button" class="RLINK_button62" onclick="funcSubmit();" value="{% trans '12503 Save' %}" id="noprint" border="0" />
+                        <a onclick="parent.$('#dialog').dialog('close');"><input type="button" class="RLINK_button62" onclick="funcClose();" value="{% trans '12405 Close' %}" id="noprint" border="0" /></a>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+{% endblock content %}

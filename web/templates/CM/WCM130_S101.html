@@ -1,0 +1,294 @@
+{% extends "CMM/_LayoutMainMaster.html" %}
+{% load i18n %}
+
+{% block head %}
+<script type="text/javascript">
+    function funcAdd() {
+        funcDialogSet(700, 700, 330)
+        var iFrame = $('#iframe1')
+        iframe1.location.href = "/CM/WCM130_U101?pp=Y&SEARCH_CMS="+$("#CMS_CD").val()+"&OFFICE_NO="+$("#OFFICE_NO").val();
+        $('#iframe1').css('height', $('#dialog').height() - 5);
+        $('#iframe1').css('width', $('#dialog').width() - 0);
+        //window.open("/NsmdG/CM/WCM130_U101/main/?pp=Y&SEARCH_CMS="+$("#CMS_CD").val()+"&OFFICE_NO="+$("#OFFICE_NO").val(), "mngOfficeStaffA", cnjOpenShape(700, 330, 'no'));
+    }
+
+    function funcEdit() {
+        var f = document.frm;
+        var field = f.userIdx;
+        if (field == undefined) {
+            alert("{% trans '10003 Please, Select record.' %}")
+            return;
+        } else if (field.length == undefined) {
+            if (field.checked) {
+                funcDialogSet(700, 700, 355)
+                var iFrame = $('#iframe1')
+                iframe1.location.href = "/CM/WCM130_U101?pp=Y&CMS_CD=" + field.value + "&O_URL=/CM/WCM130_S101";
+                $('#iframe1').css('height', $('#dialog').height() - 5);
+                $('#iframe1').css('width', $('#dialog').width() - 0);
+                //window.open("/NsmdG/CM/WCM130_U101/main/?pp=Y&CMS_CD=" + field.value + "&O_URL=/NsmdG/CM/WCM130_S101/main/", "mngOfficeStaffA", cnjOpenShape(700, 355, 'no'));
+            } else {
+                alert("{% trans '10003 Please, Select record.' %}")
+                return;
+            }
+        } else {
+            var checkflag2 = 0;
+            var checkflag3 = "";
+            for (i = 0; i < field.length; i++) {
+                if (field[i].checked) {
+                    checkflag2 = checkflag2 + 1;
+                    checkflag3 = i;
+                }
+            }
+            if (checkflag2 == 1) {
+                funcDialogSet(700, 700, 355)
+                var iFrame = $('#iframe1')
+                iframe1.location.href = "/CM/WCM130_U101?pp=Y&CMS_CD=" + field[checkflag3].value + "&O_URL=/CM/WCM130_S101";
+                $('#iframe1').css('height', $('#dialog').height() - 5);
+                $('#iframe1').css('width', $('#dialog').width() - 0);
+                //window.open("/NsmdG/CM/WCM130_U101/main/?pp=Y&CMS_CD=" + field[checkflag3].value + "&O_URL=/NsmdG/CM/WCM130_S101/main/", "mngOfficeStaffA", cnjOpenShape(700, 355, 'no'));
+            } else {
+                alert("{% trans '10003 Please, Select record.' %}")
+                return;
+            }
+        }
+    }
+
+            function funcDel() {
+                var f = document.frm;
+                var field = f.userIdx;
+                f.TPROC.value = "DEL";
+
+                if (field == undefined) {
+                    alert("{% trans '10003 Please, Select record.' %}")
+                    return;
+                } else if (field.length == undefined) {
+                    if (field.checked) {
+                             if (true == confirm("{% trans '11026 Do you want to delete selected data?' %}")) {
+                                f.action = "/CM/WCM130_S101";   //f.action = "/NsmdG/CM/WCM130_S101/mainTran/";
+                                f.submit();
+                            }
+                        } else {
+                            alert("{% trans '10003 Please, Select record.' %}")
+                            return;
+                        }
+                    } else {
+                        var checkflag2 = "false"
+                        for (i = 0; i < field.length; i++) {
+                            if (field[i].checked) {
+                                checkflag2 = "true"
+                            }
+                        }
+                        if (checkflag2 == "true") {
+                                 if (true == confirm("{% trans '11026 Do you want to delete selected data?' %}")) {
+                                    f.action = "/CM/WCM130_S101";   //f.action = "/NsmdG/CM/WCM130_S101/mainTran/";
+                                    f.submit();
+                                }
+                            } else {
+                                alert("{% trans '10003 Please, Select record.' %}")
+                                return;
+                            }
+                        }
+                    }
+
+
+    function funcSearch() {
+        var f = document.searchform
+        f.submit();
+    }
+    function keydown_handler(e) {
+        if (window.event.keyCode == 13) //Only for Microsoft Internet Explorer
+        {
+            funcSearch()
+            return false;
+        }
+    }
+
+
+    $(document).ready(function () {
+        $('body').keydown(function () {
+            var keyCode = event.keyCode;
+            //F2
+            if (keyCode == 113) {
+                funcSearch('');
+            }
+            if (keyCode == 117) {
+                funcAdd();
+            }
+        });
+    });
+
+    var iFrameTem = "<iframe name=\"iframe1\" id=\"iframe1\" src=\"\" width=\"100%\" height=\"\" frameborder=\"0\" scrolling=\"no\" onload=\"\"></iframe>"
+    function funcDialogSet(valWidth1, valWidth2, valHeight) {
+        //Dialog 세팅
+        $('#dialog').dialog({
+            autoOpen: false,
+            width: valWidth1,
+            css: true
+        });
+
+        $('#dialog').empty();
+        $('#dialog').html(iFrameTem);
+
+        $('#dialog').dialog('open');
+
+        $('#dialog').width(valWidth2);
+        $('#dialog').height(valHeight);
+    }
+    </script>
+{% endblock head %}
+
+{% block content %}
+    <div id="dialog" title="" style="padding:0 0 0 0"></div>
+    <h2 class="pagetitle">CMS {% trans "12551 Channel" %}</h2>
+     <div class="pageid" id="noprint">CM130 S101</div>
+    <!-- excel 다운로드용 start -->
+    <form name="exfrm" method="post" action="/CMM/excel_02" target="_self">
+        <input type="hidden" name="ex_sql" value="{{resultVO.ex_sql}}">
+        <input type="hidden" name="ex_title" value="{{resultVO.ex_title}}">
+        <input type="hidden" name="ex_cond" value="{{resultVO.ex_cond}}">
+        <input type="hidden" name="ex_head" value="{{resultVO.ex_head}}">
+        <input type="hidden" name="ex_datatype" value="{{resultVO.ex_datatype}}">
+        <input type="hidden" name="ex_column" value="{{resultVO.ex_column}}">
+        <input type="hidden" name="ex_page" value="/CM/WCM130_S101">
+    </form>
+    <!-- excel 다운로드용 end -->
+    <div class="search">
+        <form name="searchform" method="get" action="/CM/WCM130_S101">
+            <input type="hidden" name="bOpened" value="true">
+            <table>
+                <tr>
+                    <td align="right">{% trans "11003 Hotel" %}
+                    </td>
+                    <td>
+                        <select name="OFFICE_NO" id="OFFICE_NO" style="ime-mode: active; width: 200px;" onchange="funcSearch()">
+                            {% load SetSelectBox2 %}
+                            {% SetSelectBox2 "Office_No" resultVO.OFFICE_NO "" "" "" request sessionInfo.OfficeNo %}
+                        </select>
+                    </td>
+                    <td align="right">CMS&nbsp;</td>
+                    <td>
+                        <select name="CMS_CD" id="CMS_CD" style="width: 150px;" onblur="chkInjection(this);" onfocus="" tabindex1="34" onchange="funcSearch()">
+                            {% load SetSelectBox1 %}
+                            {% SetSelectBox1 "CMS_CD" resultVO.CMS_CD "--" "" "" request sessionInfo.OfficeNo %}
+                        </select>
+                    </td>
+
+                    <td align="right">
+                        <!--<%&#45;&#45;<input type="button" class="RLINK_button82" onclick="funcSearch();" value="<%=RLINK.GetConvertText(11540, "Search")%>(F2)" id="noprint" border="0" />&#45;&#45;%>
+                        <%' If ViewData("sessionInfo").LoginLevel >= "SA" Or ViewData("sessionInfo").HTLGRP_AUTHCD = "HTLALL" Then '운영자및 사이트 통합이용자용 %>
+                        <input type="button" class="RLINK_button62" onclick="funcAdd();" value="<%=RLINK.GetConvertText(12501, "Add")%>" id="noprint" border="0" />
+                        <%' End If%>-->
+                        <input type="button" class="RLINK_button62" onclick="funcEdit();" value="{% trans '12502 Modify' %}" id="noprint" border="0" />
+                        <!--<%' If ViewData("sessionInfo").LoginLevel >= "SA" Or ViewData("sessionInfo").HTLGRP_AUTHCD = "HTLALL" Then '운영자및 사이트 통합이용자용 %>
+                        <input type="button" class="RLINK_button62" onclick="funcDel();" value="<%=RLINK.GetConvertText(11664, "Delete")%>" id="noprint" border="0" />
+                        <%' End If%>-->
+                        <a href="javascript:document.exfrm.submit();">
+                            <img src="/static/images/icons/xls.gif" id="noprint"></a>
+                        <a href="javascript:printWindow('', '', 0, 0, 20, 0, 1, '');">
+                            <img src="/static/images/icons/icoprint.gif" /></a>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+    <div class="info" style="width:690px">
+        <table class="f4tbl" valign="top">
+            <tr>
+                <td valign="middle" colspan="6" class="txt_text1">
+                    <!--총 <%=recordCount%>건-->
+                </td>
+                <td valign="top"></td>
+                <td align="right" valign="top">
+                    <!--<%&#45;&#45; Last Update Check :&#45;&#45;%> <%'= ApiLastUpdateDate%>-->&nbsp;
+                </td>
+            </tr>
+        </table>
+        <form name="frm" method="post">
+            <input type="hidden" name="TPROC" value="">
+            <input type="hidden" name="O_URL" value="/CM/WCM130_S101">  <!-- -->
+            <table class="f4tbl" style="width: 770px">
+                <colgroup>
+                    <col width="30" />
+                    <col width="30" />
+                    <col />
+                    <col />
+                    <col />
+                    <col />
+                    <col />
+                    <col width="40" />
+                    <col width="80" />
+                    <col width="*" />
+                </colgroup>
+                <tr align="center" bgcolor="#eef7fe">
+                    <th>
+                        <input type="checkbox" onclick="chkboxall();"></th>
+                    <th>No</th>
+                    <th>CMS</th>
+                    <th>{% trans "11668 Channel" %}</th>
+                    <th>{% trans "12633 채널명" %}</th>
+
+                    <!--<%&#45;&#45;<th><%If PMSLANG = "K" Then%>별칭<% Else%>Nick Name<%End if %></th>
+                <th><%If PMSLANG = "K" Then%>Auth Cd<% Else%>Auth Cd<%End if %></th>&#45;&#45;%>-->
+
+
+                    <!--<%&#45;&#45;<td  width="80">User ID</td>&#45;&#45;%>-->
+                    <th>{% trans "11668 use" %}</th>
+                    <!--<%&#45;&#45;<td  width="80">Insert</td>&#45;&#45;%>-->
+                    <th>{% trans "11050 Entry" %}</th>
+                    <th>{% trans "12310 Update" %}</th>
+                </tr>
+                {% if resultVO.recordCount == 0 %}
+                <tr align="center" id="tr0">
+                    <td height="20" colspan="10">{% trans "10007 No Data" %}
+                    </td>
+                </tr>
+                {% else %}
+                    {% for rs in resultrs %}
+                    <tr align="center" id="tr{{forloop.counter}}" onmouseover="cellOver(this)" onmouseout="cellOut(this)">
+                        <td>
+                            <input type="checkbox" name="userIdx" value="{{rs.CMS_CD}}|{{rs.OFFICE_NO}}|{{rs.CHNL_NO}}" onclick="chkboxcel('tr{{forloop.counter}}', this);"></td>
+                        <td align="center">{{resultVO.recnum|add:forloop.counter}}</td>
+                        <td align="center">{{rs.CMS_ENM}}</td>
+                        <td align="center">{{rs.CHNL_NO}}</td>
+                        <td align="left">{{rs.CHNL_NM}}</td>
+                        <!--<%&#45;&#45;<td align="left"><%=rs("CHNL_NICKNM").value.ToString%></td>
+                        <td align="center"><%=rs("AUTH_CD").value.ToString%></td>&#45;&#45;%>-->
+                        <!--<%&#45;&#45;<td align="left"><%'=rs("INSERT_ID").value.ToString%></td>&#45;&#45;%>-->
+                        <td align="center">{{rs.USE_FLAG}</td>
+                        <!--<%&#45;&#45;<td align="left"><%'=rs("INSERT_ID").value.ToString%></td>&#45;&#45;%>-->
+                        {% load Trim %}
+                        <td align="center">{{rs.insert_date|Trim|slice:"0:10"}}</td>
+                        <td align="center">{{rs.update_date|Trim|slice:"0:10"}}</td>
+                    </tr>
+                    {% endfor %}
+                {% endif %}
+            </table>
+            <div class="pagging">
+                {% load blockpage %}
+                {% with blockpage=resultVO.Gotopage|blockpage %}
+                {% if blockpage == 1 %}
+                <img src="/static/images/btn/btn_pre_off.gif" border="0" align="absmiddle">
+                {% else %}
+                <a href="/CM/WCM130_S101?gotopage={{blockpage|add:-10}}&pagesize={{resultVO.pagesize}}{{strParam}}"><img src="/static/images/btn/btn_pre_on.gif" border="0" align=absmiddle"></a>
+                {% endif %}
+                {% with ''|center:10 as range %}
+                {% for k in range %}
+                    {% if not blockpage|add:forloop.counter0 > resultVO.pagecount %}
+                        {% if blockpage|add:forloop.counter0 == resultVO.Gotopage %}
+                        <font style="font-size: 12px; color: red"><b>[{{blockpage|add:forloop.counter0}}]</b></font>
+                        {% else %}
+                        <a href='/CM/WCM130_S101?gotopage={{blockpage|add:forloop.counter0}}&pagesize={{resultVO.pagesize}}{{strParam}}'><font style="font-size: 9pt; color:#666666">{{blockpage|add:forloop.counter0}}</font></a>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+                {% endwith %}
+                {% if blockpage <= resultVO.pagecount %}
+                <img src="/static/images/btn/btn_next_off.gif" border="0" align="absmiddle">
+                {% else %}
+                <a href="/CM/WCM130_S101?gotopage={{blockpage}}&pagesize={{resultVO.pagesize}}{{strParam}}"><img src="/static/images/btn/btn_next_on.gif" border="0" align="absmiddle"></a>
+                {% endif %}
+                {% endwith %}
+            </div>
+        </form>
+    </div>
+{% endblock content %}

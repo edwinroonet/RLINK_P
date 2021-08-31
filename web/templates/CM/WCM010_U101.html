@@ -6,17 +6,17 @@
         function funcSubmit() {
 
             if (document.frm.CMS_CD.value == "") {
-                alert("{% trans "Please, Enter code." %}");
+                alert("{% trans '11218 Please, Enter code.' %}");
                 document.frm.CMS_CD.focus();
                 return;
             }
             if (document.frm.CMS_NM.value == "") {
-               alert("{% trans "Please, Enter Name." %}(kor)");
+               alert("{% trans '10004 Please, Enter Name.' %}(kor)");
                 document.frm.CMS_NM.focus();
                 return;
             }
 
-            if (true == confirm("{% trans "Do you want to save?" %}")) {
+            if (true == confirm("{% trans '10001 Do you want to save?' %}")) {
                 frm.action = "/CM/WCM010_U101"
                 //"/CM/WCM010_U101/mainTran/"
                 frm.submit();
@@ -59,7 +59,7 @@
     </script>
 {% endblock head %}
 
-{% block body %}
+{% block content %}
 <!--
     <%
         Dim _commonFunction As New RLINK.CommonFunction(ViewContext.HttpContext, ViewData("sessionInfo").officeNo)
@@ -67,7 +67,7 @@
 
     %>
 -->
-    <h2 class="pagetitle"><%=RLINK.GetConvertText(12540, "Master")%></h2>
+    <h2 class="pagetitle">{% trans "12540 Master" %}</h2>
     <div class="pageid" id="noprint">CM010 U101</div>
 
     <div class="info">
@@ -82,13 +82,13 @@
                     <col width="36%" />
                 </colgroup>
                 <tr>
-                    <th>{% trans "Code" %}
+                    <th>{% trans "11053 Code" %}
                     </th>
                     <td>
                         <input type="text" name="CMS_CD" maxlength="10" style="width: 70px" value="{{resultVO.CMS_CD}}" {% if resultVO.tProc == "EDIT" %} readonly="readonly" {% endif %}>
                     </td>
                     <td width="2%"></td>
-                    <th>{% trans "Use" %}  </th>
+                    <th>{% trans "11668 Use" %}  </th>
                     <td>
                         <select id="Select1" name="use_flag" style="width: 40px;">
                             <option {% if resultVO.use_flag == "Y" %}selected {% endif %} value="Y">Y</option>
@@ -97,12 +97,12 @@
                     </td>
                 </tr>
                 <tr>
-                    <th>{% trans "Name" %}(kor)  </th>
+                    <th>{% trans "12225 Name" %}(kor)  </th>
                     <td>
                         <input type="text" name="CMS_NM" onblur="chkInjection(this,100)" style="width: 100px" value="{{resultVO.CMS_NM}}">
                     </td>
                     <td></td>
-                    <th>{% trans "Contract" %}  </th>
+                    <th>{% trans "12539 Contract" %}  </th>
                     <td>
                         <select id="CONTRACT_YN" name="CONTRACT_YN" style="width: 40px;">
                             <option {% if resultVO.CONTRACT_YN == "Y" %}selected {% endif %} value="Y">Y</option>
@@ -111,12 +111,12 @@
                     </td>
                 </tr>
                 <tr>
-                    <th>{% trans "Name" %}(Eng)  </th>
+                    <th>{% trans "12225 Name" %}(Eng)  </th>
                     <td>
                         <input type="text" name="CMS_ENM" onblur="chkInjection(this,100)" style="width: 100px" value="{{resultVO.CMS_ENM}}">
                     </td>
                     <td></td>
-                    <th>{% trans "Master" %}  </th>
+                    <th>{% trans "11950 Master" %}  </th>
                     <td>
                         <input type="text" class="inputText maskdate" style="width: 80px; background-color: #ffcef4; font-weight: bold; color: #f0177e; ime-mode: disabled;" name="CONTRACT_START" value="{{resultVO.CONTRACT_START}}" />
                         ~
@@ -124,34 +124,34 @@
                     </td>
                 </tr>
                 <tr>
-                    <th>{% trans "Office Tel" %}  </th>
+                    <th>{% trans "11985 Office Tel" %}  </th>
                     <td>
                         <input type="text" name="TEL_NO" onblur="chkInjection(this,50)" style="width: 100px" value="{{resultVO.TEL_NO}}">
                     </td>
                     <td></td>
-                    <th>>{% trans "Fax" %} </th>
+                    <th>>{% trans "11057 Fax" %} </th>
                     <td>
                         <input type="text" name="FAX_NO" onblur="chkInjection(this,50)" style="width: 100px" value="{{resultVO.FAX_NO}}">
                     </td>
                 </tr>
                 <tr>
-                    <th>{% trans "Incharge Name" %}  </th>
+                    <th>{% trans "12250 Incharge Name" %}  </th>
                     <td>
                         <input type="text" name="INCHARGE_NM" onblur="chkInjection(this,50)" style="width: 100px" value="{{resultVO.INCHARGE_NM}}">
                     </td>
                     <td></td>
-                    <th>{% trans "Tel" %} </th>
+                    <th>{% trans "11056 Tel" %} </th>
                     <td>
                         <input type="text" name="INCHARGE_TEL" onblur="chkInjection(this,50)" style="width: 100px" value="{{resultVO.INCHARGE_TEL}}">
                     </td>
                 </tr>
                 <tr>
-                    <th>{% trans "Email" %}  </th>
+                    <th>{% trans "12541 Email" %}  </th>
                     <td>
                         <input type="text" name="INCHARGE_EMAIL" onblur="chkInjection(this,100)" style="width: 300px" value="{{resultVO.INCHARGE_EMAIL}}">
                     </td>
                     <td></td>
-                    <th>Fax{% trans "Fax" %} </th>
+                    <th>Fax{% trans "11057 Fax" %} </th>
                     <td>
                         <input type="text" name="INCHARGE_FAX" onblur="chkInjection(this,50)" style="width: 100px" value="{{resultVO.INCHARGE_FAX}}">
                     </td>
@@ -172,14 +172,14 @@
                             </tr>
                             <tr>
                                 <th align="right" height="27" bgcolor="#F7F0F8" class="txt_roomviwe">
-                                    {% trans "Server Ip" %}
+                                    {% trans "12542 Server Ip" %}
                                 </th>
                                 <td   colspan="4">
 
                                     <input type="text" name="SERVER_IP" class="inputText"  onBlur="chkInjection(this,10)" style="width:100px" value="{{resultVO.SERVER_IP}}">
-                                    {% trans "Port" %}
+                                    {% trans "12543 Port" %}
                                     <input type="text" name="SERVER_PORT" class="inputText"  onBlur="chkInjection(this,30)" style="width:100px" value="{{resultVO.SERVER_PORT}}">
-                                    {% trans "Catalog" %}
+                                    {% trans "12544 Catalog" %}
                                     <input type="text" name="CATALOG" class="inputText"  onBlur="chkInjection(this,30)" style="width:100px" value="{{resultVO.CATALOG}}">
 
                                 </td>
@@ -196,7 +196,7 @@
                             </tr>
                             <tr>
                                 <th align="right">
-                                    API URL{% trans "Master" %}
+                                    API URL{% trans "12540 Master" %}
                                 </th>
                                 <td colspan="4">
                                     <input type="text" name="API_URL" class="inputText"  onBlur="chkInjection(this,255)" style="width:500px" value="{{resultVO.API_URL}}">
@@ -206,7 +206,7 @@
 
 
                 <tr>
-                    <th>{% trans "Remark" %} </th>
+                    <th>{% trans "11712 Remark" %} </th>
                     <td colspan="4">
                         <textarea name="remark" rows="3" style="width: 500px;">{{resultVO.remark}}</textarea>
                     </td>
@@ -214,13 +214,13 @@
                 </tr>
                 {% if resultVO.tProc == "EDIT" %}
                 <tr>
-                    <th> {% trans "Input" %}
+                    <th> {% trans "12087 Input" %}
                     </th>
                     <td>
                         {{resultVO.Input_User}}
                     </td>
                     <td></td>
-                    <th> {% trans "Update" %}
+                    <th> {% trans "12310 Update" %}
                     </th>
                     <td>
                         {{resultVO.Update_User}}
@@ -231,11 +231,11 @@
             <table width="100%">
                 <tr  align="center">
                     <td colspan="5">
-                       <input type="button" class="RLINK_button62" onclick="funcSubmit();" value="{% trans 'Save' %}" id="noprint" border="0" />
+                       <input type="button" class="RLINK_button62" onclick="funcSubmit();" value="{% trans '12503 Save' %}" id="noprint" border="0" />
                         <a onclick="parent.$('#dialog').dialog('close');"><input type="button" class="RLINK_button62" onclick="funcClose();" value="{% trans 'Close' %}" id="noprint" border="0" /></a>
                     </td>
                 </tr>
             </table>
         </form>
     </div>
-{% endblock body %}
+{% endblock content %}

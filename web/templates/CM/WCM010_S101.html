@@ -1,11 +1,12 @@
 {% extends "CMM/_LayoutMainMaster.html" %}
+{% load i18n %}
 
 {% block head %}
     <script>
         function funcAdd() {
             funcDialogSet(900, 900, 480)
             var iFrame = $('#iframe1')
-            iframe1.location.href = "/CM/WCM010_U101/main/?pp=Y";
+            iframe1.location.href = "/CM/WCM010_U101?pp=Y";
             $('#iframe1').css('height', $('#dialog').height() - 5);
             $('#iframe1').css('width', $('#dialog').width() - 0);
            // open("/CM/WCM010_U101/main/?pp=Y", "mngOfficeStaffA", cnjOpenShape(900, 480, 'no'));
@@ -15,18 +16,18 @@
             var f = document.frm;
             var field = f.userIdx;
             if (field == undefined) {
-                alert("<%=RLINK.GetConvertText(10003, "Please, Select record.")%>")
+                alert("{% trans '10003 Please, Select record.' %}")
                 return;
             } else if (field.length == undefined) {
                 if (field.checked) {
                     funcDialogSet(900, 900, 480)
                     var iFrame = $('#iframe1')
-                    iframe1.location.href = "/CM/WCM010_U101/main/?pp=Y&CMS_CD=" + field.value + "&O_URL=/CM/WCM010_S101/main/";
+                    iframe1.location.href = "/CM/WCM010_U101?pp=Y&CMS_CD=" + field.value + "&O_URL=/CM/WCM010_S101";
                     $('#iframe1').css('height', $('#dialog').height() - 5);
                     $('#iframe1').css('width', $('#dialog').width() - 0);
                     //open("/CM/WCM010_U101/main/?pp=Y&CMS_CD=" + field.value + "&O_URL=/CM/WCM010_S101/main/", "mngOfficeStaffA", cnjOpenShape(900, 500, 'no'));
                 } else {
-                    alert("<%=RLINK.GetConvertText(10003, "Please, Select record.")%>")
+                    alert("{% trans '10003 Please, Select record.' %}")
                     return;
                 }
             } else {
@@ -41,12 +42,12 @@
                 if (checkflag2 == 1) {
                     funcDialogSet(900, 900, 480)
                     var iFrame = $('#iframe1')
-                    iframe1.location.href = "/CM/WCM010_U101/main/?pp=Y&CMS_CD=" + field[checkflag3].value + "&O_URL=/CM/WCM010_S101/main/";
+                    iframe1.location.href = "/CM/WCM010_U101?pp=Y&CMS_CD=" + field[checkflag3].value + "&O_URL=/CM/WCM010_S101";
                     $('#iframe1').css('height', $('#dialog').height() - 5);
                     $('#iframe1').css('width', $('#dialog').width() - 0);
                     //open("/CM/WCM010_U101/main/?pp=Y&CMS_CD=" + field[checkflag3].value + "&O_URL=/CM/WCM010_S101/main/", "mngOfficeStaffA", cnjOpenShape(900, 500, 'no'));
                 } else {
-                    alert("<%=RLINK.GetConvertText(10003, "Please, Select record.")%>");
+                    alert("{% trans '10003 Please, Select record.' %}");
                     return;
                 }
             }
@@ -58,16 +59,16 @@
             f.TPROC.value = "DEL";
 
             if (field == undefined) {
-                alert("<%=RLINK.GetConvertText(10003, "Please, Select record.")%>")
+                alert("{% trans '10003 Please, Select record.' %}")
                 return;
             } else if (field.length == undefined) {
                 if (field.checked) {
-                    if (true == confirm("<%=RLINK.GetConvertText(11026, "Do you want to delete selected data?")%>")) {
+                    if (true == confirm("{% trans '11026 Do you want to delete selected data?' %}")) {
                         f.action = "/CM/WCM010_S101/mainTran/"
                         f.submit();
                     }
                 } else {
-                    alert("<%=RLINK.GetConvertText(10003, "Please, Select record.")%>")
+                    alert("{% trans '10003 Please, Select record.' %}")
                     return;
                 }
             } else {
@@ -78,12 +79,12 @@
                     }
                 }
                 if (checkflag2 == "true") {
-                    if (true == confirm("<%=RLINK.GetConvertText(11026, "Do you want to delete selected data?")%>")) {
+                    if (true == confirm("{% trans '11026 Do you want to delete selected data?' %}")) {
                         f.action = "/CM/WCM010_S101/mainTran/"
                         f.submit();
                     }
                 } else {
-                    alert("<%=RLINK.GetConvertText(10003, "Please, Select record.")%>");
+                    alert("{% trans '10003 Please, Select record.' %}");
                     return;
                 }
             }
@@ -162,7 +163,7 @@
     %>
 -->
     <div id="dialog" title="" style="padding:0 0 0 0"></div>
-    <h2 class="pagetitle"><%=RLINK.GetConvertText(12540, "Master")%></h2>
+    <h2 class="pagetitle">{% trans "12540 Master CMS" %}</h2>
     <div class="pageid" id="noprint">CM010 S101</div>
     <!-- excel 다운로드용 start -->
 
@@ -175,24 +176,24 @@
         <input type="hidden" name="ex_column" value="{{ex_column}}">
         <input type="hidden" name="ex_page" value="/CM/WCM010_S101/main/">
     </form>
-    <%--    <a href="javascript:document.exfrm.submit();">
-        <img src="/static/images/xls.gif"></a>--%>
+    <!--<%--    <a href="javascript:document.exfrm.submit();">
+        <img src="/static/images/xls.gif"></a>--%>-->
     <!-- excel 다운로드용 end -->
 
     <div class="search">
         <form name="searchform" method="get" action="/CM/WCM010_S101/main/">
             <table width="100%">
                 <tr>
-                    <td width="100" align="right">CMS <%=RLINK.GetConvertText(12225, "Name")%>
+                    <td width="100" align="right">CMS {% trans "12225 Name" %}
                     </td>
                     <td width="110">
-                        <input type="text" name="CMS_NM" value="<%=CMS_NM%>" style="ime-mode: active;" onblur="injectioncheck(this)" size="20">
+                        <input type="text" name="CMS_NM" value="{{resultVO.CMS_NM}}" style="ime-mode: active;" onblur="injectioncheck(this)" size="20">
                     </td>
                     <td style="padding-right: 2px; padding-left: 2px; text-align: right">
-                        <input type="button" class="RLINK_button82" onclick="funcSearch();" value="{% trans 'Search' %}(F2)" id="noprint" border="0" />
-                        <input type="button" class="RLINK_button62" onclick="funcAdd();" value="{% trans 'Add' %}" id="noprint" border="0" />
-                        <input type="button" class="RLINK_button62" onclick="funcEdit();" value="{% trans 'Modify' %}" id="noprint" border="0" />
-                        <input type="button" class="RLINK_button62" onclick="funcDel();" value="{% trans 'Delete' %}" id="noprint" border="0" />
+                        <input type="button" class="RLINK_button82" onclick="funcSearch();" value="{% trans '11540 Search' %}(F2)" id="noprint" border="0" />
+                        <input type="button" class="RLINK_button62" onclick="funcAdd();" value="{% trans '12501 Add' %}" id="noprint" border="0" />
+                        <input type="button" class="RLINK_button62" onclick="funcEdit();" value="{% trans '12502 Modify' %}" id="noprint" border="0" />
+                        <input type="button" class="RLINK_button62" onclick="funcDel();" value="{% trans '11664 Delete' %}" id="noprint" border="0" />
                         <a href="javascript:document.exfrm.submit();">
                             <img src="/static/images/icons/xls.gif" id="noprint"></a>
                         <a href="javascript:printWindow('', '', 0, 0, 20, 0, 1, '');">
@@ -219,23 +220,23 @@
     <div class="info">
         <form name="frm" method="post" action="">
             <input type="hidden" name="TPROC" value="">
-            <input type="hidden" name="O_URL" value="/EBANK/CM/WCM010_S101/main/">
+            <input type="hidden" name="O_URL" value="/CM/WCM010_S101"> <!-- value="/EBANK/CM/WCM010_S101/main/" -->
 
             <table width="100%" border="0" cellspacing="1" cellpadding="0" bgcolor="#C0C0C0" class="f4tbl">
                 <tr>
                     <th width="30">
                         <input type="checkbox" onclick="chkboxall();"></th>
                     <th width="30" height="25">NO</th>
-                    <th width="100"><%=RLINK.GetConvertText(11053, "Cdoe")%></th>
-                    <th width="330">Cms <%=RLINK.GetConvertText(12225, "Name")%></th>
-                    <th width="70"><%=RLINK.GetConvertText(11668, "Contract")%></th>
-                    <th width="50"><%=RLINK.GetConvertText(11540, "Use")%></th>
-                    <th width="80"><%=RLINK.GetConvertText(12250, "Insert")%></th>
-                    <th width="*"><%=RLINK.GetConvertText(11952, "Insert Date")%></th>
+                    <th width="100">{% trans "11053 Code" %}</th>
+                    <th width="330">Cms {% trans "12225 Name" %}</th>
+                    <th width="70">{% trans "11668 Use" %}</th>
+                    <th width="50">{% trans "11540 Search" %}</th>
+                    <th width="80">{% trans "12250 Modify" %}</th>
+                    <th width="*">{% trans "11952 Insert Date" %}</th>
                 </tr>
                 {% if resultVO.recordCount == 0 %}
                 <tr id="tr0" bgcolor="#FEFEFE">
-                    <td height="20" colspan="8"><%=RLINK.GetConvertText(10007, "No Data")%>
+                    <td height="20" colspan="8">{% trans "10007 No data." %}
                     </td>
                 </tr>
                 {% else %}
@@ -258,6 +259,7 @@
                         <td>{{rs.CONTRACT_YN}}</td>
                         <td>{{rs.USE_FLAG}}</td>
                         <td>{{rs.insert_id}}</td>
+                        {% load Trim %}
                         <td align="left">{{rs.insert_date|Trim}}</td>
                     </tr>
                     {% endfor %}
@@ -269,6 +271,7 @@
                 %>-->
                 <tr bgcolor="#F7F7F7" align="right">
                     <td id="noprint" colspan="20">
+                        {% load blockpage %}
                         {% with blockpage=resultVO.Gotopage|blockpage %}
                         {% if blockpage == 1 %}
                         <img src="/static/images/btn/btn_pre_off.gif" border="0" align="absmiddle">
@@ -286,7 +289,7 @@
                             {% endif %}
                         {% endfor %}
                         {% endwith %}
-                        {% if blockpage > resultVO.pagecount %}
+                        {% if blockpage <= resultVO.pagecount %}
                         <img src="/static/images/btn/btn_next_off.gif" border="0" align="absmiddle">
                         {% else %}
                         <a href="/CM/WCM010_S101?gotopage={{blockpage}}&pagesize={{resultVO.pagesize}}{{strParam}}"><img src="/static/images/btn/btn_next_on.gif" border="0" align="absmiddle"></a>

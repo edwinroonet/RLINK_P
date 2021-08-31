@@ -1,0 +1,164 @@
+{% extends "CMM/_LayoutMainMaster.html" %}
+{% load i18n %}
+
+{% block head %}
+<script type="text/javascript" src="/static/js/datetime.js"></script>
+<script type="text/javascript">
+		function sendit(){
+		    if (document.frm.txtDESC_KOR.value == "") {
+			    alert("Please, Input content.");
+			    document.frm.content.focus();
+			    return;
+			}
+
+		    if (true == confirm("{% trans '10001 Do you want to save?' %}")) {
+		        document.frm.submit();
+		    }
+		}
+
+
+		function selectLang() {
+		    var selLang = $('#selLang');
+		    var vSel = $("#selLang option:selected").val();
+		    $('#txtDESC_KOR').hide();
+		    $('#txtDESC_ENG').hide();
+		    $('#txtDESC_JPN').hide();
+		    $('#txtDESC_CHN').hide();
+		    $('#txtDESC_BUN').hide();
+
+		    $('#txtDESC_' + vSel).show();
+		}
+</script>
+<script type="text/javascript">
+<!--
+	function funcDelFile(fsq) {
+	    if (true == confirm("선택한 자료를 삭제 하시겠습니까?")) {
+
+	        if (true == confirm("최종확인 : 삭제된 자료는 복원할 수 없습니다. 삭제하시겠습니까 ?")) {
+	            location.href = "/CM/WCM100_U103?fsq=" + fsq + "&CMS_CD={{resultVO.CMS_CD}}&OFFICE_NO={{resultVO.OFFICE_NO}}";
+	            //location.href = "/NsmdG/cm/WCM100_u103/MainTran/?fsq=" + fsq + "&CMS_CD=<%=CMS_CD%>&OFFICE_NO=<%=OFFICE_NO%>";
+	        }
+	    }
+	}
+</script>
+{% endblock head %}
+
+{% block content %}
+    <h2>&nbsp;&nbsp;&nbsp;호텔 소개</h2>
+    <div class="pageid" id="noprint">CM100 U103</div>
+    <div class="info">
+
+        <form name="frm" method="post" action="/CM/WCM100_T103" enctype="multipart/form-data">
+            <input type="hidden" name="CMS_CD" value="{{resultVO.CMS_CD}}" />
+            <input type="hidden" name="OFFICE_NO" value="{{resultVO.OFFICE_NO}}" />
+            <input type="hidden" name="DESC_KOR" value="{{resultrs.DESC_KOR}}" />
+            <input type="hidden" name="DESC_ENG" value="{{resultrs.DESC_ENG}}" />
+            <input type="hidden" name="DESC_JPN" value="{{resultrs.DESC_JPN}}" />
+            <input type="hidden" name="DESC_CHN" value="{{resultrs.DESC_CHN}}" />
+            <input type="hidden" name="DESC_BUN" value="{{resultrs.DESC_BUN}}" />
+            <input type="hidden" name="txtFileNm" value="{{resultrs.IMG_NM1}}" />
+            <input type="hidden" name="txtFileNm2" value="{{resultrs.IMG_NM2}}" />
+            <input type="hidden" name="txtFileNm3" value="{{resultrs.IMG_NM3}}" />
+
+            <table class="f4tbl f4tblview3">
+                <colgroup>
+                    <col width="100px" />
+                    <col width="*" />
+                </colgroup>
+                <tr>
+                    <th align="right">
+                        <img src="/static/images/box/icon_001.gif" width="3" height="10">
+                       언어&nbsp;</th>
+                    <td>&nbsp;
+                        <select name="selLang" id="selLang" style="width: 150px;" onchange="javascript_:selectLang();">
+                            <option value="KOR" selected="selected">KOR</option>
+                            <option value="ENG">ENG</option>
+                            <option value="JPN">JPN</option>
+                            <option value="CHN">CHN</option>
+                            <option value="BUN">BUN</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th align="right">
+                        <img src="/static/images/box/icon_001.gif" width="3" height="10">
+                       소개글&nbsp;</th>
+                    <td>&nbsp;
+                        {% load ChkWordOut %}
+                        <textarea style="width:98%;" name="txtDESC_KOR" id="txtDESC_KOR" rows="27" cols="90" class="inputText">{% ChkWordOut resultrs.DESC_KOR %}</textarea>
+                        <textarea style="width:98%;display:none;" id="txtDESC_ENG" name="txtDESC_ENG" rows="27" cols="90" style="display:none;" class="inputText">{% ChkWordOut resultrs.DESC_ENG %}</textarea>
+                        <textarea style="width:98%;display:none;" id="txtDESC_JPN" name="txtDESC_JPN" rows="27" cols="90" style="display:none;" class="inputText">{% ChkWordOut resultrs.DESC_JPN %}</textarea>
+                        <textarea style="width:98%;display:none;" id="txtDESC_CHN" name="txtDESC_CHN" rows="27" cols="90" style="display:none;" class="inputText">{% ChkWordOut resultrs.DESC_CHN %}</textarea>
+                        <textarea style="width:98%;display:none;" id="txtDESC_BUN" name="txtDESC_BUN" rows="27" cols="90" style="display:none;" class="inputText">{% ChkWordOut resultrs.DESC_BUN %}</textarea>
+                    </td>
+                </tr>
+
+                {% if resultrs.IMG_NM1 != "" or resultrs.IMG_NM2 != "" or resultrs.IMG_NM3 != "" %}
+                <tr>
+                    <th align="right">
+                        <img src="/static/images/box/icon_001.gif" width="3" height="10">
+                        첨부파일&nbsp;</th>
+                    <td>
+                        {% if resultrs.IMG_NM1 != "" %}
+            			    Attach 1 : <a href="/CM/WCM100?PDSNM={{resultrs.IMG_NM1}}">{{resultrs.IMG_NM1}}</a>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:funcDelFile('1')"><u><font color="red">x</font>Del</u></a><br />
+                        {% endif %}
+                        {% if resultrs.IMG_NM2 != "" %}
+            			    Attach 2 : <a href="/CM/WCM100?PDSNM={{resultrs.IMG_NM2}}">{{resultrs.IMG_NM2}}</a>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:funcDelFile('2')"><u><font color="red">x</font>Del</u></a><br />
+                        {% endif %}
+                        {% if resultrs.IMG_NM3 != "" %}
+            			    Attach 3 : <a href="/CM/WCM100?PDSNM={{resultrs.IMG_NM3}}">{{resultrs.IMG_NM3}}</a>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:funcDelFile('3')"><u><font color="red">x</font>Del</u></a><br />
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endif %}
+
+                {% if resultrs.IMG_NM1 == "" %}
+                <tr>
+                    <td align="right">
+                        <img src="/static/images/box/icon_001.gif" width="3" height="10">
+                        첨부파일 1(10M)&nbsp;</td>
+                    <td>
+                        <input type="file" name="pds_file" size="40" class="inputText" /></td>
+                </tr>
+                {% endif %}
+
+                {% if resultrs.IMG_NM2 == "" %}
+                <tr>
+                    <td align="right">
+                        <img src="/static/images/box/icon_001.gif" width="3" height="10">
+                        첨부파일 2(10M)&nbsp;</td>
+                    <td>
+                        <input type="file" name="pds_file2" size="40" class="inputText" /></td>
+                </tr>
+                {% endif %}
+
+                {% if resultrs.IMG_NM3 == "" %}
+                <tr>
+                    <td align="right">
+                        <img src="/static/images/box/icon_001.gif" width="3" height="10">
+                        첨부파일 3(10M)&nbsp;</td>
+                    <td>
+                        <input type="file" name="pds_file3" size="40" class="inputText" /></td>
+                </tr>
+                {% endif %}
+            </table>
+        </form>
+
+
+        <table style="width: 100%; height: 50px">
+            <tr>
+                <td>&nbsp;</td>
+                <td width="46"><a href="javascript:sendit();">
+                    <img src="/static/images/btn/btn_modify.gif" border="0" alt="" /></a></td>
+                <td width="15">&nbsp;</td>
+                <td width="46"><a onclick="parent.$('#dialog').dialog('close');">
+                    <img src="/static/images/btn/btn_Close.gif" alt="" /></a></td>
+                <td>&nbsp;</td>
+            </tr>
+        </table>
+
+    </div>
+{% endblock content %}

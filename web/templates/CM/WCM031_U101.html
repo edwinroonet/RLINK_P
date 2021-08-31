@@ -1,0 +1,277 @@
+{% extends "CMM/_LayoutMainMaster.html" %}
+{% load i18n %}
+
+{% block head %}
+    <script type="text/javascript">
+        function funcSubmit() {
+
+            if (document.frm.OFFICE_NO.value == "") {
+                alert("{% trans '12288 Please select a hotel.' %}");
+                document.frm.OFFICE_NO.focus();
+                return;
+            }
+
+            if (document.frm.CMS_CD.value == "") {
+                alert("{% trans '12587 Please Input CMS!' %}");
+                document.frm.CMS_CD.focus();
+                return;
+            }
+
+
+            if (document.frm.CMS_SVCCD.value == "") {
+                alert("{% trans '12602 Please Input Ext.Cd !' %}");   //<%=RLINK.GetConvertText(12602, "Please Input CMS!")%>
+                document.frm.CMS_SVCCD.focus();
+                return;
+            }
+
+            if (document.frm.CMS_SVCNM.value == "") {
+                alert("{% trans '12603 Please Input Ext.Name !' %}"); //<%=RLINK.GetConvertText(12603, "Please Input CMS!")%>
+                document.frm.CMS_SVCNM.focus();
+                return;
+            }
+
+
+            if (document.frm.OFFICE_NO.disabled == true) {
+
+                document.frm.OFFICE_NO.disabled = false
+            }
+
+            if (document.frm.CMS_CD.disabled == true) {
+
+                document.frm.CMS_CD.disabled = false
+            }
+
+            if (true == confirm("{% trans '10001 Do you want to save?' %}")) {
+                frm.action = "/CM/WCM031_U101"  //frm.action = "/NsmdG/CM/WCM031_U101/mainTran/"
+                frm.submit();
+            }
+        }
+
+
+        function enterNext(val) {
+            var keyCode = event.keyCode;
+
+            //alert(keyCode);
+            if (keyCode != 13 && keyCode != 9) {
+                //alert(keyCode);
+                return;
+            }
+            else {
+                //
+            }
+
+            if (keyCode == 9) {
+                event.returnValue = false;
+            }
+
+            //엔터키 입력시 포커스 이동 설정
+            if (keyCode == 13 || keyCode == 9) {
+                var tmpVal = val.replaceAll("inputBox", "");
+
+
+                //9번항목 Hidden 필드
+                if (tmpVal == "9") { tmpVal = "10" }
+
+
+                event.returnValue = false;
+                $("#inputBox" + (parseInt(tmpVal) + 1)).focus();
+                $("#inputBox" + (parseInt(tmpVal) + 1)).select();
+            }
+
+        }
+
+        function onlyNumber() {  //숫자만을 기입받게 하는 방법
+            if ((event.keyCode < 48) || (event.keyCode > 57))
+                event.returnValue = false;
+        }
+
+        $(document).ready(function () {
+            $.fn.formatInput = (function (afterHowManyCharacter, commaType) {
+                if (afterHowManyCharacter && commaType != ".") {
+                    var str = $(this).val();
+                    var comma = commaType != undefined ? commaType : ",";
+                    var strMod;
+                    if ($(this).val().indexOf(".") == -1)
+                        strMod = replaceAll(comma, "", $(this).val());
+                    else {
+                        strMod = replaceAll(comma, "", $(this).val());
+                        strMod = strMod.substring(0, strMod.indexOf("."));
+                    }
+                    if ($(this).val().indexOf(".") != -1)
+                        $(this).val(splitByLength(strMod, afterHowManyCharacter).join(comma) + $(this).val().substring($(this).val().indexOf(".")));
+                    else
+                        $(this).val(splitByLength(strMod, afterHowManyCharacter).join(comma));
+                    var nowPos = 0;
+                    $(this).on("keyup", function (e) {
+                        nowPos = doGetCaretPosition($(this)[0]);
+                        var codePressed = e.which;
+                        if (" 8 37 38 39 40 46 17".indexOf(" " + codePressed) == -1 && !e.ctrlKey) {
+                            if ($(this).val().length > afterHowManyCharacter) {
+                                strMod;
+                                if ($(this).val().indexOf(".") == -1)
+                                    strMod = replaceAll(comma, "", $(this).val());
+                                else {
+                                    strMod = replaceAll(comma, "", $(this).val());
+                                    strMod = strMod.substring(0, strMod.indexOf("."));
+                                }
+                                if ($(this).val().indexOf(".") != -1)
+                                    $(this).val(splitByLength(strMod, afterHowManyCharacter).join(comma) + $(this).val().substring($(this).val().indexOf(".")));
+                                else
+                                    $(this).val(splitByLength(strMod, afterHowManyCharacter).join(comma));
+
+                                if ((strMod.length - 1) % afterHowManyCharacter == 0) {
+                                    setCursor($(this)[0], nowPos + 1);
+                                }
+                                else {
+                                    setCursor($(this)[0], nowPos);
+                                }
+                            }
+                        }
+                    });
+                }
+                else if (commaType == ".") {
+                    console.log("You can't use . as Separator");
+                }
+
+                function splitByLength(str, maxLength) {
+                    var reg = new RegExp(".{1," + maxLength + "}", "g");;
+                    return reverseStringInArray(str.split("").reverse().join("").match(reg).reverse());
+                }
+
+                function replaceAll(find, replace, str) {
+                    return str.replace(new RegExp(find, 'g'), replace);
+                }
+
+                function reverseStringInArray(arr) {
+                    $.each(arr, function (i, val) {
+                        arr[i] = arr[i].split("").reverse().join("");
+                    });
+                    return arr;
+                }
+
+                // Author of setCursor is nemisj
+                function setCursor(node, pos) {
+                    node = (typeof node == "string" || node instanceof String) ? document.getElementById(node) : node;
+                    if (!node) {
+                        return false;
+                    } else if (node.createTextRange) {
+                        var textRange = node.createTextRange();
+                        textRange.collapse(true);
+                        textRange.moveEnd(pos);
+                        textRange.moveStart(pos);
+                        textRange.select();
+                        return true;
+                    } else if (node.setSelectionRange) {
+                        node.setSelectionRange(pos, pos);
+                        return true;
+                    }
+                    return false;
+                }
+
+                function doGetCaretPosition(oField) {
+                    var iCaretPos = 0;
+                    if (document.selection) {
+                        oField.focus();
+                        var oSel = document.selection.createRange();
+                        oSel.moveStart('character', -oField.value.length);
+                        iCaretPos = oSel.text.length;
+                    }
+                    else if (oField.selectionStart || oField.selectionStart == '0')
+                        iCaretPos = oField.selectionStart;
+                    return (iCaretPos);
+                }
+            });
+            $("#UNIT_AMT").formatInput(3, ",");
+
+        });
+
+
+    </script>
+{% endblock head %}
+
+{% block content %}
+{% load SetSelectBox2 %}
+    <h2 class="pagetitle">CMS Ext.Service</h2>
+    <div class="pageid">CM031 U101</div>
+
+    <div class="info">
+        <!-----기본사항 시작----->
+        <form name="frm" method="post" action="/CM/WCM031_U101">    <!-- action="/NsmdG/CM/WCM031_U101/mainTran/" -->
+            <input type="hidden" name="tProc" value="{{resultVO.tProc}}">
+            <table width="100%" class="f4tblview">
+                <colgroup>
+                    <col width="20%" />
+                    <col width="30%" />
+                    <col width="20%" />
+                    <col width="30%" />
+                </colgroup>
+                <tr>
+                    <th>Hotel</th>
+                    <td>
+                        <select name="OFFICE_NO" id="OFFICE_NO" style="width: 130px;" onblur="chkInjection(this);" onfocus="" tabindex1="34" {% if resultVO.tProc == "EDIT" %}disabled{% endif %}>
+                            {% SetSelectBox2 "Office_No" resultVO.OFFICE_NO "--" "" "" request sessionInfo.OfficeNo %}
+                        </select>
+                    </td>
+                    <th>CMS</th>
+                    <td>
+                        <select name="CMS_CD" id="CMS_CD" style="width: 150px;" onblur="chkInjection(this);" onfocus="" tabindex1="34" {% if resultVO.tProc == "EDIT" %}disabled{% endif %}>
+                            {% load SetSelectBox1 %}
+                            {% SetSelectBox1 "CMS_ALL" resultVO.CMS_CD "" "" "" request sessionInfo.OfficeNo %}
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Service Code</th>
+                    <td colspan="3">
+                        <input type="text" name="CMS_SVCCD" id="CMS_SVCCD" onblur="chkInjection(this,100)" style="width: 100px" value="{{resultVO.CMS_SVCCD}}" tabindex1="34" {% if resultVO.tProc == "EDIT" %}readonly{% endif %}>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Service Name</th>
+                    <td>
+                        <input type="text" name="CMS_SVCNM"  maxlength="50" style="width: 198px" value="{{resultVO.CMS_SVCNM}}">
+                    </td>
+                    <th>Unit Amount</th>
+                    <td>
+                        <input type="text" id="UNIT_AMT" name="UNIT_AMT" maxlength="10" onkeypress="onlyNumber();" style="width: 130px;ime-mode: disabled;" value="{{resultVO.UNIT_AMT}}">
+                    </td>
+                </tr>
+                <tr>
+                    <th>PMS Ext.CD</th>
+                    <td>
+                        <select name="SERVICE_CD" id="SERVICE_CD" style="width: 200px;" onblur="chkInjection(this);" onfocus="" tabindex1="34">
+                            {% SetSelectBox2 "PMS_SVCCD" resultVO.SERVICE_CD "--" "" "" request sessionInfo.OfficeNo %}
+                        </select><!--<%&#45;&#45;<input type="text" name="RTYPE_NM" id="RTYPE_NM" style="width:250"  value="<%'=ViewData("resultVO").RTYPE_NM %>">&#45;&#45;%>-->
+                    </td>
+                    <th>Use</th>
+                    <td>
+                        <select id="USE_FLAG" name="USE_FLAG" style="width: 40px;">
+                            <option {% if resultVO.USE_FLAG == "Y" %}selected {% endif %} value="Y">Y</option>
+                            <option {% if resultVO.USE_FLAG == "N" %}selected {% endif %} value="N">N</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Remark</th>
+                    <td colspan="3">
+                        <textarea name="remark" rows="3" style="width: 500px;" cols="1">{{resultVO.remark}}</textarea>
+                    </td>
+                </tr>
+                {% if resultVO.tProc == "EDIT" %}
+                <tr>
+                    <th>Entry</th>
+                    <td>{{resultVO.Input_User}}</td>
+                    <th>Update</th>
+                    <td>{{resultVO.Update_User}}</td>
+                </tr>
+                {% endif %}
+                <tr>
+                    <td colspan="4" align="center">
+                        <input type="button" class="RLINK_button62" onclick="funcSubmit();" value="{% trans '12503 Save' %}" id="noprint" border="0" />
+                        <a onclick="parent.$('#dialog').dialog('close');"><input type="button" class="RLINK_button62" onclick="funcClose();" value="{% trans '12405 Close' %}" id="noprint" border="0" /></a>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+{% endblock content %}

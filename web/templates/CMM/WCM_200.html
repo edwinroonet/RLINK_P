@@ -2,20 +2,20 @@
 {% load i18n %}
 <script type="text/javascript">
     function wto112main() {
-        location.href = "/TO/wto110_s101/main/?wcm=230&W_CD=02";
+        location.href = "/TO/wto110_s101?wcm=230&W_CD=02";
     }
 
     function funcModifyMember() {
         funcDialogSet(800, 800, 650)
         var iFrame = $('#iframe1')
-        iframe1.location.href = "/mb/Wmb100_u101/main/?pp=Y&sOstaffId={{sessionInfo.LoginId}}&O_URL=/cmm/wcm_110/main/";
+        iframe1.location.href = "/MB/WMB100_U101?pp=Y&sOstaffId={{sessionInfo.LoginId}}&O_URL=/cmm/wcm_110";
         $('#iframe1').css('height', $('#dialog').height() - 5);
         $('#iframe1').css('width', $('#dialog').width() - 0);
         // open("/NSMDG/mb/wmb100_u110/main/?pp=Y&O_URL=/nSMDG/cmm/wcm_110/main/?wcm=200", "mngOfficeStaff", cnjOpenShape(700, 500, 'no'));
        // open("/NsmdG/mb/Wmb100_u101/main/?pp=Y&sOstaffId={{sessionInfo.LoginId}}&O_URL=/NsmdG/cmm/wcm_110/main/", "mngOfficeStaff", cnjOpenShape(800, 650, 'no'));
     }
 
-    function tmenu002() { location.href = '/MB/Wmb_102/main/'; } // 로그아웃
+    function tmenu002() { location.href = '/MB/WMB_102'; } // 로그아웃
 
     function lmTapShowHide(fl) {
         if (fl == '1') {
@@ -43,7 +43,7 @@
             alert("System Unstable.  Please, Try to connect again!");
             return;
         }
-        location.href = "/to/wto000_s101/main/?wcm=230&strUrl=" + strUrl;
+        location.href = "/TO/WTO000_S101?wcm=230&strUrl=" + strUrl;
     }
 
     function funcChgOffice2(ono, onm) {
@@ -87,9 +87,9 @@
             <li><span class="folder">{% trans "Booking List" %}</a></span>
                 <ul>
         {% if sessionInfo.TLLC_YN == "Y" %}
-                     <li><span class="square"><a href="javascript:funcGo('/RV/WRV900_S101/main/');">{% trans "Booking TL-Lincoln" %}</a></span></li>
+                     <li><span class="square"><a href="javascript:funcGo('/RV/WRV900_S101');">{% trans "Booking TL-Lincoln" %}</a></span></li>
         {% endif %}
-                     <li><span class="square"><a href="javascript:funcGo('/CM/WCM200_S101/main/');">{% trans "Booking API List" %}</a></span></li>
+                     <li><span class="square"><a href="javascript:funcGo('/CM/WCM200_S101');">{% trans "Booking API List" %}</a></span></li>
                 </ul>
             </li>
 
@@ -105,11 +105,11 @@
 {% if sessionInfo.TLLC_YN == "Y" %}
             <li><span class="folder">TL-Lincoln</span>
                 <ul>
-                    <li><span class="square"><a href="javascript:funcGo('/XM/WXM_TL100/main/');">API {% trans "Execute" %}</a></span></li>
-                    <li><span class="square"><a href="javascript:funcGo('/XM/WXMLOG_S101/main/');">API {% trans "Log" %}</a></span></li>
+                    <li><span class="square"><a href="javascript:funcGo('/XM/WXM_TL100');">API {% trans "Execute" %}</a></span></li>
+                    <li><span class="square"><a href="javascript:funcGo('/XM/WXMLOG_S101');">API {% trans "Log" %}</a></span></li>
 
         {% if sessionInfo.LoginLevel >= "ZA" %} <!--운영자용화면-->
-                     <li><span class="square"><a href="javascript:funcGo('/RM/WRM900_S101/main/');">Rm/A {% trans "Changed" %}</a></span></li>
+                     <li><span class="square"><a href="javascript:funcGo('/RM/WRM900_S101');">Rm/A {% trans "Changed" %}</a></span></li>
         {% endif %}
                 </ul>
             </li>
@@ -139,7 +139,7 @@
 {% elif wcm == "060" %}
 <span><img src="/static/images/Skin/left_060.jpg" alt="" /></span>
 <ul class="filetree">
-    <li><span class="root"><%=RLINK.GetConvertText(12229, "Manage")%></span>
+    <li><span class="root">{% trans "Manage" %}</span>
         {% if sessionInfo.LoginLevel >= "SA" %}<!-- 운영장 -->
                     <!--<li><span class="square"><a href="javascript:funcGo('/NsmdG/MA/WMA020_S101/main/');">Room Revenue Plan</a></span></li>-->
         {% endif %}
@@ -149,43 +149,43 @@
 {% elif wcm == "070" %}
 <span><img src="/static/images/Skin/left_070.jpg" alt="" /></span>
 <ul class="filetree">
-    <li><span class="root"><%=RLINK.GetConvertText(12051, "Config")%></span>
+    <li><span class="root">{% trans "Config" %}</span>
         <ul>
 
 
-            <li><span class="folder"><%=RLINK.GetConvertText(12255, "User")%></span>
+            <li><span class="folder">{% trans "User" %}</span>
                 <ul>
-                    <li><span class="square"><a href="javascript:funcGo('/MB/WTO100_S102/main/');"><%=RLINK.GetConvertText(11048, "Site")%></a></span></li>
-                    <li><span class="square"><a href="javascript:funcGo('/MB/WMB100_S101/main/');"><%=RLINK.GetConvertText(12255, "User")%></a></span></li>
-                    <li><span class="square"><a href="javascript:funcGo('/NsmdG/to/wto108_s101/main/');"><%=RLINK.GetConvertText(11816, "Department")%></a></span></li>
+                    <li><span class="square"><a href="javascript:funcGo('/MB/WTO100_S102');">{% trans "Site" %}</a></span></li>
+                    <li><span class="square"><a href="javascript:funcGo('/MB/WMB100_S101');">{% trans "User" %}</a></span></li>
+                    <li><span class="square"><a href="javascript:funcGo('/TO/WTO108_S101');">{% trans "Department" %}</a></span></li>
 
                 </ul>
             </li>
-            <li><span class="folder">CMS <%=RLINK.GetConvertText(12571, "Setting")%></span>
+            <li><span class="folder">CMS {% trans "Setting" %}</span>
                 <ul>
-                    <li><span class="square"><a href="javascript:funcGo('/CM/WCM100_s101/main/');">CMS <%=RLINK.GetConvertText(11003, "HOTEL")%></a></span></li>
-                    <li><span class="square"><a href="javascript:funcGo('/CM/WCM110_s101/main/');">CMS <%=RLINK.GetConvertText(11308, "RoomType")%></a></span></li>
+                    <li><span class="square"><a href="javascript:funcGo('/CM/WCM100_S101');">CMS {% trans "Hotel" %}</a></span></li>
+                    <li><span class="square"><a href="javascript:funcGo('/CM/WCM110_S101');">CMS {% trans "RoomType" %}</a></span></li>
 {% if sessionInfo.TTLC_YN == "Y" %}
-                    <li><span class="square"><a href="javascript:funcGo('/CM/WCM111_s101/main/');"><%=RLINK.GetConvertText(11308, "RoomType")%>.<%=RLINK.GetConvertText(12573, "Sub")%></a></span></li>
+                    <li><span class="square"><a href="javascript:funcGo('/CM/WCM111_S101');">{% trans "RoomType" %}.{% trans "Sub" %}</a></span></li>
 {% endif %}
 {% if sessionInfo.LoginLevel >= "SA" %} <!-- 테스트 + 운영자 -->
-                    <li><span class="square"><a href="javascript:funcGo('/CM/WCM115_s101/main/');">CMS <%=RLINK.GetConvertText(12548, "Rate Type")%></a></span></li>
-                    <li><span class="square"><a href="javascript:funcGo('/CM/WCM116_s101/main/');">CMS <%=RLINK.GetConvertText(12546, " Plan Type")%></a></span></li>
-                    <li><span class="square"><a href="javascript:funcGo('/CM/WCM031_s101/main/');">CMS <%=RLINK.GetConvertText(11539, "Extra service")%></a></span></li>
+                    <li><span class="square"><a href="javascript:funcGo('/CM/WCM115_S101');">CMS {% trans "Rate Type" %}</a></span></li>
+                    <li><span class="square"><a href="javascript:funcGo('/CM/WCM116_S101');">CMS {% trans " Plan Type" %}</a></span></li>
+                    <li><span class="square"><a href="javascript:funcGo('/CM/WCM031_S101');">CMS {% trans "Extra service" %}</a></span></li>
 {% endif %}
-                    <li><span class="square"><a href="javascript:funcGo('/CM/WCM021_s101/main/');">OTA <%=RLINK.GetConvertText(11053, "Code")%></a></span></li>
-                    <li><span class="square"><a href="javascript:funcGo('/CM/WCM120_s101/main/');">OTA <%=RLINK.GetConvertText(11308, "RoomType")%></a></span></li>
+                    <li><span class="square"><a href="javascript:funcGo('/CM/WCM021_S101');">OTA {% trans "Code" %}</a></span></li>
+                    <li><span class="square"><a href="javascript:funcGo('/CM/WCM120_S101');">OTA {% trans "RoomType" %}</a></span></li>
                     <!--<li><span class="square"><a href="javascript:funcGo('/NsmdG/XM/WXM_TL010/main/');">XM010</a></span></li>-->
                 </ul>
             </li>
         </ul>
 {% if sessionInfo.LoginLevel >= "SA" %} <!-- 테스트 + 운영자 -->
         <ul>
-            <li><span class="folder">CMS <%=RLINK.GetConvertText(12576, "Block&Rate")%></span>
+            <li><span class="folder">CMS {% trans "Block&Rate" %}</span>
                 <ul>
-                    <li><span class="square"><a href="javascript:funcGo('/CM/WCM130_S101/main/');">CMS <%=RLINK.GetConvertText(12551, "Channel")%></a></span></li>
-                    <li><span class="square"><a href="javascript:funcGo('/CM/WCM140_S101/main/');">CMS <%=RLINK.GetConvertText(12577, "Sales Option")%></a></span></li>
-                    <li><span class="square"><a href="javascript:funcGo('/CM/WCM140_S201/main/');">CMS <%=RLINK.GetConvertText(12636, "Room Block&Rate")%></a></span></li>
+                    <li><span class="square"><a href="javascript:funcGo('/CM/WCM130_S101');">CMS {% trans "Channel" %}</a></span></li>
+                    <li><span class="square"><a href="javascript:funcGo('/CM/WCM140_S101');">CMS {% trans "Sales Option" %}</a></span></li>
+                    <li><span class="square"><a href="javascript:funcGo('/CM/WCM140_S201');">CMS {% trans "Room Block&Rate" %}</a></span></li>
                 </ul>
             </li>
         </ul>
@@ -197,7 +197,7 @@
 {% elif wcm == "330" %} <!-- for sky AS33 STAFF FLAG-->
 <span><img src="/static/images/Skin/left_060.jpg" alt="" /></span>
 <ul class="filetree">
-    <li><span class="root"><%=RLINK.GetConvertText(12229, "Manage")%></span>
+    <li><span class="root">{% trans "Manage" %}</span>
         <ul>
             <!--<li><span class="square"><a href="javascript:funcGo('/NsmdG/RV/WRV010_s103/main/');">Rsv Inquiry Center</a></span></li>
             <li><span class="square"><a href="javascript:funcGo('/NsmdG/RV/WRV300_S201/main/');">In House List</a></span></li>
@@ -215,15 +215,15 @@
 {% elif wcm == "900" %} <!-- cateImg = "left_240.jpg" -->
 <span><img src="/static/images/Skin/left_900.jpg" alt="운영자용" /></span>
 <ul class="filetree">
-    <li><span class="root"><%=RLINK.GetConvertText(12054, "Operate")%></span>
+    <li><span class="root">{% trans "Operate" %}</span>
         {% if sessionInfo.LoginLevel >= "SA" %} <!-- 운영자용화면 -->
         <ul>
-            <li><span class="folder"><%=RLINK.GetConvertText(11048, "SITE")%></span>
+            <li><span class="folder">{% trans "SITE" %}</span>
                 <ul>
-                    <li><span class="square"><a href="javascript:funcGo('/NsmdG/to/wto100_s101/main/');"><%=RLINK.GetConvertText(11031, "Site List")%></a></span></li>
-                    <li><span class="square"><a href="javascript:funcGo('/NsmdG/to/wto100_s111/main/');"><%=RLINK.GetConvertText(11047, "Hotel List")%></a></span></li>
-                    <li><span class="square"><a href="javascript:funcGo('/NsmdG/mb/wmb100_s101/main/');"><%=RLINK.GetConvertText(11603, "User")%></a></span></li>
-                    <li><span class="square"><a href="javascript:funcGo('/NsmdG/mb/wmb100_s401/main/');"><%=RLINK.GetConvertText(11826, "ALl User")%></a></span></li>
+                    <li><span class="square"><a href="javascript:funcGo('TO/WTO100_S101');">{% trans "Site List" %}</a></span></li>
+                    <li><span class="square"><a href="javascript:funcGo('/TO/WTO100_S111');">{% trans "Hotel List" %}</a></span></li>
+                    <li><span class="square"><a href="javascript:funcGo('/MB/WMB100_S101');">{% trans "User" %}</a></span></li>
+                    <li><span class="square"><a href="javascript:funcGo('/MB/WMB100_S401');">{% trans "ALl User" %}</a></span></li>
                     <!--<li><span class="square"><a href="javascript:funcGo('/NsmdG/cp/wcp200_s901/main/');">전체거래처검색</a></span></li>-->
                 </ul>
             </li>
@@ -231,12 +231,12 @@
         <ul>
             <li><span class="folder">CMS</span>
                 <ul>
-                    <li><span class="square"><a href="javascript:funcGo('/CM/WCM010_S101/main/');"><%=RLINK.GetConvertText(12563, "Master")%> CMS</a></span></li>
-                    <li><span class="square"><a href="javascript:funcGo('/CM/WCM020_S101/main/');"><%=RLINK.GetConvertText(12563, "Master")%> OTA</a></span></li>
-                    <li><span class="square"><a href="javascript:funcGo('/NsmdG/TO/WTO200_S101/main/');"><%=RLINK.GetConvertText(12563, "Master")%> <%=RLINK.GetConvertText(11003, "Hotel")%></a></span></li>
-                    <li><span class="square"><a href="javascript:funcGo('/CM/WCM100_S201/main/');">CMS vs <%=RLINK.GetConvertText(11003, "Hotel")%></a></span></li>
-                     <li><span class="square"><a href="javascript:funcGo('/NsmdG/RV/WRV800_S101/main/');">Rsvn from CMS</a></span></li>
-                     <li><span class="square"><a href="javascript:funcGo('/NsmdG/RV/WRV800_S201/main/');"><%=RLINK.GetConvertText(11337, "Cancel")%></a></span></li>
+                    <li><span class="square"><a href="javascript:funcGo('/CM/WCM010_S101');">{% trans "Master" %} CMS</a></span></li>
+                    <li><span class="square"><a href="javascript:funcGo('/CM/WCM020_S101');">{% trans "Master" %} OTA</a></span></li>
+                    <li><span class="square"><a href="javascript:funcGo('/TO/WTO200_S101');">{% trans "Master" %} {% trans "Hotel" %}</a></span></li>
+                    <li><span class="square"><a href="javascript:funcGo('/CM/WCM100_S201');">CMS vs {% trans "Hotel" %}</a></span></li>
+                     <li><span class="square"><a href="javascript:funcGo('/RV/WRV800_S101');">Rsvn from CMS</a></span></li>
+                     <li><span class="square"><a href="javascript:funcGo('/RV/WRV800_S201');">{% trans "Cancel" %}</a></span></li>
                 </ul>
             </li>
         </ul>
@@ -244,20 +244,20 @@
             <li><span class="folder">CENTER</span>
                 <ul>
 
-                    <li><span class="square"><a href="javascript:funcGo('/NsmdG/mb/wmb110_s101/main/');"><%=RLINK.GetConvertText(11604, "Online User")%></a></span></li>
+                    <li><span class="square"><a href="javascript:funcGo('/MB/WMB110_S101');">{% trans "Online User" %}</a></span></li>
                     <!--<li><span class="square"><a href="javascript:funcGo('/NsmdG/ps/wps210_s101/main/');">결제내역 상세</a></span></li>
                     <li><span class="square"><a href="javascript:funcGo('/NsmdG/ps/wps210_s201/main/');">결제내역 일별</a></span></li>
                     <li><span class="square"><a href="javascript:funcGo('/NsmdG/ps/wps210_s202/main/');">결제내역 월별</a></span></li>-->
-                    <li><span class="square"><a href="javascript:funcGo('/NsmdG/mb/wmb110_s103/main/');"><%=RLINK.GetConvertText(11607, "IP bandwidth List")%></a></span></li>
-                    <li><span class="square"><a href="javascript:funcGo('/NsmdG/mb/wmb110_s160/main/');"><%=RLINK.GetConvertText(11865, "P/W Error List")%></a></span></li>
+                    <li><span class="square"><a href="javascript:funcGo('/MB/WMB110_S103');">{% trans "IP bandwidth List" %}</a></span></li>
+                    <li><span class="square"><a href="javascript:funcGo('/MB/WMB110_S160');">{% trans "P/W Error List" %}</a></span></li>
                 </ul>
             </li>
         </ul>
         <ul>
-            <li><span class="folder"><%=RLINK.GetConvertText(12566, "TL-Lincoln")%></span>
+            <li><span class="folder">{% trans "TL-Lincoln" %}</span>
                 <ul>
-                    <li><span class="square"><a href="javascript:funcGo('/NsmdG/XM/WXMLOG_S101/main/?SEARCH_OPTION=ALLLOG');">API <%=RLINK.GetConvertText(12569, "Log")%></a></span></li>
-                    <li><span class="square"><a href="javascript:funcGo('/NsmdG/XM/WXM_TL100/main/');">API <%=RLINK.GetConvertText(11308, "Roomtype")%></a></span></li>
+                    <li><span class="square"><a href="javascript:funcGo('/XM/WXMLOG_S101?SEARCH_OPTION=ALLLOG');">API {% trans "Log" %}</a></span></li>
+                    <li><span class="square"><a href="javascript:funcGo('/XM/WXM_TL100');">API {% trans "Roomtype" %}</a></span></li>
 
                     {% if sessionInfo.LoginLevel >= "ZZ" %} <!-- 관리자/개발자용 -->
 
@@ -267,9 +267,9 @@
             </li>
         </ul>
         <ul>
-            <li><span class="folder"><%=RLINK.GetConvertText(12574, "Code & Control ")%></span>
+            <li><span class="folder">{% trans "Code & Control " %}</span>
                 <ul>
-                    <li><span class="square"><a href="javascript:funcGo('/NsmdG/OP/WOP010_S101/main/');">API Call</a></span></li>
+                    <li><span class="square"><a href="javascript:funcGo('/OP/WOP010_S101');">API Call</a></span></li>
                 </ul>
             </li>
         </ul>

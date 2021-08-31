@@ -1,0 +1,2047 @@
+{% extends "CMM/_LayoutMainMaster.html" %}
+{% load i18n %}
+
+{% block head %}
+    <script type="text/javascript">
+        function ArrowClick(val) {
+            var f = document.searchform;
+            f.RMT_OCCP.value = val
+            f.submit();
+        }
+
+        function showCalendar(oText, objImg, iLoc) {
+            var left, top;
+            switch (iLoc) {
+                case 0: //BottomLeft
+                    left = getAbsLeft(objImg);
+                    top = getAbsTop(objImg) + 23;
+                    break;
+
+                case 1: //BottomRight
+                    left = getAbsLeft(objImg) - 123;
+                    top = getAbsTop(objImg) + 23;
+                    break;
+
+                case 2: //TopLeft
+                    left = getAbsLeft(objImg) - 145;
+                    top = getAbsTop(objImg) - 107;
+                    break;
+
+                case 3: //TopRight
+                    left = getAbsLeft(objImg) - 48;
+                    top = getAbsTop(objImg) - 123;
+                    break;
+            }
+            if (document.all['lCalendar'].style.visibility == "visible")
+                hideLayer('lCalendar');
+            else {
+                openLayer(RHISCALENDAR, "/CMM/WWC_912?PP=Y&strDate=" + oText.value + "&input=" + oText.form.name + "." + oText.name, 'lCalendar', left, top);
+            }
+        }
+
+        function MM_showHideLayers() { //v2.0
+            var i, visStr, args, theObj;
+            args = MM_showHideLayers.arguments;
+            for (i = 0; i < (args.length - 1); i += 2) { //with arg triples (objNS,objIE,visStr)
+                visStr = args[i + 1];
+                if (navigator.appName == 'Netscape' && document.layers != null) {
+                    theObj = eval("document.layers['" + args[i] + "']");
+                    if (theObj) theObj.visibility = visStr;
+                } else if (document.all != null || document.all != "") { //IE
+                    if (visStr == 'show') visStr = 'visible'; //convert vals
+                    if (visStr == 'hide') visStr = 'hidden';
+                    theObj = eval("document.all['" + args[i] + "'].style");
+                    if (theObj) theObj.visibility = visStr;
+                }
+            }
+        }
+
+        function openLayer(win, url, strlayer, left, top) {
+            win.location.href = url
+            moveLayer(strlayer, left, top);
+            MM_showHideLayers(strlayer, "show");
+        }
+
+        function moveLayer(strlayer, left, top) {
+            var theObj;
+            if (navigator.appName == 'Netscape' && document.layers != null)
+                theObj = eval("document.layers['" + strlayer + "']");
+            else if (document.all != null || document.all != "") //IE
+                theObj = eval("document.all['" + strlayer + "'].style");
+
+            if (theObj) {
+                theObj.left = left;
+                theObj.top = top;
+            }
+        }
+
+        function hideLayer(strlayer) {
+            MM_showHideLayers(strlayer, "hide");
+        }
+
+        function getAbsTop(obj) {
+            return (obj.offsetParent == null) ? 0 : obj.offsetTop + getAbsTop(obj.offsetParent);
+        }
+
+        function getAbsLeft(obj) {
+            return (obj.offsetParent == null) ? 0 : obj.offsetLeft + getAbsLeft(obj.offsetParent);
+        }
+
+        function funcRefresh() {
+            searchform.sale_date.value = searchform.txtsDate.value;
+        }
+
+        function funcSearch() {
+            var schdata = $("#txtsDate").val();
+            //location.replace("/NsmdG/CM/wcm140_s101/main/?PP=Y&sale_date=" + schdata);
+
+            var f = document.searchform;
+            f.submit();
+        }
+
+        $(document).ready(function () {
+            $('body').keydown(function () {
+                var keyCode = event.keyCode;
+                //F2
+                if (keyCode == 113) {
+                    funcSearch('');
+                }
+            });
+        });
+
+       $(document).ready(function () {
+            // Dialog Link
+            $('body').keydown(function () {
+                var keyCode = event.keyCode;
+                //F2
+                if (keyCode == 113) {
+                    funcSearch('');
+                }
+            });
+        });
+
+
+        function funcClear() {
+            //location.href = "/NsmdG/CM/wcm140_s101/main";
+            //window.parent.location = "/NsmdG/CM/wcm140_s200/main"
+
+            var f = document.searchform;
+            var d = new Date();
+            f.txtsDate.value = "Initializing..." // getTimeStamp();
+
+            f.DF.checked = true;
+            f.TT.checked = false;
+            f.WT.checked = false;
+
+            f.submit();
+        }
+
+        function getTimeStamp() {
+            var d = new Date();
+            var s =
+                leadingZeros(d.getFullYear(), 4) + '-' +
+                leadingZeros(d.getMonth() + 1, 2) + '-' +
+                leadingZeros(d.getDate(), 2);
+
+            return s;
+        }
+
+        function leadingZeros(n, digits) {
+            var zero = '';
+            n = n.toString();
+
+            if (n.length < digits) {
+                for (i = 0; i < digits - n.length; i++)
+                    zero += '0';
+            }
+            return zero + n;
+        }
+
+        function funcAll() {
+            var f = document.searchform
+            if(f.DF.checked == true && f.TT.checked == true && f.WT.checked == true){
+                f.DF.checked = false;
+                f.TT.checked = false;
+                f.WT.checked = false;
+
+                f.submit();
+            }
+            else{
+                f.DF.checked = true;
+                f.TT.checked = true;
+                f.WT.checked = true;
+
+                f.submit();
+            }
+        }
+
+        function funcre(obj) {
+          //location.replace("/NsmdG/CM/wcm140_s101/main/?pp=<%=ViewData("resultVO").pp %>&G_OFFICE_NO=<%=ViewData("resultVO").G_OFFICE_NO%>&tabs=<%=ViewData("resultVO").tabs %>&sale_date=" + $("#txtsDate").val());
+			//location.replace("/NsmdG/CM/wcm140_s101/main/?pp=<%=ViewData("resultVO").pp %>&G_OFFICE_NO=<%=ViewData("resultVO").G_OFFICE_NO%>&tabs=<%=ViewData("resultVO").tabs %>&sale_date=" + $("#txtsDate").val() + "&disp_gubun=" + $("#disp_gubun").val());
+			alert(obj.value);
+			funcSearch();
+        }
+
+        function funcPop(officno,roomtype,date){
+            open("/CM/WCM140_S301?PP=Y&OFFICE_NO=" + officno + "&Room_Type=" + roomtype + "&Date=" + date + "&OPEN_URL={{resultVO.OPEN_URL}}", "Wcm140_S301", cnjOpenShape(1120, 750, 'yes'));
+        }
+
+        function passValue()
+         {
+            var f = document.searchform;
+            //parent.document.getElementById("hdnDate").value = f.txtsDate.value
+            //parent.$("#hdnDate").val(f.txtsDate.value);
+            if(parent.document.getElementById("hdnDate")){
+                parent.document.getElementById("hdnDate").value = f.txtsDate.value;
+            }
+
+         }
+        window.onload = passValue;
+
+
+
+
+        function funcSubmit(val) {
+            f = document.frm;
+
+            var saveText = "";
+
+
+            $("input[name=SALES_AMT]").each(function (idx) {
+
+                $("input[name=SALES_AMT]").eq(idx).val($("input[name=SALES_AMT]").eq(idx).val().replaceAll2(",", ""));
+                //if (idx < 5) { alert($("input[name=SALES_AMT]").eq(idx).val())}
+            });
+
+
+            $("input[name=SEASON_YN]").each(function (idx) {
+                if ($("input[name=SEASON_YN]").eq(idx).is(":checked") == true) {
+                    $("input[name=SEASON_YN2]").eq(idx).val("Y");
+                } else {
+                    $("input[name=SEASON_YN2]").eq(idx).val("N");
+                }
+
+            });
+
+            $("input[name=CLOSE_SALE_YN]").each(function (idx) {
+                if ($("input[name=CLOSE_SALE_YN]").eq(idx).is(":checked") == true) {
+                    $("input[name=CLOSE_SALE_YN2]").eq(idx).val("Y");
+                } else {
+                    $("input[name=CLOSE_SALE_YN2]").eq(idx).val("N");
+                }
+
+            });
+
+            $("input[name=CLOSE_OUT_YN]").each(function (idx) {
+                if ($("input[name=CLOSE_OUT_YN]").eq(idx).is(":checked") == true) {
+                    $("input[name=CLOSE_OUT_YN2]").eq(idx).val("Y");
+                } else {
+                    $("input[name=CLOSE_OUT_YN2]").eq(idx).val("N");
+                }
+
+            });
+
+            if (val == "ALLOT_CNT_") {
+                saveText = "객실할당";
+            }
+
+            if (val == "SALES_AMT_") {
+                saveText = "객실요금";
+            }
+
+            if (val == "CLOSE_SALE_") {
+                saveText = "마감세일";
+            }
+
+            if (val == "CLOSE_YN_") {
+                saveText = "예약종료";
+            }
+
+            if (val == "SEASON_YN_") {
+                saveText = "성수기설정";
+            }
+
+
+			if (true == confirm("[" + saveText + "] Do you want to SAVE?")) {
+                f.action = "/CM/WCM140_S101?tProc=" + val + "EDIT";// + tProc;  f.action = "/NsmdG/CM/WCM140_S101/mainTran/?tProc=" + val + "EDIT";
+                f.submit();
+            }
+        }
+
+        function funcOpen(val) {
+
+            if (val == "SALES_AMT_") {
+                window.open("/CM/WCM140_U102?pp=Y&CMS_CD=" + $("#CMS_CD").val() + "&CHNL_NO=" + $("#CHNL_NO").val() + "&G_OFFICE_NO=" + $("#G_OFFICE_NO").val(), "mngOfficeStaffA", cnjOpenShape(700, 330, 'no'));
+
+            } else {
+                window.open("/CM/WCM140_U101?pp=Y&CMS_CD=" + $("#CMS_CD").val() + "&CHNL_NO=" + $("#CHNL_NO").val() + "&G_OFFICE_NO=" + $("#G_OFFICE_NO").val(), "mngOfficeStaffA", cnjOpenShape(700, 330, 'no'));
+
+            }
+        }
+
+
+        function funcOpen2() {
+                window.open("/CM/WCM140_U103?pp=Y&CMS_CD=" + $("#CMS_CD").val() + "&CHNL_NO=" + $("#CHNL_NO").val() + "&G_OFFICE_NO=" + $("#G_OFFICE_NO").val(), "mngOfficeStaffA", cnjOpenShape(700, 330, 'no'));
+        }
+
+        function replaceChar(str, fChar, rChar) {
+            var tar = '';
+            var len = str.length;
+            for (var i = 0; i < len; i++) {
+                if (str.charAt(i) == fChar)
+                    tar += rChar;
+                else
+                    tar += str.charAt(i);
+            }
+            return tar;
+        }
+
+        function Comma2(number) {
+            number = replaceChar(number, ',', '');
+            number = '' + number;
+            if (number.length > 3) {
+                var mod = number.length % 3;
+                var output = (mod > 0 ? (number.substring(0, mod)) : '');
+                for (i = 0; i < Math.floor(number.length / 3); i++) {
+                    if ((mod == 0) && (i == 0))
+                        output += number.substring(mod + 3 * i, mod + 3 * i + 3);
+                    else
+                        output += ',' + number.substring(mod + 3 * i, mod + 3 * i + 3);
+                }
+                return (output);
+            }
+            else return number;
+        }
+
+	</script>
+    <style type="text/css">
+        .block_cnt {display:inline-block;font-size:11px;margin-right:-2px;}
+        input[name="ALLOT_CNT"], input[name="SALES_AMT"] {height:12px;width:18px;padding:2px 0 0 0;}
+        input[name="SALES_AMT"] {width:48px;letter-spacing:-0.3px;}
+        .f4tbl th {white-space:normal;}
+        .f4tbl td {padding:1px 0 1px 1px;}
+
+        .holiday {background-color:#FFA7A7}
+        .today {background-color:#FEFEBD;}
+        .sun {background-color:#FF9601;}
+        .sat {background-color:#9bcdff;}
+        .fri {background-color:#66ff66;}
+
+        #ALLOT_CNT_COPY, #ALLOT_CNT_COPY_ALL, #SALES_AMT_COPY, #SALES_AMT_COPY_ALL {display:inline-block;text-decoration:none;background-color:#7da7d9;font-size:11px;font-weight:bold;padding:2px 3px 2px 2px;}
+
+        td[id*=td]{padding:0;}
+    </style>
+{% endblock head %}
+
+{% block content %}
+{% load SetSelectBox1 %}
+{% load DateAdd %}
+    {% if resultVO.AVA_WEEK == "4W" %}
+    <script type="text/jscript">
+        var ALLOT_CNT_VAL = ""
+        //var ALLOT_CNT_VAL2 = ""
+        var ALLOT_CNT_IDX = 0
+
+        var ALLOT_CNT_DATE = ""
+
+        var SALES_AMT_VAL = ""
+        var SALES_AMT_IDX = 0
+
+        var SALES_AMT_DATE = ""
+
+
+        $(document).ready(function () {
+
+
+
+            //$("input[name=ALLOT_CNT]").keyup(function () {
+            $(document).on('keyup', "input[name=ALLOT_CNT]", function (e) {
+
+                ALLOT_CNT_VAL = $("input[name=ALLOT_CNT]").eq($("input[name=ALLOT_CNT]").index($(this))).val()
+                //ALLOT_CNT_VAL2 = $(this).val();
+                //alert(ALLOT_CNT_VAL+","+ALLOT_CNT_VAL2)
+
+                ALLOT_CNT_IDX = $("input[name=ALLOT_CNT]").index($(this)) + 1
+
+
+                ALLOT_CNT_DATE = $(this).next("input").val();
+                //alert($(this).next("input").val())
+
+
+            });
+
+
+
+            //$("input[name=SALES_AMT]").blur(function () {
+            $(document).on('keyup', "input[name=SALES_AMT]", function (e) {
+
+                SALES_AMT_VAL = $("input[name=SALES_AMT]").eq($("input[name=SALES_AMT]").index($(this))).val()
+
+                SALES_AMT_IDX = $("input[name=SALES_AMT]").index($(this)) + 1
+
+                SALES_AMT_DATE = $(this).next("input").val();
+
+            });
+
+
+            $(document).on('click', "#SEASON, #CLOSE_OUT, #CLOSE_SALE", function (e) {
+
+                var id = $(this).attr("id");
+                var chkVal = $(this).val();
+                var chkYn = $(this).is(":checked");
+
+                //alert("dfsdfs")
+
+                $("#" + id + "_AREA").find("input[name=" + id + "_SALE_DATE]").each(function (idx, element) {
+
+                    if ($(this).val().indexOf(chkVal) > -1) {
+                        $(this).prev("input[name=" + id + "_YN]").prop("checked", chkYn);
+
+                    }
+                });
+            });
+
+            $(document).on('click', "input[name=total1], input[name=total2], input[name=total3]", function (e) {
+
+                var chk = $(this).prop("checked");
+                $(this).parent().parent().find("input[type=checkbox]").prop("checked", false);
+                $(this).parent().parent().find("input[type=checkbox]").prop("checked", chk);
+
+            });
+
+
+            $(document).on('click', "#ALLOT_CNT_COPY", function (e) {
+                var id = $(this).attr("id");
+
+                var ALLOT_CNT_DATE2 = ALLOT_CNT_DATE
+
+                $(this).parent().parent().find("input[name=DATES1]").each(function (idx, element) {
+                    //alert($(this).val().indexOf(ALLOT_CNT_VAL))
+                    //alert($(this).val() + "," + ALLOT_CNT_DATE)
+                    if ($(this).val().indexOf(ALLOT_CNT_DATE2) > -1) {
+
+
+                        //alert($(this).parent().parent().parent().parent().parent().next("td").attr("id"))
+                        ///alert("뭐야?")
+                        //alert($(this).parent().next("td").find("input[name=ALLOT_CNT]"))
+                        //alert($(this).parent().parent().parent().parent().parent().next("td").attr("id"))
+                        $(this).parent().parent().parent().parent().parent().next("td").find("input[name=ALLOT_CNT]").val(ALLOT_CNT_VAL);
+                        //alert($(this).parent().next("td").find("input[name=ALLOT_CNT]").val())
+                        $(this).parent().parent().parent().parent().parent().next("td").find("input[name=ALLOT_CNT]").trigger('keyup');
+                    }
+
+                });
+
+            });
+
+
+            $(document).on('click', "#SALES_AMT_COPY", function (e) {
+                var id = $(this).attr("id");
+
+                var SALES_AMT_DATE2 = SALES_AMT_DATE
+
+                $(this).parent().parent().find("input[name=DATES2]").each(function (idx, element) {
+                    //alert($(this).val() + "," + SALES_AMT_DATE2)
+                    //alert($(this).val().indexOf(SALES_AMT_DATE2))
+                    if ($(this).val().indexOf(SALES_AMT_DATE2) > -1) {
+                        $(this).parent().next("td").find("input[name=SALES_AMT]").val(SALES_AMT_VAL);
+                        $(this).parent().next("td").find("input[name=SALES_AMT]").trigger('keyup');
+                    }
+
+                });
+
+            });
+
+
+        });
+
+        function ALLOT_CNT_CHANGE(inum) {
+            //alert(ALLOT_CNT_IDX)
+
+            var check = "false"
+
+            if (ALLOT_CNT_IDX == 0 || (parseInt(inum) + 1) * 28 < ALLOT_CNT_IDX) return;
+
+            $("input[name=ALLOT_CNT]").each(function (idx) {
+                if ((parseInt(inum) + 1) * 28 - 28 <= idx && ALLOT_CNT_IDX >= idx) {
+                    check = "true"
+                    return
+                }
+            });
+
+
+            //alert(check)
+            if (check == "false") return;
+
+
+
+            if ((parseInt(inum) + 1) * 28 == ALLOT_CNT_IDX) return;
+
+            $("input[name=ALLOT_CNT]").eq(ALLOT_CNT_IDX).val(ALLOT_CNT_VAL)
+
+        }
+
+        function ALLOT_CNT_CHANGE_ALL(inum) {
+            //alert(inum * 28)
+            //alert(ALLOT_CNT_IDX)
+
+            //alert( ALLOT_CNT_IDX )
+            //alert((parseInt(inum) + 1) * 28)
+
+            var check = "false"
+
+            //alert((parseInt(inum) + 1) * 28)
+
+            if (ALLOT_CNT_IDX == 0 || (parseInt(inum) + 1) * 28 < ALLOT_CNT_IDX) return;
+
+            $("input[name=ALLOT_CNT]").each(function (idx) {
+                if ((parseInt(inum) + 1) * 28 - 28 <= idx && ALLOT_CNT_IDX >= idx) {
+                    check = "true"
+                    return
+                }
+            });
+
+
+            //alert(check)
+            if (check == "false") return;
+
+
+
+            //$("input[name=ALLOT_CNT]").eq(ALLOT_CNT_IDX).val(ALLOT_CNT_VAL)
+
+            $("input[name=ALLOT_CNT]").each(function (idx) {
+
+                if (idx >= ALLOT_CNT_IDX) {
+                    //alert((idx % 28))
+                    $("input[name=ALLOT_CNT]").eq(idx).val(ALLOT_CNT_VAL)
+                }
+
+                if (idx >= ALLOT_CNT_IDX && (idx % 28) == 27) {
+                    return false;
+                }
+
+            });
+
+
+
+
+        }
+
+
+        function SALES_AMT_CHANGE(inum) {
+
+            var check = "false"
+
+            if (SALES_AMT_IDX == 0 || (parseInt(inum) + 1) * 28 < SALES_AMT_IDX) return;
+
+            $("input[name=SALES_AMT]").each(function (idx) {
+                if ((parseInt(inum) + 1) * 28 - 28 <= idx && SALES_AMT_IDX >= idx) {
+                    check = "true"
+                    return
+                }
+            });
+
+            if (check == "false") return;
+
+            if ((parseInt(inum) + 1) * 28 == SALES_AMT_IDX) return;
+
+            $("input[name=SALES_AMT]").eq(SALES_AMT_IDX).val(SALES_AMT_VAL)
+        }
+
+        function SALES_AMT_CHANGE_ALL(inum) {
+
+            var check = "false"
+
+            if (SALES_AMT_IDX == 0 || (parseInt(inum) + 1) * 28 < SALES_AMT_IDX) return;
+
+            $("input[name=SALES_AMT]").each(function (idx) {
+                if ((parseInt(inum) + 1) * 28 - 28 <= idx && SALES_AMT_IDX >= idx) {
+                    check = "true"
+                    return
+                }
+            });
+
+            if (check == "false") return;
+
+            $("input[name=SALES_AMT]").each(function (idx) {
+
+                if (idx >= SALES_AMT_IDX) {
+
+                    $("input[name=SALES_AMT]").eq(idx).val(SALES_AMT_VAL)
+                }
+
+                if (idx >= SALES_AMT_IDX && (idx % 28) == 27) {
+                    return false;
+                }
+
+            });
+
+
+
+
+        }
+
+        function funcCMS_Change() {
+
+
+            this.param = {
+                G_OFFICE_NO: $('select[name="G_OFFICE_NO"]').val()
+
+            }
+
+            //alert(param);
+            var BodyList = "";
+            var aarHtml1 = "";
+            $.ajax({
+                url: "/CM/WCM140_S101",  //url: "/NsmdG/CM/WCM140_S101/selectList1/",
+                type: 'POST',
+                data: this.param,
+                dataType: 'html',
+                timeout: 1000,
+                async: false,
+                ifModified: true,
+                success: function (html) {
+                    aarHtml1 = html.split("{@XX@}")
+                    BodyList = aarHtml1[0]
+                }
+            });
+
+            $("select[name='CMS_CD'] option").remove();
+
+            $("#CMS_CD").append(BodyList);
+
+            funcCHNL_Change()
+
+
+        }
+
+
+        function funcCHNL_Change() {
+
+            this.param = {
+                G_OFFICE_NO: $('select[name="G_OFFICE_NO"]').val()
+                , CMS_CD: $('select[name="CMS_CD"]').val()
+            }
+
+            //alert(param);
+            var BodyList = "";
+            var aarHtml1 = "";
+            $.ajax({
+                url: "/CM/WCM140_S101",  //url: "/NsmdG/CM/WCM140_S101/selectList2/",
+                type: 'POST',
+                data: this.param,
+                dataType: 'html',
+                timeout: 1000,
+                async: false,
+                ifModified: true,
+                success: function (html) {
+                    aarHtml1 = html.split("{@XX@}")
+                    BodyList = aarHtml1[0]
+                }
+            });
+            $("select[name='CHNL_NO'] option").remove();
+
+            $("#CHNL_NO").append(BodyList);
+
+
+        }
+
+
+
+    </script>
+
+    {% else %}
+    <script type="text/jscript">
+        var ALLOT_CNT_VAL = ""
+        //var ALLOT_CNT_VAL2 = ""
+        var ALLOT_CNT_IDX = 0
+
+        var ALLOT_CNT_DATE = ""
+
+        var SALES_AMT_VAL = ""
+        var SALES_AMT_IDX = 0
+
+        var SALES_AMT_DATE = ""
+
+
+        $(document).ready(function () {
+
+
+
+            //$("input[name=ALLOT_CNT]").keyup(function () {
+            $(document).on('keyup', "input[name=ALLOT_CNT]", function (e) {
+
+                ALLOT_CNT_VAL = $("input[name=ALLOT_CNT]").eq($("input[name=ALLOT_CNT]").index($(this))).val()
+                //ALLOT_CNT_VAL2 = $(this).val();
+                //alert(ALLOT_CNT_VAL+","+ALLOT_CNT_VAL2)
+
+                ALLOT_CNT_IDX = $("input[name=ALLOT_CNT]").index($(this)) + 1
+
+
+                ALLOT_CNT_DATE = $(this).next("input").val();
+                //alert($(this).next("input").val())
+
+
+            });
+
+
+
+            //$("input[name=SALES_AMT]").blur(function () {
+            $(document).on('keyup', "input[name=SALES_AMT]", function (e) {
+
+                SALES_AMT_VAL = $("input[name=SALES_AMT]").eq($("input[name=SALES_AMT]").index($(this))).val()
+
+                SALES_AMT_IDX = $("input[name=SALES_AMT]").index($(this)) + 1
+
+                SALES_AMT_DATE = $(this).next("input").val();
+
+            });
+
+
+            $(document).on('click', "#SEASON, #CLOSE_OUT, #CLOSE_SALE", function (e) {
+
+                var id = $(this).attr("id");
+                var chkVal = $(this).val();
+                var chkYn = $(this).is(":checked");
+
+                //alert("dfsdfs")
+
+                $("#" + id + "_AREA").find("input[name=" + id + "_SALE_DATE]").each(function (idx, element) {
+
+                    if ($(this).val().indexOf(chkVal) > -1) {
+                        $(this).prev("input[name=" + id + "_YN]").prop("checked", chkYn);
+
+                    }
+                });
+            });
+
+            $(document).on('click', "input[name=total1], input[name=total2], input[name=total3]", function (e) {
+
+                var chk = $(this).prop("checked");
+                $(this).parent().parent().find("input[type=checkbox]").prop("checked", false);
+                $(this).parent().parent().find("input[type=checkbox]").prop("checked", chk);
+
+            });
+
+
+            $(document).on('click', "#ALLOT_CNT_COPY", function (e) {
+                var id = $(this).attr("id");
+
+                var ALLOT_CNT_DATE2 = ALLOT_CNT_DATE
+
+                $(this).parent().parent().find("input[name=DATES1]").each(function (idx, element) {
+                    //alert($(this).val().indexOf(ALLOT_CNT_VAL))
+                    //alert($(this).val() + "," + ALLOT_CNT_DATE)
+                    if ($(this).val().indexOf(ALLOT_CNT_DATE2) > -1) {
+
+
+                        //alert($(this).parent().parent().parent().parent().parent().next("td").attr("id"))
+                        ///alert("뭐야?")
+                        //alert($(this).parent().next("td").find("input[name=ALLOT_CNT]"))
+                        //alert($(this).parent().parent().parent().parent().parent().next("td").attr("id"))
+                        $(this).parent().parent().parent().parent().parent().next("td").find("input[name=ALLOT_CNT]").val(ALLOT_CNT_VAL);
+                        //alert($(this).parent().next("td").find("input[name=ALLOT_CNT]").val())
+                        $(this).parent().parent().parent().parent().parent().next("td").find("input[name=ALLOT_CNT]").trigger('keyup');
+                    }
+
+                });
+
+            });
+
+
+            $(document).on('click', "#SALES_AMT_COPY", function (e) {
+                var id = $(this).attr("id");
+
+                var SALES_AMT_DATE2 = SALES_AMT_DATE
+
+                $(this).parent().parent().find("input[name=DATES2]").each(function (idx, element) {
+                    //alert($(this).val() + "," + SALES_AMT_DATE2)
+                    //alert($(this).val().indexOf(SALES_AMT_DATE2))
+                    if ($(this).val().indexOf(SALES_AMT_DATE2) > -1) {
+                        $(this).parent().next("td").find("input[name=SALES_AMT]").val(SALES_AMT_VAL);
+                        $(this).parent().next("td").find("input[name=SALES_AMT]").trigger('keyup');
+                    }
+
+                });
+
+            });
+
+
+        });
+
+        function ALLOT_CNT_CHANGE(inum) {
+            //alert(ALLOT_CNT_IDX)
+
+            var check = "false"
+
+            if (ALLOT_CNT_IDX == 0 || (parseInt(inum) + 1) * 14 < ALLOT_CNT_IDX) return;
+
+            $("input[name=ALLOT_CNT]").each(function (idx) {
+                if ((parseInt(inum) + 1) * 14 - 14 <= idx && ALLOT_CNT_IDX >= idx) {
+                    check = "true"
+                    return
+                }
+            });
+
+
+            //alert(check)
+            if (check == "false") return;
+
+
+
+            if ((parseInt(inum) + 1) * 14 == ALLOT_CNT_IDX) return;
+
+            $("input[name=ALLOT_CNT]").eq(ALLOT_CNT_IDX).val(ALLOT_CNT_VAL)
+        }
+
+        function ALLOT_CNT_CHANGE_ALL(inum) {
+
+            var check = "false"
+
+            if (ALLOT_CNT_IDX == 0 || (parseInt(inum) + 1) * 14 < ALLOT_CNT_IDX) return;
+
+            $("input[name=ALLOT_CNT]").each(function (idx) {
+                if ((parseInt(inum) + 1) * 14 - 14 <= idx && ALLOT_CNT_IDX >= idx) {
+                    check = "true"
+                    return
+                }
+            });
+
+
+            //alert(check)
+            if (check == "false") return;
+
+
+
+            //$("input[name=ALLOT_CNT]").eq(ALLOT_CNT_IDX).val(ALLOT_CNT_VAL)
+
+            $("input[name=ALLOT_CNT]").each(function (idx) {
+
+                if (idx >= ALLOT_CNT_IDX) {
+
+                    $("input[name=ALLOT_CNT]").eq(idx).val(ALLOT_CNT_VAL)
+                }
+
+                if (idx >= ALLOT_CNT_IDX && (idx % 14) == 13) {
+                    return false;
+                }
+
+            });
+
+
+
+
+        }
+
+
+        function SALES_AMT_CHANGE(inum) {
+
+            var check = "false"
+
+            if (SALES_AMT_IDX == 0 || (parseInt(inum) + 1) * 14 < SALES_AMT_IDX) return;
+
+            $("input[name=SALES_AMT]").each(function (idx) {
+                if ((parseInt(inum) + 1) * 14 - 14 <= idx && SALES_AMT_IDX >= idx) {
+                    check = "true"
+                    return
+                }
+            });
+
+            if (check == "false") return;
+
+            if ((parseInt(inum) + 1) * 14 == SALES_AMT_IDX) return;
+
+            $("input[name=SALES_AMT]").eq(SALES_AMT_IDX).val(SALES_AMT_VAL)
+        }
+
+        function SALES_AMT_CHANGE_ALL(inum) {
+
+            var check = "false"
+
+            if (SALES_AMT_IDX == 0 || (parseInt(inum) + 1) * 14 < SALES_AMT_IDX) return;
+
+            $("input[name=SALES_AMT]").each(function (idx) {
+                if ((parseInt(inum) + 1) * 14 - 14 <= idx && SALES_AMT_IDX >= idx) {
+                    check = "true"
+                    return
+                }
+            });
+
+            if (check == "false") return;
+
+            $("input[name=SALES_AMT]").each(function (idx) {
+
+                if (idx >= SALES_AMT_IDX) {
+
+                    $("input[name=SALES_AMT]").eq(idx).val(SALES_AMT_VAL)
+                }
+
+                if (idx >= SALES_AMT_IDX && (idx % 14) == 13) {
+                    return false;
+                }
+
+            });
+
+
+
+
+        }
+
+        function funcCMS_Change() {
+
+
+            this.param = {
+                G_OFFICE_NO: $('select[name="G_OFFICE_NO"]').val()
+
+            }
+
+            //alert(param);
+            var BodyList = "";
+            var aarHtml1 = "";
+            $.ajax({
+                url: "/CM/WCM140_S101",  //url: "/NsmdG/CM/WCM140_S101/selectList1/",
+                type: 'POST',
+                data: this.param,
+                dataType: 'html',
+                timeout: 1000,
+                async: false,
+                ifModified: true,
+                success: function (html) {
+                    aarHtml1 = html.split("{@XX@}")
+                    BodyList = aarHtml1[0]
+                }
+            });
+
+            $("select[name='CMS_CD'] option").remove();
+
+            $("#CMS_CD").append(BodyList);
+
+            funcCHNL_Change()
+
+
+        }
+
+
+        function funcCHNL_Change() {
+
+            this.param = {
+                G_OFFICE_NO: $('select[name="G_OFFICE_NO"]').val()
+                , CMS_CD: $('select[name="CMS_CD"]').val()
+            }
+
+            //alert(param);
+            var BodyList = "";
+            var aarHtml1 = "";
+            $.ajax({
+                url: "/CM/WCM140_S101",  //url: "/NsmdG/CM/WCM140_S101/selectList2/",
+                type: 'POST',
+                data: this.param,
+                dataType: 'html',
+                timeout: 1000,
+                async: false,
+                ifModified: true,
+                success: function (html) {
+                    aarHtml1 = html.split("{@XX@}")
+                    BodyList = aarHtml1[0]
+                }
+            });
+            $("select[name='CHNL_NO'] option").remove();
+
+            $("#CHNL_NO").append(BodyList);
+
+
+        }
+
+
+
+    </script>
+    {% endif %}
+
+    {% if resultVO.tabs != "tabs" %}
+    <!--<%&#45;&#45;<div id="btn_left_menu">◀</div>&#45;&#45;%>-->
+    <h2 class="pagetitle">CMS {% trans "12577 Sales Option" %}</h2>
+    {% endif %}
+     <div class="pageid" id="noprint">CM140 S101</div>
+    <!-- excel 다운로드용 start -->
+    <form name="exfrm" method="post" action="/CMM/excel_04" target="_self">
+        <input type="hidden" name="ex_sql" value="{{resultVO.ex_sql}}">
+        <input type="hidden" name="ex_title" value="{{resultVO.ex_title}}">
+        <input type="hidden" name="ex_cond" value="{{resultVO.ex_cond}}">
+        <input type="hidden" name="ex_head" value="{{resultVO.ex_head}}">
+        <input type="hidden" name="ex_datatype" value="{{resultVO.ex_datatype}}">
+        <input type="hidden" name="ex_column" value="{{resultVO.ex_column}}">
+        <input type="hidden" name="ex_page" value="WCM140_S101" />
+    </form>
+    <!-- excel 다운로드용 end -->
+    <div class="search">
+        <form method="get" name="searchform" action="/CM/WCM140_S101">
+            <input type="hidden" name="sale_date" value="{{resultVO.SALE_DATE}}" />
+            <input type="hidden" name="bOpened" value="true" />
+            <input type="hidden" name="DF_Default" value="true" />
+            <input type="hidden" name="pp" value="{{resultVO.pp}}" />
+            <input type="hidden" name="tabs" value="{{resultVO.tabs}}" />
+            <input type="hidden" name="O_URL" value="/RR/WRR100_S201?PP=Y" />
+            <!--<%&#45;&#45;<input type="hidden" name="G_OFFICE_NO" value="<%=G_OFFICE_NO%>" />&#45;&#45;%>-->
+            <input type="hidden" name="RMT_OCCP" value="" />
+            <table>
+                <tr>
+
+                    <td align="right">{% trans "11003 Hotel" %}</td>
+                    <td>
+                        <select name="G_OFFICE_NO" id="G_OFFICE_NO" style="width: 150px;" onblur="chkInjection(this);" onfocus="" onchange="funcCMS_Change()">
+                            {% load SetSelectBox2 %}
+                            {% SetSelectBox2 "Office_No" resultVO.G_OFFICE_NO "--" "" "" request sessionInfo.OfficeNo %}
+                        </select>
+                    </td>
+                    <td align="right">CMS</td>
+                    <td>
+                        <select name="CMS_CD" id="CMS_CD" style="width: 150px;" onblur="chkInjection(this);" onfocus="" onchange="funcCHNL_Change()">
+                            {% SetSelectBox1 "CMS_CD" resultVO.CSM_CD "--" "" "" request sessionInfo.OfficeNo %}
+                        </select>
+                    </td>
+                    <td align="right">{% trans "12551 CHANNEL" %}</td>
+                    <td>
+                        <select name="CHNL_NO" id="CHNL_NO" style="width: 150px;" onblur="chkInjection(this);" onfocus="">
+                            {% SetSelectBox1 "CHNL_NO" resultVO.CHNL_NO "--" "" resultVO.CMS_CD request sessionInfo.OfficeNo %}
+                        </select>
+                    </td>
+                    <td align="right">{% trans "11209 Date" %}</td>
+                    <td valign="middle">
+                        <a href="?pp={{resultVO.pp}}&tabs={{resultVO.tabs}}&sale_date={% DateAdd 'd' -14 resultVO.SALE_DATE %}">
+                            <img src="/static/images/icons/arrow_l30x20.gif"></a>
+                        <div id="lCalendar" style="position: absolute; left: 0; top: 10px; width: 140px; visibility: hidden;">
+                            <iframe name="RHISCALENDAR" src="about:blank" width="140" height="140" frameborder="0" hspace="0" vspace="0" scrolling="no"></iframe>
+                        </div>
+
+                        <input value="<%=sale_date%>" class="input01 maskdate" maxlength="10" name="txtsDate" id="txtsDate" size="10" onchange="funcre(this)">
+
+                        <a href="?pp={{resultVO.pp}}&tabs={{resultVO.tabs}}&sale_date={% DateAdd 'd' 14 resultVO.SALE_DATE %}&"><img src="/static/images/icons/arrow_r30x20.gif"></a>
+
+                        <!--<%&#45;&#45;<input type="checkbox" id="DF" name="DF" value="Y" <%If DF = "Y" Then%>checked<%End If%> /><%=FDESK.GetConvertText(90643, "DF")%>
+                        <input type="checkbox" id="TT" name="TT" value="Y" <%If TT = "Y" Then%>checked<%End If%> /><%=FDESK.GetConvertText(90644, "TT")%>
+                        <input type="checkbox" id="WT" name="WT" value="Y" <%If WT = "Y" Then%>checked<%End If%> /><%=FDESK.GetConvertText(90645, "WT")%>
+
+                        &nbsp;&nbsp;
+
+                        <input type="radio" name="disp_gubun" id="disp_gubun" value="W" <%If disp_gubun = "W" Then%>checked<%End If%> /><%=FDESK.GetConvertText(90648, "Weeks")%>&lt;!&ndash; 주별표시  2W, 4W &ndash;&gt;
+                        <input type="radio" name="disp_gubun" id="disp_gubun" value="M" <%If disp_gubun = "M" Then%>checked<%End If%> /><%=FDESK.GetConvertText(90649, "Month")%>&nbsp;&lt;!&ndash; 1개월표시&ndash;&gt;
+                        &nbsp;&nbsp;
+                        <input type="radio" name="OCCP_TYPE" id="OCCP_TYPE" value="A" <%If OCCP_TYPE = "A" Then%>checked<%End If%> /><%=FDESK.GetConvertText(90650, "Avail")%>
+                        <input type="radio" name="OCCP_TYPE" id="OCCP_TYPE" value="S" <%If OCCP_TYPE = "S" Then%>checked<%End If%> /><%=FDESK.GetConvertText(90651, "Exp.Sales")%>&nbsp;&#45;&#45;%>-->
+
+                        <input type="radio" name="AVA_WEEK" value="4W" {% if resultVO.AVA_WEEK == "4W" %}checked{% endif %} />4W
+                        <input type="radio" name="AVA_WEEK" value="2W" {% if resultVO.AVA_WEEK == "2W" %}checked{% endif %} />2W
+
+
+                    </td>
+
+
+
+                    <td align="center">&nbsp;
+                        <span style="padding-top: 5px">
+                            <!--<%&#45;&#45;<a href="javascript:;" onclick="funcSearch()">
+                                <img src="/static/images/btn/btn_refresh.gif" id="noprint"></a>&#45;&#45;%>-->
+                            <input type="button" class="RLINK_button62" onclick="funcSearch()" value="{% trans '12612 Refresh' %}" id="noprint" border="0" />
+                            <!--<%&#45;&#45;<a href="javascript:;" onclick="funcAll()">
+                                <img src="/static/images/btn/btn_all.gif" id="noprint"></a>
+                            <a href="javascript:;" onclick="funcClear()">
+                                <img src="/static/images/btn/btn_clear<%=PMSLANG %>.gif" id="noprint"></a>&#45;&#45;%>-->
+
+                           <!--<%&#45;&#45; <a href="javascript:;" onclick="funcSubmit('')"><b>
+                                <img src="/static/images/btn/btn_saveall.gif" id="noprint">&#45;&#45;%>-->
+                                <input type="button" class="RLINK_button82" onclick="funcSubmit('')" value="{% trans '12610 Save All' %}" id="noprint" border="0" /><!--<%&#45;&#45;<%=FDESK.GetConvertText(91893, "일괄저장")%>&#45;&#45;%>--><!--일괄저장-->
+                         <!--<%&#45;&#45;   <a href="javascript:;" onclick="funcOpen2()"><b>
+                                <img src="/static/images/btn/btn_copychannel.gif" id="noprint"><%&#45;&#45;<%=FDESK.GetConvertText(91894, "채널복사")%>&#45;&#45;%>&lt;!&ndash;채널복사&ndash;&gt;-->
+                            <input type="button" class="RLINK_button82" onclick="funcOpen2()" value="{% trans '12611 Copy Chanel' %}" id="noprint" border="0" />
+                            &nbsp;&nbsp;
+                        </span>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{resultVO.G_OFFICE_NM}}&nbsp;&nbsp;&nbsp;{{resultVO.tDate}}&nbsp;
+                    </td>
+                    <td>
+                        <a href="javascript:document.exfrm.submit();">
+                            <img src="/static/images/icons/xls.gif" id="noprint" /></a>&nbsp;
+                        <a href="javascript:PrintPage('0','20','20','10','10','1');">
+                            <img src="/static/images/icons/icoprint.gif" id="noprint" /></a>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+    <div class="info">
+        <form name="frm" method="post">
+            <input type="hidden" name="sale_date" value="{{resultVO.SALE_DATE}}" />
+            <p>
+                &nbsp;<b>{% trans "12618 Room Allocation" %}</b>
+               <!--<%&#45;&#45; &nbsp;<a href="javascript:void(0);" onclick="funcSubmit('ALLOT_CNT_')"><img src="/static/images/btn/btn_save1.gif" border="0"></a>&#45;&#45;%>-->
+                <input type="button" class="RLINK_button62" onclick="funcSubmit('ALLOT_CNT_')" value="{% trans '12503 Save' %}" id="noprint" border="0" />
+                &nbsp;<input type="button" class="RLINK_button102" onclick="funcOpen('ALLOT_CNT_')" value="{% trans '12635 Create All' %}" id="noprint" border="0" />
+                <!--<%&#45;&#45;<a href="javascript:void(0);" onclick="funcOpen('ALLOT_CNT_')"><img src="/static/images/btn/btn_createAllBlock.gif" id="noprint">&lt;!&ndash;객실할당 일괄생성&ndash;&gt;</a>&#45;&#45;%>-->
+            </p>
+            {% load Range %}
+            {% load AddDays %}
+            {% load ToDateTime %}
+            {% load ToString %}
+            {% load strdaydate %}
+            {% load fn_weekday %}
+            {% load Trim %}
+            {% load AddCount %}
+            {% load ListIndex %}
+            <table class="f4tbl f4tblline" style="width: {% if resultVO.AVA_WEEK == '2W' %}938px{% else %}1680px{% endif %};">
+                <colgroup>
+                    <col />
+                    <col width="50" />
+                    <col width="44" />
+                    {% if resultVO.AVA_WEEK == "2W" %}
+                        {% for i in 13|Range %}
+                        <col width="53" />
+                        {% endfor %}
+                    {% elif resultVO.AVA_WEEK == "4W" %}
+                        {% for i in 27|Range %}
+                        <col width="53" />
+                        {% endfor %}
+                    {% endif %}
+                </colgroup>
+                <tr>
+                    <th align="center">{% trans "11474 Product Name" %}</th>
+                    <th align="center">{% trans "12620 Rm Count" %}</th>
+                    <th align="center"></th>
+                    {% if resultVO.AVA_WEEK == "4W" %}
+                        {% for i in 27|Range %}
+                            {% if resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString:"%Y-%m-%d" == G_SALEDATE %}
+                            <th class="today" align="center">
+                                <b>{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString:"%m.%d"}}</b>
+                                <br />
+                                {% strdaydate resultVO.SALE_DATE|ToDateTime|AddDays:i %}
+                            </th>
+                            {% elif fn_weekday resultVO.SALE_DATE|ToDateTime|AddDays:i == "토" %}
+                            <th class="sat" align="center">
+                                <b>{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString:"%m.%d"}}</b>
+                                <br />
+                                {% strdaydate resultVO.SALE_DATE|ToDateTime|AddDays:i %}
+                            </th>
+                            {% elif fn_weekday resultVO.SALE_DATE|ToDateTime|AddDays:i == "일" %}
+                            <th class="sun" align="center">
+                                <b>{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString:"%m.%d"}}</b>
+                                <br />
+                                {% strdaydate resultVO.SALE_DATE|ToDateTime|AddDays:i %}
+                            </th>
+                            {% else %}
+                            <th align="center">
+                                <b>{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString:"%m.%d"}}</b>
+                                <br />
+                                {% strdaydate resultVO.SALE_DATE|ToDateTime|AddDays:i %}
+                            </th>
+                            {% endif %}
+                        {% endfor %}
+                    {% else %}
+                        {% for i in 13|Range %}
+                            {% if resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString:"%Y-%m-%d" == G_SALEDATE %}
+                            <th class="today" align="center">
+                                <b>{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString:"%m.%d"}}</b>
+                                <br />
+                                {% strdaydate resultVO.SALE_DATE|ToDateTime|AddDays:i %}
+                            </th>
+                            {% elif fn_weekday resultVO.SALE_DATE|ToDateTime|AddDays:i == "토" %}
+                            <th class="sat" align="center">
+                                <b>{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString:"%m.%d"}}</b>
+                                <br />
+                                {% strdaydate resultVO.SALE_DATE|ToDateTime|AddDays:i %}
+                            </th>
+                            {% elif fn_weekday resultVO.SALE_DATE|ToDateTime|AddDays:i == "일" %}
+                            <th class="sun" align="center">
+                                <b>{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString:"%m.%d"}}</b>
+                                <br />
+                                {% strdaydate resultVO.SALE_DATE|ToDateTime|AddDays:i %}
+                            </th>
+                            {% else %}
+                            <th align="center">
+                                <b>{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString:"%m.%d"}}</b>
+                                <br />
+                                {% strdaydate resultVO.SALE_DATE|ToDateTime|AddDays:i %}
+                            </th>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                </tr>
+                {% if resultRS %}
+                    {% for rs in resultRS %}
+                        {% if rs.DISP_SEQ1 == "02" or rs.DISP_SEQ1 == "03" or rs.DISP_SEQ1 == "06" or rs.rtype_nm|Trim == "Available" %}
+                        <tr style="background-color: #eef7fe;" id="tr{{forloop.counter0}}" onmouseover="cellOver(this)" onmouseout="cellOut(this)">
+                            <td>{{rs.rtype_nm}}</td>
+                            <td align="center">{{rs.total_Room}}</td>
+                            <td align="center">
+                                <a href="#" id="ALLOT_CNT_COPY" onclick="return false;">&gt;<!--<%&#45;&#45;<img src="/Content/images/btn/btn_01.gif" id="noprint" alt="▶" />&#45;&#45;%>--><!--▶--></a>
+                                <a href="javascript:ALLOT_CNT_CHANGE_ALL('{{forloop.counter0}}')" id="ALLOT_CNT_COPY_ALL">&gt;&gt;<!--<%&#45;&#45;<img src="/Content/images/btn/btn_02.gif" id="noprint" alt="▶▶" />&#45;&#45;%>--><!--▶▶--></a>
+                            </td>
+                        {% else %}
+                        <tr style="background-color: FEFEFE;" id="tr{{forloop.counter0}}" onmouseover="cellOver(this)" onmouseout="cellOut(this)">
+                            <td>{{rs.rtype_nm}}</td>
+                            <td align="center">{{rs.total_Room}}</td>
+                            <td align="center">
+                                <a href="#" id="ALLOT_CNT_COPY" onclick="return false;">&gt;<!--<%&#45;&#45;<img src="/Content/images/btn/btn_01.gif" id="noprint" alt="▶" />&#45;&#45;%>--><!--▶--></a>
+                                <a href="javascript:ALLOT_CNT_CHANGE_ALL('{{forloop.counter0}}')" id="ALLOT_CNT_COPY_ALL">&gt;&gt;<!--<%&#45;&#45;<img src="/Content/images/btn/btn_02.gif" id="noprint" alt="▶▶" />&#45;&#45;%>--><!--▶▶--></a>
+                            </td>
+                        {% endif %}
+                        {% if resultVO.AVA_WEEK == "4W" %}
+                            {% for i in 27|Range %}
+                                {% if resultVO.HOLIDAYS|InStr:resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString:"%Y-%m-%d" > 0 %}
+                                <td class="holiday" align="right" id="td_{{i}}"><!--<%'= rs("DAY_" + Convert.ToString(Cellnum_i + 1)).Value.ToString %>-->
+                                    <span class="block_cnt">{% AddCount "DAY_" i|add:1 %}/{% AddCount "DAYY_" i|add:1 %}</span>
+                                    <input type="text" name="ALLOT_CNT" style="text-align: right;" value="{% width ALLOT_CNT_=AddCount rs 'ALLOT_CNT_' i|add:1 %}{% if ALLOT_CNT_|Trim != '' and ALLOT_CNT_ and ALLOT_CNT_ != '0' %}{{ALLOT_CNT_}}{% endif %}{% endwith %}" maxlength="3" onkeyup="onlyNumber1(this)" onclick="this.select()" />
+                                    <input type="hidden" name="DATES1" value="{% ListIndex resultRS rs %}{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString'%Y%m%d'}}" />
+                                    <input type="hidden" name="DATES" value="{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString'%Y%m%d'}}" />
+                                    <input type="hidden" name="ROOM_TYPE" value="{{rs.room_type}}" />
+                                </td>
+                                {% elif resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString'%Y-%m-%d' == G_SALESDATE %}
+                                <td class="today" align="right" id="td_{{i}}"><!--<%'= rs("DAY_" + Convert.ToString(Cellnum_i + 1)).Value.ToString %>-->
+                                    <span class="block_cnt">{% AddCount "DAY_" i|add:1 %}/{% AddCount "DAYY_" i|add:1 %}</span>
+                                    <input type="text" name="ALLOT_CNT" style="text-align: right;" value="{% width ALLOT_CNT_=AddCount rs 'ALLOT_CNT_' i|add:1 %}{% if ALLOT_CNT_|Trim != '' and ALLOT_CNT_ and ALLOT_CNT_ != '0' %}{{ALLOT_CNT_}}{% endif %}{% endwith %}" maxlength="3" onkeyup="onlyNumber1(this)" onclick="this.select()" />
+                                    <input type="hidden" name="DATES1" value="{% ListIndex resultRS rs %}{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString'%Y%m%d'}}" />
+                                    <input type="hidden" name="DATES" value="{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString'%Y%m%d'}}" />
+                                    <input type="hidden" name="ROOM_TYPE" value="{{rs.room_type}}" />
+                                </td>
+                                {% elif fn_weekday resultVO.SALE_DATE|ToDateTime|AddDays:i == "토" %}
+                                <td class="sat" align="right" id="td_{{i}}"><!--<%'= rs("DAY_" + Convert.ToString(Cellnum_i + 1)).Value.ToString %>-->
+                                    <span class="block_cnt">{% AddCount "DAY_" i|add:1 %}/{% AddCount "DAYY_" i|add:1 %}</span>
+                                    <input type="text" name="ALLOT_CNT" style="text-align: right;" value="{% width ALLOT_CNT_=AddCount rs 'ALLOT_CNT_' i|add:1 %}{% if ALLOT_CNT_|Trim != '' and ALLOT_CNT_ and ALLOT_CNT_ != '0' %}{{ALLOT_CNT_}}{% endif %}{% endwith %}" maxlength="3" onkeyup="onlyNumber1(this)" onclick="this.select()" />
+                                    <input type="hidden" name="DATES1" value="{% ListIndex resultRS rs %}{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString'%Y%m%d'}}" />
+                                    <input type="hidden" name="DATES" value="{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString'%Y%m%d'}}" />
+                                    <input type="hidden" name="ROOM_TYPE" value="{{rs.room_type}}" />
+                                </td>
+                                {% elif fn_weekday resultVO.SALE_DATE|ToDateTime|AddDays:i == "일" %}
+                                <td class="sun" align="right" id="td_{{i}}"><!--<%'= rs("DAY_" + Convert.ToString(Cellnum_i + 1)).Value.ToString %>-->
+                                    <span class="block_cnt">{% AddCount "DAY_" i|add:1 %}/{% AddCount "DAYY_" i|add:1 %}</span>
+                                    <input type="text" name="ALLOT_CNT" style="text-align: right;" value="{% width ALLOT_CNT_=AddCount rs 'ALLOT_CNT_' i|add:1 %}{% if ALLOT_CNT_|Trim != '' and ALLOT_CNT_ and ALLOT_CNT_ != '0' %}{{ALLOT_CNT_}}{% endif %}{% endwith %}" maxlength="3" onkeyup="onlyNumber1(this)" onclick="this.select()" />
+                                    <input type="hidden" name="DATES1" value="{% ListIndex resultRS rs %}{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString'%Y%m%d'}}" />
+                                    <input type="hidden" name="DATES" value="{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString'%Y%m%d'}}" />
+                                    <input type="hidden" name="ROOM_TYPE" value="{{rs.room_type}}" />
+                                </td>
+                                {% else %}
+                                <td align="right" id="td_{{i}}"><!--<%'= rs("DAY_" + Convert.ToString(Cellnum_i + 1)).Value.ToString %>-->
+                                    <span class="block_cnt">{% AddCount "DAY_" i|add:1 %}/{% AddCount "DAYY_" i|add:1 %}</span>
+                                    <input type="text" name="ALLOT_CNT" style="text-align: right;" value="{% width ALLOT_CNT_=AddCount rs 'ALLOT_CNT_' i|add:1 %}{% if ALLOT_CNT_|Trim != '' and ALLOT_CNT_ and ALLOT_CNT_ != '0' %}{{ALLOT_CNT_}}{% endif %}{% endwith %}" maxlength="3" onkeyup="onlyNumber1(this)" onclick="this.select()" />
+                                    <input type="hidden" name="DATES1" value="{% ListIndex resultRS rs %}{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString'%Y%m%d'}}" />
+                                    <input type="hidden" name="DATES" value="{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString'%Y%m%d'}}" />
+                                    <input type="hidden" name="ROOM_TYPE" value="{{rs.room_type}}" />
+                                </td>
+                                {% endif %}
+                            {% endfor %}
+                        {% else %}
+                            {% for i in 13|Range %}
+                                {% if resultVO.HOLIDAYS|InStr:resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString:"%Y-%m-%d" > 0 %}
+                                <td class="holiday" align="right" id="td_{{i}}"><!--<%'= rs("DAY_" + Convert.ToString(Cellnum_i + 1)).Value.ToString %>-->
+                                    <span class="block_cnt">{% AddCount "DAY_" i|add:1 %}/{% AddCount "DAYY_" i|add:1 %}</span>
+                                    <input type="text" name="ALLOT_CNT" style="text-align: right;" value="{% width ALLOT_CNT_=AddCount rs 'ALLOT_CNT_' i|add:1 %}{% if ALLOT_CNT_|Trim != '' and ALLOT_CNT_ and ALLOT_CNT_ != '0' %}{{ALLOT_CNT_}}{% endif %}{% endwith %}" maxlength="3" onkeyup="onlyNumber1(this)" onclick="this.select()" />
+                                    <input type="hidden" name="DATES1" value="{% ListIndex resultRS rs %}{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString'%Y%m%d'}}" />
+                                    <input type="hidden" name="DATES" value="{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString'%Y%m%d'}}" />
+                                    <input type="hidden" name="ROOM_TYPE" value="{{rs.room_type}}" />
+                                </td>
+                                {% elif resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString'%Y-%m-%d' == G_SALESDATE %}
+                                <td class="today" align="right" id="td_{{i}}"><!--<%'= rs("DAY_" + Convert.ToString(Cellnum_i + 1)).Value.ToString %>-->
+                                    <span class="block_cnt">{% AddCount "DAY_" i|add:1 %}/{% AddCount "DAYY_" i|add:1 %}</span>
+                                    <input type="text" name="ALLOT_CNT" style="text-align: right;" value="{% width ALLOT_CNT_=AddCount rs 'ALLOT_CNT_' i|add:1 %}{% if ALLOT_CNT_|Trim != '' and ALLOT_CNT_ and ALLOT_CNT_ != '0' %}{{ALLOT_CNT_}}{% endif %}{% endwith %}" maxlength="3" onkeyup="onlyNumber1(this)" onclick="this.select()" />
+                                    <input type="hidden" name="DATES1" value="{% ListIndex resultRS rs %}{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString'%Y%m%d'}}" />
+                                    <input type="hidden" name="DATES" value="{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString'%Y%m%d'}}" />
+                                    <input type="hidden" name="ROOM_TYPE" value="{{rs.room_type}}" />
+                                </td>
+                                {% elif fn_weekday resultVO.SALE_DATE|ToDateTime|AddDays:i == "토" %}
+                                <td class="sat" align="right" id="td_{{i}}"><!--<%'= rs("DAY_" + Convert.ToString(Cellnum_i + 1)).Value.ToString %>-->
+                                    <span class="block_cnt">{% AddCount "DAY_" i|add:1 %}/{% AddCount "DAYY_" i|add:1 %}</span>
+                                    <input type="text" name="ALLOT_CNT" style="text-align: right;" value="{% width ALLOT_CNT_=AddCount rs 'ALLOT_CNT_' i|add:1 %}{% if ALLOT_CNT_|Trim != '' and ALLOT_CNT_ and ALLOT_CNT_ != '0' %}{{ALLOT_CNT_}}{% endif %}{% endwith %}" maxlength="3" onkeyup="onlyNumber1(this)" onclick="this.select()" />
+                                    <input type="hidden" name="DATES1" value="{% ListIndex resultRS rs %}{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString'%Y%m%d'}}" />
+                                    <input type="hidden" name="DATES" value="{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString'%Y%m%d'}}" />
+                                    <input type="hidden" name="ROOM_TYPE" value="{{rs.room_type}}" />
+                                </td>
+                                {% elif fn_weekday resultVO.SALE_DATE|ToDateTime|AddDays:i == "일" %}
+                                <td class="sun" align="right" id="td_{{i}}"><!--<%'= rs("DAY_" + Convert.ToString(Cellnum_i + 1)).Value.ToString %>-->
+                                    <span class="block_cnt">{% AddCount "DAY_" i|add:1 %}/{% AddCount "DAYY_" i|add:1 %}</span>
+                                    <input type="text" name="ALLOT_CNT" style="text-align: right;" value="{% width ALLOT_CNT_=AddCount rs 'ALLOT_CNT_' i|add:1 %}{% if ALLOT_CNT_|Trim != '' and ALLOT_CNT_ and ALLOT_CNT_ != '0' %}{{ALLOT_CNT_}}{% endif %}{% endwith %}" maxlength="3" onkeyup="onlyNumber1(this)" onclick="this.select()" />
+                                    <input type="hidden" name="DATES1" value="{% ListIndex resultRS rs %}{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString'%Y%m%d'}}" />
+                                    <input type="hidden" name="DATES" value="{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString'%Y%m%d'}}" />
+                                    <input type="hidden" name="ROOM_TYPE" value="{{rs.room_type}}" />
+                                </td>
+                                {% else %}
+                                <td align="right" id="td_{{i}}"><!--<%'= rs("DAY_" + Convert.ToString(Cellnum_i + 1)).Value.ToString %>-->
+                                    <span class="block_cnt">{% AddCount "DAY_" i|add:1 %}/{% AddCount "DAYY_" i|add:1 %}</span>
+                                    <input type="text" name="ALLOT_CNT" style="text-align: right;" value="{% width ALLOT_CNT_=AddCount rs 'ALLOT_CNT_' i|add:1 %}{% if ALLOT_CNT_|Trim != '' and ALLOT_CNT_ and ALLOT_CNT_ != '0' %}{{ALLOT_CNT_}}{% endif %}{% endwith %}" maxlength="3" onkeyup="onlyNumber1(this)" onclick="this.select()" />
+                                    <input type="hidden" name="DATES1" value="{% ListIndex resultRS rs %}{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString'%Y%m%d'}}" />
+                                    <input type="hidden" name="DATES" value="{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString'%Y%m%d'}}" />
+                                    <input type="hidden" name="ROOM_TYPE" value="{{rs.room_type}}" />
+                                </td>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    </tr>
+                    {% endfor %}
+                {% endif %}
+            </table>
+
+            <br />
+            <p>
+                &nbsp;<b>{% trans "12617 Room Rate" %}</b>&nbsp;<!--<%&#45;&#45;<a href="javascript:;" onclick="funcSubmit('SALES_AMT_')">&#45;&#45;%>--><input type="button" class="RLINK_button62"  onclick="funcSubmit('SALES_AMT_')" value="{% trans '12503 Save' %}>" id="noprint" border="0" />&nbsp;
+                    <!--<%&#45;&#45;<a href="javascript:;" onclick="funcOpen('SALES_AMT_')">
+                        <img src="/Content/images/btn/btn_createAllRate.gif" id="noprint">&#45;&#45;%>--><!--객실요금 일괄생성-->
+                <input type="button" class="RLINK_button102" onclick="funcOpen('SALES_AMT_')" value="{% trans '12635 Create All' %}" id="noprint" border="0" />
+            </p>
+
+
+            <table class="f4tbl f4tblline" style="width: {% if resultVO.AVA_WEEK == '2W' %}938px{% else %}1680px{% endif %};">
+                <colgroup>
+                    <col />
+                    <col width="50" />
+                    <col width="44" />
+
+                    {% if resultVO.AVA_WEEK == "2W" %}
+                        {% for i in 13|Range %}
+                        <col width="53" />
+                        {% endfor %}
+                    {% elif resultVO.AVA_WEEK == "4W" %}
+                        {% for i in 27|Range %}
+                        <col width="53" />
+                        {% endfor %}
+                    {% endif %}
+                </colgroup>
+                <tr>
+                    <th align="center">{% trans "11474 Product Name" %}</th>
+                    <th align="center">{% trans "11419 Rack rate" %}</th>
+                    <th align="center"></th>
+                    {% if resultVO.AVA_WEEK == "4W" %}
+                        {% for i in 27|Range %}
+                            {% if resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString:"%Y-%m-%d" == G_SALEDATE %}
+                            <th class="today" align="center">
+                                <b>{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString:"%m.%d"}}</b>
+                                <br />
+                                {% strdaydate resultVO.SALE_DATE|ToDateTime|AddDays:i %}
+                            </th>
+                            {% elif fn_weekday resultVO.SALE_DATE|ToDateTime|AddDays:i == "토" %}
+                            <th class="sat" align="center">
+                                <b>{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString:"%m.%d"}}</b>
+                                <br />
+                                {% strdaydate resultVO.SALE_DATE|ToDateTime|AddDays:i %}
+                            </th>
+                            {% elif fn_weekday resultVO.SALE_DATE|ToDateTime|AddDays:i == "일" %}
+                            <th class="sun" align="center">
+                                <b>{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString:"%m.%d"}}</b>
+                                <br />
+                                {% strdaydate resultVO.SALE_DATE|ToDateTime|AddDays:i %}
+                            </th>
+                            {% else %}
+                            <th align="center">
+                                <b>{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString:"%m.%d"}}</b>
+                                <br />
+                                {% strdaydate resultVO.SALE_DATE|ToDateTime|AddDays:i %}
+                            </th>
+                            {% endif %}
+                        {% endfor %}
+                    {% else %}
+                        {% for i in 13|Range %}
+                            {% if resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString:"%Y-%m-%d" == G_SALEDATE %}
+                            <th class="today" align="center">
+                                <b>{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString:"%m.%d"}}</b>
+                                <br />
+                                {% strdaydate resultVO.SALE_DATE|ToDateTime|AddDays:i %}
+                            </th>
+                            {% elif fn_weekday resultVO.SALE_DATE|ToDateTime|AddDays:i == "토" %}
+                            <th class="sat" align="center">
+                                <b>{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString:"%m.%d"}}</b>
+                                <br />
+                                {% strdaydate resultVO.SALE_DATE|ToDateTime|AddDays:i %}
+                            </th>
+                            {% elif fn_weekday resultVO.SALE_DATE|ToDateTime|AddDays:i == "일" %}
+                            <th class="sun" align="center">
+                                <b>{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString:"%m.%d"}}</b>
+                                <br />
+                                {% strdaydate resultVO.SALE_DATE|ToDateTime|AddDays:i %}
+                            </th>
+                            {% else %}
+                            <th align="center">
+                                <b>{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString:"%m.%d"}}</b>
+                                <br />
+                                {% strdaydate resultVO.SALE_DATE|ToDateTime|AddDays:i %}
+                            </th>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                </tr>
+                {% load humanize %}
+                {% if resultRS %}
+                    {% for rs in resultRS %}
+                        {% if rs.DISP_SEQ1 == "02" or rs.DISP_SEQ1 == "03" or rs.DISP_SEQ1 == "06" or rs.rtype_nm|Trim == "Available" %}
+                        <tr style="background-color: #eef7fe;" id="tr{{forloop.counter0}}" onmouseover="cellOver(this)" onmouseout="cellOut(this)">
+                            <td align="left">{{rs.rtype_nm}}</td>
+                            <td align="right">{{rs.STD_PRICE|intcomma}}</td>
+                            <td align="center">
+                                <a href="#" id="SALES_AMT_COPY" onclick="return false;">&gt;<!--<%&#45;&#45;<img src="/Content/images/btn/btn_01.gif" id="noprint">&#45;&#45;%>--><!--▶--></a>
+                                <a href="javascript:javascript:SALES_AMT_CHANGE_ALL('{{forloop.counter0}}')" id="SALES_AMT_COPY_ALL">&gt;&gt;<!--<img src="/Content/images/btn/btn_02.gif" id="noprint">&#45;&#45;%>--><!--▶▶--></a>
+                            </td>
+                        {% else %}
+                        <tr style="background-color: FEFEFE;" id="tr{{forloop.counter0}}" onmouseover="cellOver(this)" onmouseout="cellOut(this)">
+                            <td align="left">{{rs.rtype_nm}}</td>
+                            <td align="right">{{rs.STD_PRICE|intcomma}}</td>
+                            <td align="center">
+                                <a href="#" id="SALES_AMT_COPY" onclick="return false;">&gt;<!--<%&#45;&#45;<img src="/Content/images/btn/btn_01.gif" id="noprint">&#45;&#45;%>--><!--▶--></a>
+                                <a href="javascript:javascript:SALES_AMT_CHANGE_ALL('{{forloop.counter0}}')" id="SALES_AMT_COPY_ALL">&gt;&gt;<!--<img src="/Content/images/btn/btn_02.gif" id="noprint">&#45;&#45;%>--><!--▶▶--></a>
+                            </td>
+                        {% endif %}
+                        {% if resultVO.AVA_WEEK == "4W" %}
+                            {% for i in 27|Range %}
+                                {% if resultVO.HOLIDAYS|InStr:resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString:"%Y-%m-%d" > 0 %}
+                                <td class="holiday" align="center" ><!--<%'= rs("DAY_" + Convert.ToString(Cellnum_i + 1)).Value.ToString %>-->
+                                    <input type="text" name="SALES_AMT" value="{% width SALES_AMT_=AddCount rs 'SALES_AMT_' i|add:1 %}{% if SALES_AMT_|Trim != '' and SALES_AMT_ and SALES_AMT_ != '0' %}{{SALES_AMT_|intcomma}}{% endif %}{% endwith %}" maxlength="10" size="7" style="text-align: right;" onkeyup="onlyNumber3(this);this.value=Comma2(this.value);" onclick="this.select()" onfocus="this.value=Comma2(this.value);" />
+                                    <input type="hidden" name="DATES2" value="{% ListIndex resultRS rs %}{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString'%Y%m%d'}}" />
+                                </td>
+                                {% elif resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString'%Y-%m-%d' == G_SALESDATE %}
+                                <td class="today" align="center" ><!--<%'= rs("DAY_" + Convert.ToString(Cellnum_i + 1)).Value.ToString %>-->
+                                    <input type="text" name="SALES_AMT" value="{% width SALES_AMT_=AddCount rs 'SALES_AMT_' i|add:1 %}{% if SALES_AMT_|Trim != '' and SALES_AMT_ and SALES_AMT_ != '0' %}{{SALES_AMT_|intcomma}}{% endif %}{% endwith %}" maxlength="10" size="7" style="text-align: right;" onkeyup="onlyNumber3(this);this.value=Comma2(this.value);" onclick="this.select()" onfocus="this.value=Comma2(this.value);" />
+                                    <input type="hidden" name="DATES2" value="{% ListIndex resultRS rs %}{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString'%Y%m%d'}}" />
+                                </td>
+                                {% elif fn_weekday resultVO.SALE_DATE|ToDateTime|AddDays:i == "토" %}
+                                <td class="sat" align="center" ><!--<%'= rs("DAY_" + Convert.ToString(Cellnum_i + 1)).Value.ToString %>-->
+                                    <input type="text" name="SALES_AMT" value="{% width SALES_AMT_=AddCount rs 'SALES_AMT_' i|add:1 %}{% if SALES_AMT_|Trim != '' and SALES_AMT_ and SALES_AMT_ != '0' %}{{SALES_AMT_|intcomma}}{% endif %}{% endwith %}" maxlength="10" size="7" style="text-align: right;" onkeyup="onlyNumber3(this);this.value=Comma2(this.value);" onclick="this.select()" onfocus="this.value=Comma2(this.value);" />
+                                    <input type="hidden" name="DATES2" value="{% ListIndex resultRS rs %}{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString'%Y%m%d'}}" />
+                                </td>
+                                {% elif fn_weekday resultVO.SALE_DATE|ToDateTime|AddDays:i == "일" %}
+                                <td class="sun" align="center" ><!--<%'= rs("DAY_" + Convert.ToString(Cellnum_i + 1)).Value.ToString %>-->
+                                    <input type="text" name="SALES_AMT" value="{% width SALES_AMT_=AddCount rs 'SALES_AMT_' i|add:1 %}{% if SALES_AMT_|Trim != '' and SALES_AMT_ and SALES_AMT_ != '0' %}{{SALES_AMT_|intcomma}}{% endif %}{% endwith %}" maxlength="10" size="7" style="text-align: right;" onkeyup="onlyNumber3(this);this.value=Comma2(this.value);" onclick="this.select()" onfocus="this.value=Comma2(this.value);" />
+                                    <input type="hidden" name="DATES2" value="{% ListIndex resultRS rs %}{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString'%Y%m%d'}}" />
+                                </td>
+                                {% else %}
+                                <td class="sun" align="center" ><!--<%'= rs("DAY_" + Convert.ToString(Cellnum_i + 1)).Value.ToString %>-->
+                                    <input type="text" name="SALES_AMT" value="{% width SALES_AMT_=AddCount rs 'SALES_AMT_' i|add:1 %}{% if SALES_AMT_|Trim != '' and SALES_AMT_ and SALES_AMT_ != '0' %}{{SALES_AMT_|intcomma}}{% endif %}{% endwith %}" maxlength="10" size="7" style="text-align: right;" onkeyup="onlyNumber3(this);this.value=Comma2(this.value);" onclick="this.select()" onfocus="this.value=Comma2(this.value);" />
+                                    <input type="hidden" name="DATES2" value="{% ListIndex resultRS rs %}{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString'%Y%m%d'}}" />
+                                </td>
+                                {% endif %}
+                            {% endfor %}
+                        {% else %}
+                            {% for i in 13|Range %}
+                                {% if resultVO.HOLIDAYS|InStr:resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString:"%Y-%m-%d" > 0 %}
+                                <td class="holiday" align="center" ><!--<%'= rs("DAY_" + Convert.ToString(Cellnum_i + 1)).Value.ToString %>-->
+                                    <input type="text" name="SALES_AMT" value="{% width SALES_AMT_=AddCount rs 'SALES_AMT_' i|add:1 %}{% if SALES_AMT_|Trim != '' and SALES_AMT_ and SALES_AMT_ != '0' %}{{SALES_AMT_|intcomma}}{% endif %}{% endwith %}" maxlength="10" size="7" style="text-align: right;" onkeyup="onlyNumber3(this);this.value=Comma2(this.value);" onclick="this.select()" onfocus="this.value=Comma2(this.value);" />
+                                    <input type="hidden" name="DATES2" value="{% ListIndex resultRS rs %}{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString'%Y%m%d'}}" />
+                                </td>
+                                {% elif resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString'%Y-%m-%d' == G_SALESDATE %}
+                                <td class="today" align="center" ><!--<%'= rs("DAY_" + Convert.ToString(Cellnum_i + 1)).Value.ToString %>-->
+                                    <input type="text" name="SALES_AMT" value="{% width SALES_AMT_=AddCount rs 'SALES_AMT_' i|add:1 %}{% if SALES_AMT_|Trim != '' and SALES_AMT_ and SALES_AMT_ != '0' %}{{SALES_AMT_|intcomma}}{% endif %}{% endwith %}" maxlength="10" size="7" style="text-align: right;" onkeyup="onlyNumber3(this);this.value=Comma2(this.value);" onclick="this.select()" onfocus="this.value=Comma2(this.value);" />
+                                    <input type="hidden" name="DATES2" value="{% ListIndex resultRS rs %}{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString'%Y%m%d'}}" />
+                                </td>
+                                {% elif fn_weekday resultVO.SALE_DATE|ToDateTime|AddDays:i == "토" %}
+                                <td class="sat" align="center" ><!--<%'= rs("DAY_" + Convert.ToString(Cellnum_i + 1)).Value.ToString %>-->
+                                    <input type="text" name="SALES_AMT" value="{% width SALES_AMT_=AddCount rs 'SALES_AMT_' i|add:1 %}{% if SALES_AMT_|Trim != '' and SALES_AMT_ and SALES_AMT_ != '0' %}{{SALES_AMT_|intcomma}}{% endif %}{% endwith %}" maxlength="10" size="7" style="text-align: right;" onkeyup="onlyNumber3(this);this.value=Comma2(this.value);" onclick="this.select()" onfocus="this.value=Comma2(this.value);" />
+                                    <input type="hidden" name="DATES2" value="{% ListIndex resultRS rs %}{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString'%Y%m%d'}}" />
+                                </td>
+                                {% elif fn_weekday resultVO.SALE_DATE|ToDateTime|AddDays:i == "일" %}
+                                <td class="sun" align="center" ><!--<%'= rs("DAY_" + Convert.ToString(Cellnum_i + 1)).Value.ToString %>-->
+                                    <input type="text" name="SALES_AMT" value="{% width SALES_AMT_=AddCount rs 'SALES_AMT_' i|add:1 %}{% if SALES_AMT_|Trim != '' and SALES_AMT_ and SALES_AMT_ != '0' %}{{SALES_AMT_|intcomma}}{% endif %}{% endwith %}" maxlength="10" size="7" style="text-align: right;" onkeyup="onlyNumber3(this);this.value=Comma2(this.value);" onclick="this.select()" onfocus="this.value=Comma2(this.value);" />
+                                    <input type="hidden" name="DATES2" value="{% ListIndex resultRS rs %}{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString'%Y%m%d'}}" />
+                                </td>
+                                {% else %}
+                                <td class="sun" align="center" ><!--<%'= rs("DAY_" + Convert.ToString(Cellnum_i + 1)).Value.ToString %>-->
+                                    <input type="text" name="SALES_AMT" value="{% width SALES_AMT_=AddCount rs 'SALES_AMT_' i|add:1 %}{% if SALES_AMT_|Trim != '' and SALES_AMT_ and SALES_AMT_ != '0' %}{{SALES_AMT_|intcomma}}{% endif %}{% endwith %}" maxlength="10" size="7" style="text-align: right;" onkeyup="onlyNumber3(this);this.value=Comma2(this.value);" onclick="this.select()" onfocus="this.value=Comma2(this.value);" />
+                                    <input type="hidden" name="DATES2" value="{% ListIndex resultRS rs %}{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString'%Y%m%d'}}" />
+                                </td>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    </tr>
+                    {% endfor %}
+                {% endif %}
+            </table>
+
+            <br />
+            <p>&nbsp;<b>{% trans "12616 Deadline" %}</b>&nbsp;<!--<%&#45;&#45;<a href="javascript:;" onclick="funcSubmit('CLOSE_SALE_')">&#45;&#45;%>--><input type="button" class="RLINK_button62"  onclick="funcSubmit('CLOSE_SALE_')" value="{% trans '12503 Save' %}" id="noprint" border="0" /></p>
+
+
+            <table class="f4tbl f4tblline" style="width: {% if resultVO.AVA_WEEK == '2W' %}938px{% else %}1680px{% endif %};">
+                <colgroup>
+                    <col />
+                    <col width="44" />
+
+                    {% if resultVO.AVA_WEEK == "2W" %}
+                        {% for i in 13|Range %}
+                        <col width="53" />
+                        {% endfor %}
+                    {% elif resultVO.AVA_WEEK == "4W" %}
+                        {% for i in 27|Range %}
+                        <col width="53" />
+                        {% endfor %}
+                    {% endif %}
+                </colgroup>
+                <tr>
+                    <th>{% trans "11474 Product Name" %}</th>
+                    <th></th>
+                    {% if resultVO.AVA_WEEK == "4W" %}
+                        {% for i in 27|Range %}
+                            {% if resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString:"%Y-%m-%d" == G_SALEDATE %}
+                            <th class="today" align="center">
+                                <b>{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString:"%m.%d"}}</b>
+                                <br />
+                                {% strdaydate resultVO.SALE_DATE|ToDateTime|AddDays:i %}
+                                <input type="checkbox" id="CLOSE_SALE" value="{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString:'%Y%m%d'}}" />
+                            </th>
+                            {% elif fn_weekday resultVO.SALE_DATE|ToDateTime|AddDays:i == "토" %}
+                            <th class="sat" align="center">
+                                <b>{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString:"%m.%d"}}</b>
+                                <br />
+                                {% strdaydate resultVO.SALE_DATE|ToDateTime|AddDays:i %}
+                                <input type="checkbox" id="CLOSE_SALE" value="{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString:'%Y%m%d'}}" />
+                            </th>
+                            {% elif fn_weekday resultVO.SALE_DATE|ToDateTime|AddDays:i == "일" %}
+                            <th class="sun" align="center">
+                                <b>{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString:"%m.%d"}}</b>
+                                <br />
+                                {% strdaydate resultVO.SALE_DATE|ToDateTime|AddDays:i %}
+                                <input type="checkbox" id="CLOSE_SALE" value="{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString:'%Y%m%d'}}" />
+                            </th>
+                            {% else %}
+                            <th align="center">
+                                <b>{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString:"%m.%d"}}</b>
+                                <br />
+                                {% strdaydate resultVO.SALE_DATE|ToDateTime|AddDays:i %}
+                                <input type="checkbox" id="CLOSE_SALE" value="{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString:'%Y%m%d'}}" />
+                            </th>
+                            {% endif %}
+                        {% endfor %}
+                    {% else %}
+                        {% for i in 13|Range %}
+                            {% if resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString:"%Y-%m-%d" == G_SALEDATE %}
+                            <th class="today" align="center">
+                                <b>{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString:"%m.%d"}}</b>
+                                <br />
+                                {% strdaydate resultVO.SALE_DATE|ToDateTime|AddDays:i %}
+                                <input type="checkbox" id="CLOSE_SALE" value="{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString:'%Y%m%d'}}" />
+                            </th>
+                            {% elif fn_weekday resultVO.SALE_DATE|ToDateTime|AddDays:i == "토" %}
+                            <th class="sat" align="center">
+                                <b>{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString:"%m.%d"}}</b>
+                                <br />
+                                {% strdaydate resultVO.SALE_DATE|ToDateTime|AddDays:i %}
+                                <input type="checkbox" id="CLOSE_SALE" value="{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString:'%Y%m%d'}}" />
+                            </th>
+                            {% elif fn_weekday resultVO.SALE_DATE|ToDateTime|AddDays:i == "일" %}
+                            <th class="sun" align="center">
+                                <b>{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString:"%m.%d"}}</b>
+                                <br />
+                                {% strdaydate resultVO.SALE_DATE|ToDateTime|AddDays:i %}
+                                <input type="checkbox" id="CLOSE_SALE" value="{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString:'%Y%m%d'}}" />
+                            </th>
+                            {% else %}
+                            <th align="center">
+                                <b>{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString:"%m.%d"}}</b>
+                                <br />
+                                {% strdaydate resultVO.SALE_DATE|ToDateTime|AddDays:i %}
+                                <input type="checkbox" id="CLOSE_SALE" value="{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString:'%Y%m%d'}}" />
+                            </th>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                </tr>
+                <tbody id="CLOSE_SALE_AREA">
+                    {% if resultRS %}
+                    {% for rs in resultRS %}
+                        {% if rs.DISP_SEQ1 == "02" or rs.DISP_SEQ1 == "03" or rs.DISP_SEQ1 == "06" or rs.rtype_nm|Trim == "Available" %}
+                        <tr style="background-color: #eef7fe;" id="tr{{forloop.counter0}}" onmouseover="cellOver(this)" onmouseout="cellOut(this)">
+                            <td>{{rs.rtype_nm}}</td>
+                            <td align="center">
+                                <input type="checkbox" name="total1" id="total1_{{forloop.counter0}}" value="Y" />
+                            </td>
+                        {% else %}
+                        <tr style="background-color: FEFEFE;" id="tr{{forloop.counter0}}" onmouseover="cellOver(this)" onmouseout="cellOut(this)">
+                            <td>{{rs.rtype_nm}}</td>
+                            <td align="center">
+                                <input type="checkbox" name="total1" id="total1_{{forloop.counter0}}" value="Y" />
+                            </td>
+                        {% endif %}
+                        {% if resultVO.AVA_WEEK == "4W" %}
+                            {% for i in 27|Range %}
+                                {% if resultVO.HOLIDAYS|InStr:resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString:"%Y-%m-%d" > 0 %}
+                                <td class="holiday" align="center" ><!--<%'= rs("DAY_" + Convert.ToString(Cellnum_i + 1)).Value.ToString %>-->
+                                    <input type="checkbox" name="CLOSE_SALE_YN" value="{% width CLOSE_SALE_=AddCount rs 'CLOSE_SALE_' i|add:1 %}{% if CLOSE_SALE_ == 'Y'%}checked{% endif %}{% endwith %}" />
+                                    <input type="hidden" name="CLOSE_SALE_SALE_DATE" value="{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString'%Y%m%d'}}" />
+                                    <input type="hidden" name="CLOSE_SALE_YN2" value="{% AddCount rs 'CLOSE_SALE_' i|add:1 %}" />
+                                </td>
+                                {% elif resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString'%Y-%m-%d' == G_SALESDATE %}
+                                <td class="today" align="center" ><!--<%'= rs("DAY_" + Convert.ToString(Cellnum_i + 1)).Value.ToString %>-->
+                                    <input type="checkbox" name="CLOSE_SALE_YN" value="{% width CLOSE_SALE_=AddCount rs 'CLOSE_SALE_' i|add:1 %}{% if CLOSE_SALE_ == 'Y'%}checked{% endif %}{% endwith %}" />
+                                    <input type="hidden" name="CLOSE_SALE_SALE_DATE" value="{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString'%Y%m%d'}}" />
+                                    <input type="hidden" name="CLOSE_SALE_YN2" value="{% AddCount rs 'CLOSE_SALE_' i|add:1 %}" />
+                                </td>
+                                {% elif fn_weekday resultVO.SALE_DATE|ToDateTime|AddDays:i == "토" %}
+                                <td class="sat" align="center" ><!--<%'= rs("DAY_" + Convert.ToString(Cellnum_i + 1)).Value.ToString %>-->
+                                    <input type="checkbox" name="CLOSE_SALE_YN" value="{% width CLOSE_SALE_=AddCount rs 'CLOSE_SALE_' i|add:1 %}{% if CLOSE_SALE_ == 'Y'%}checked{% endif %}{% endwith %}" />
+                                    <input type="hidden" name="CLOSE_SALE_SALE_DATE" value="{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString'%Y%m%d'}}" />
+                                    <input type="hidden" name="CLOSE_SALE_YN2" value="{% AddCount rs 'CLOSE_SALE_' i|add:1 %}" />
+                                </td>
+                                {% elif fn_weekday resultVO.SALE_DATE|ToDateTime|AddDays:i == "일" %}
+                                <td class="sun" align="center" ><!--<%'= rs("DAY_" + Convert.ToString(Cellnum_i + 1)).Value.ToString %>-->
+                                    <input type="checkbox" name="CLOSE_SALE_YN" value="{% width CLOSE_SALE_=AddCount rs 'CLOSE_SALE_' i|add:1 %}{% if CLOSE_SALE_ == 'Y'%}checked{% endif %}{% endwith %}" />
+                                    <input type="hidden" name="CLOSE_SALE_SALE_DATE" value="{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString'%Y%m%d'}}" />
+                                    <input type="hidden" name="CLOSE_SALE_YN2" value="{% AddCount rs 'CLOSE_SALE_' i|add:1 %}" />
+                                </td>
+                                {% else %}
+                                <td align="center" ><!--<%'= rs("DAY_" + Convert.ToString(Cellnum_i + 1)).Value.ToString %>-->
+                                    <input type="checkbox" name="CLOSE_SALE_YN" value="{% width CLOSE_SALE_=AddCount rs 'CLOSE_SALE_' i|add:1 %}{% if CLOSE_SALE_ == 'Y'%}checked{% endif %}{% endwith %}" />
+                                    <input type="hidden" name="CLOSE_SALE_SALE_DATE" value="{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString'%Y%m%d'}}" />
+                                    <input type="hidden" name="CLOSE_SALE_YN2" value="{% AddCount rs 'CLOSE_SALE_' i|add:1 %}" />
+                                </td>
+                                {% endif %}
+                            {% endfor %}
+                        {% else %}
+                            {% for i in 13|Range %}
+                                {% if resultVO.HOLIDAYS|InStr:resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString:"%Y-%m-%d" > 0 %}
+                                <td class="holiday" align="center" ><!--<%'= rs("DAY_" + Convert.ToString(Cellnum_i + 1)).Value.ToString %>-->
+                                    <input type="checkbox" name="CLOSE_SALE_YN" value="{% width CLOSE_SALE_=AddCount rs 'CLOSE_SALE_' i|add:1 %}{% if CLOSE_SALE_ == 'Y'%}checked{% endif %}{% endwith %}" />
+                                    <input type="hidden" name="CLOSE_SALE_SALE_DATE" value="{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString'%Y%m%d'}}" />
+                                    <input type="hidden" name="CLOSE_SALE_YN2" value="{% AddCount rs 'CLOSE_SALE_' i|add:1 %}" />
+                                </td>
+                                {% elif resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString'%Y-%m-%d' == G_SALESDATE %}
+                                <td class="today" align="center" ><!--<%'= rs("DAY_" + Convert.ToString(Cellnum_i + 1)).Value.ToString %>-->
+                                    <input type="checkbox" name="CLOSE_SALE_YN" value="{% width CLOSE_SALE_=AddCount rs 'CLOSE_SALE_' i|add:1 %}{% if CLOSE_SALE_ == 'Y'%}checked{% endif %}{% endwith %}" />
+                                    <input type="hidden" name="CLOSE_SALE_SALE_DATE" value="{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString'%Y%m%d'}}" />
+                                    <input type="hidden" name="CLOSE_SALE_YN2" value="{% AddCount rs 'CLOSE_SALE_' i|add:1 %}" />
+                                </td>
+                                {% elif fn_weekday resultVO.SALE_DATE|ToDateTime|AddDays:i == "토" %}
+                                <td class="sat" align="center" ><!--<%'= rs("DAY_" + Convert.ToString(Cellnum_i + 1)).Value.ToString %>-->
+                                    <input type="checkbox" name="CLOSE_SALE_YN" value="{% width CLOSE_SALE_=AddCount rs 'CLOSE_SALE_' i|add:1 %}{% if CLOSE_SALE_ == 'Y'%}checked{% endif %}{% endwith %}" />
+                                    <input type="hidden" name="CLOSE_SALE_SALE_DATE" value="{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString'%Y%m%d'}}" />
+                                    <input type="hidden" name="CLOSE_SALE_YN2" value="{% AddCount rs 'CLOSE_SALE_' i|add:1 %}" />
+                                </td>
+                                {% elif fn_weekday resultVO.SALE_DATE|ToDateTime|AddDays:i == "일" %}
+                                <td class="sun" align="center" ><!--<%'= rs("DAY_" + Convert.ToString(Cellnum_i + 1)).Value.ToString %>-->
+                                    <input type="checkbox" name="CLOSE_SALE_YN" value="{% width CLOSE_SALE_=AddCount rs 'CLOSE_SALE_' i|add:1 %}{% if CLOSE_SALE_ == 'Y'%}checked{% endif %}{% endwith %}" />
+                                    <input type="hidden" name="CLOSE_SALE_SALE_DATE" value="{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString'%Y%m%d'}}" />
+                                    <input type="hidden" name="CLOSE_SALE_YN2" value="{% AddCount rs 'CLOSE_SALE_' i|add:1 %}" />
+                                </td>
+                                {% else %}
+                                <td align="center" ><!--<%'= rs("DAY_" + Convert.ToString(Cellnum_i + 1)).Value.ToString %>-->
+                                    <input type="checkbox" name="CLOSE_SALE_YN" value="{% width CLOSE_SALE_=AddCount rs 'CLOSE_SALE_' i|add:1 %}{% if CLOSE_SALE_ == 'Y'%}checked{% endif %}{% endwith %}" />
+                                    <input type="hidden" name="CLOSE_SALE_SALE_DATE" value="{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString'%Y%m%d'}}" />
+                                    <input type="hidden" name="CLOSE_SALE_YN2" value="{% AddCount rs 'CLOSE_SALE_' i|add:1 %}" />
+                                </td>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    </tr>
+                    {% endfor %}
+                {% endif %}
+                </tbody>
+            </table>
+
+            <br />
+            <p>&nbsp;<b>{% trans "12615 RSVN End" %}</b>&nbsp;<!--<%&#45;&#45;<a href="javascript:;" onclick="funcSubmit('CLOSE_YN_')">&#45;&#45;%>-->
+                <input type="button" class="RLINK_button62" onclick="funcSubmit('CLOSE_YN_')" value="{% trans '12503 Save' %}" id="noprint" border="0" />
+            </p>
+
+            <table class="f4tbl f4tblline" style="width: {% if resultVO.AVA_WEEK == '2W' %}938px{% else %}1680px{% endif %};">
+                <colgroup>
+                    <col />
+                    <col width="44" />
+
+                    {% if resultVO.AVA_WEEK == "2W" %}
+                        {% for i in 13|Range %}
+                        <col width="53" />
+                        {% endfor %}
+                    {% elif resultVO.AVA_WEEK == "4W" %}
+                        {% for i in 27|Range %}
+                        <col width="53" />
+                        {% endfor %}
+                    {% endif %}
+                </colgroup>
+                <tr>
+                    <th>{% trans "11474 Product Name" %}</th>
+                    <th></th>
+                    {% if resultVO.AVA_WEEK == "4W" %}
+                        {% for i in 27|Range %}
+                            {% if resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString:"%Y-%m-%d" == G_SALEDATE %}
+                            <th class="today" align="center">
+                                <b>{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString:"%m.%d"}}</b>
+                                <br />
+                                {% strdaydate resultVO.SALE_DATE|ToDateTime|AddDays:i %}
+                                <input type="checkbox" id="CLOSE_OUT" value="{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString:'%Y%m%d'}}" />
+                            </th>
+                            {% elif fn_weekday resultVO.SALE_DATE|ToDateTime|AddDays:i == "토" %}
+                            <th class="sat" align="center">
+                                <b>{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString:"%m.%d"}}</b>
+                                <br />
+                                {% strdaydate resultVO.SALE_DATE|ToDateTime|AddDays:i %}
+                                <input type="checkbox" id="CLOSE_OUT" value="{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString:'%Y%m%d'}}" />
+                            </th>
+                            {% elif fn_weekday resultVO.SALE_DATE|ToDateTime|AddDays:i == "일" %}
+                            <th class="sun" align="center">
+                                <b>{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString:"%m.%d"}}</b>
+                                <br />
+                                {% strdaydate resultVO.SALE_DATE|ToDateTime|AddDays:i %}
+                                <input type="checkbox" id="CLOSE_OUT" value="{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString:'%Y%m%d'}}" />
+                            </th>
+                            {% else %}
+                            <th align="center">
+                                <b>{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString:"%m.%d"}}</b>
+                                <br />
+                                {% strdaydate resultVO.SALE_DATE|ToDateTime|AddDays:i %}
+                                <input type="checkbox" id="CLOSE_OUT" value="{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString:'%Y%m%d'}}" />
+                            </th>
+                            {% endif %}
+                        {% endfor %}
+                    {% else %}
+                        {% for i in 13|Range %}
+                            {% if resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString:"%Y-%m-%d" == G_SALEDATE %}
+                            <th class="today" align="center">
+                                <b>{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString:"%m.%d"}}</b>
+                                <br />
+                                {% strdaydate resultVO.SALE_DATE|ToDateTime|AddDays:i %}
+                                <input type="checkbox" id="CLOSE_OUT" value="{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString:'%Y%m%d'}}" />
+                            </th>
+                            {% elif fn_weekday resultVO.SALE_DATE|ToDateTime|AddDays:i == "토" %}
+                            <th class="sat" align="center">
+                                <b>{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString:"%m.%d"}}</b>
+                                <br />
+                                {% strdaydate resultVO.SALE_DATE|ToDateTime|AddDays:i %}
+                                <input type="checkbox" id="CLOSE_OUT" value="{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString:'%Y%m%d'}}" />
+                            </th>
+                            {% elif fn_weekday resultVO.SALE_DATE|ToDateTime|AddDays:i == "일" %}
+                            <th class="sun" align="center">
+                                <b>{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString:"%m.%d"}}</b>
+                                <br />
+                                {% strdaydate resultVO.SALE_DATE|ToDateTime|AddDays:i %}
+                                <input type="checkbox" id="CLOSE_OUT" value="{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString:'%Y%m%d'}}" />
+                            </th>
+                            {% else %}
+                            <th align="center">
+                                <b>{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString:"%m.%d"}}</b>
+                                <br />
+                                {% strdaydate resultVO.SALE_DATE|ToDateTime|AddDays:i %}
+                                <input type="checkbox" id="CLOSE_OUT" value="{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString:'%Y%m%d'}}" />
+                            </th>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                </tr>
+                <tbody id="CLOSE_OUT_AREA">
+                    {% if resultRS %}
+                    {% for rs in resultRS %}
+                        {% if rs.DISP_SEQ1 == "02" or rs.DISP_SEQ1 == "03" or rs.DISP_SEQ1 == "06" or rs.rtype_nm|Trim == "Available" %}
+                        <tr style="background-color: #eef7fe;" id="tr{{forloop.counter0}}" onmouseover="cellOver(this)" onmouseout="cellOut(this)">
+                            <td>{{rs.rtype_nm}}</td>
+                            <td align="center">
+                                <input type="checkbox" name="total2" id="total2_{{forloop.counter0}}" value="Y" />
+                            </td>
+                        {% else %}
+                        <tr style="background-color: FEFEFE;" id="tr{{forloop.counter0}}" onmouseover="cellOver(this)" onmouseout="cellOut(this)">
+                            <td>{{rs.rtype_nm}}</td>
+                            <td align="center">
+                                <input type="checkbox" name="total2" id="total2_{{forloop.counter0}}" value="Y" />
+                            </td>
+                        {% endif %}
+                        {% if resultVO.AVA_WEEK == "4W" %}
+                            {% for i in 27|Range %}
+                                {% if resultVO.HOLIDAYS|InStr:resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString:"%Y-%m-%d" > 0 %}
+                                <td class="holiday" align="center" ><!--<%'= rs("DAY_" + Convert.ToString(Cellnum_i + 1)).Value.ToString %>-->
+                                    <input type="checkbox" name="CLOSE_OUT_YN" value="{% width CLOSE_YN_=AddCount rs 'CLOSE_YN_' i|add:1 %}{% if CLOSE_YN_ == 'Y'%}checked{% endif %}{% endwith %}" />
+                                    <input type="hidden" name="CLOSE_OUT_SALE_DATE" value="{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString'%Y%m%d'}}" />
+                                    <input type="hidden" name="CLOSE_OUT_YN2" value="{% AddCount rs 'CLOSE_YN_' i|add:1 %}" />
+                                </td>
+                                {% elif resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString'%Y-%m-%d' == G_SALESDATE %}
+                                <td class="today" align="center" ><!--<%'= rs("DAY_" + Convert.ToString(Cellnum_i + 1)).Value.ToString %>-->
+                                    <input type="checkbox" name="CLOSE_OUT_YN" value="{% width CLOSE_YN_=AddCount rs 'CLOSE_YN_' i|add:1 %}{% if CLOSE_YN_ == 'Y'%}checked{% endif %}{% endwith %}" />
+                                    <input type="hidden" name="CLOSE_OUT_SALE_DATE" value="{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString'%Y%m%d'}}" />
+                                    <input type="hidden" name="CLOSE_OUT_YN2" value="{% AddCount rs 'CLOSE_YN_' i|add:1 %}" />
+                                </td>
+                                {% elif fn_weekday resultVO.SALE_DATE|ToDateTime|AddDays:i == "토" %}
+                                <td class="sat" align="center" ><!--<%'= rs("DAY_" + Convert.ToString(Cellnum_i + 1)).Value.ToString %>-->
+                                    <input type="checkbox" name="CLOSE_OUT_YN" value="{% width CLOSE_YN_=AddCount rs 'CLOSE_YN_' i|add:1 %}{% if CLOSE_YN_ == 'Y'%}checked{% endif %}{% endwith %}" />
+                                    <input type="hidden" name="CLOSE_OUT_SALE_DATE" value="{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString'%Y%m%d'}}" />
+                                    <input type="hidden" name="CLOSE_OUT_YN2" value="{% AddCount rs 'CLOSE_YN_' i|add:1 %}" />
+                                </td>
+                                {% elif fn_weekday resultVO.SALE_DATE|ToDateTime|AddDays:i == "일" %}
+                                <td class="sun" align="center" ><!--<%'= rs("DAY_" + Convert.ToString(Cellnum_i + 1)).Value.ToString %>-->
+                                    <input type="checkbox" name="CLOSE_OUT_YN" value="{% width CLOSE_YN_=AddCount rs 'CLOSE_YN_' i|add:1 %}{% if CLOSE_YN_ == 'Y'%}checked{% endif %}{% endwith %}" />
+                                    <input type="hidden" name="CLOSE_OUT_SALE_DATE" value="{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString'%Y%m%d'}}" />
+                                    <input type="hidden" name="CLOSE_OUT_YN2" value="{% AddCount rs 'CLOSE_YN_' i|add:1 %}" />
+                                </td>
+                                {% else %}
+                                <td align="center" ><!--<%'= rs("DAY_" + Convert.ToString(Cellnum_i + 1)).Value.ToString %>-->
+                                    <input type="checkbox" name="CLOSE_OUT_YN" value="{% width CLOSE_YN_=AddCount rs 'CLOSE_YN_' i|add:1 %}{% if CLOSE_YN_ == 'Y'%}checked{% endif %}{% endwith %}" />
+                                    <input type="hidden" name="CLOSE_OUT_SALE_DATE" value="{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString'%Y%m%d'}}" />
+                                    <input type="hidden" name="CLOSE_OUT_YN2" value="{% AddCount rs 'CLOSE_YN_' i|add:1 %}" />
+                                </td>
+                                {% endif %}
+                            {% endfor %}
+                        {% else %}
+                            {% for i in 13|Range %}
+                                {% if resultVO.HOLIDAYS|InStr:resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString:"%Y-%m-%d" > 0 %}
+                                <td class="holiday" align="center" ><!--<%'= rs("DAY_" + Convert.ToString(Cellnum_i + 1)).Value.ToString %>-->
+                                    <input type="checkbox" name="CLOSE_OUT_YN" value="{% width CLOSE_YN_=AddCount rs 'CLOSE_YN_' i|add:1 %}{% if CLOSE_YN_ == 'Y'%}checked{% endif %}{% endwith %}" />
+                                    <input type="hidden" name="CLOSE_OUT_SALE_DATE" value="{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString'%Y%m%d'}}" />
+                                    <input type="hidden" name="CLOSE_OUT_YN2" value="{% AddCount rs 'CLOSE_YN_' i|add:1 %}" />
+                                </td>
+                                {% elif resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString'%Y-%m-%d' == G_SALESDATE %}
+                                <td class="today" align="center" ><!--<%'= rs("DAY_" + Convert.ToString(Cellnum_i + 1)).Value.ToString %>-->
+                                    <input type="checkbox" name="CLOSE_OUT_YN" value="{% width CLOSE_YN_=AddCount rs 'CLOSE_YN_' i|add:1 %}{% if CLOSE_YN_ == 'Y'%}checked{% endif %}{% endwith %}" />
+                                    <input type="hidden" name="CLOSE_OUT_SALE_DATE" value="{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString'%Y%m%d'}}" />
+                                    <input type="hidden" name="CLOSE_OUT_YN2" value="{% AddCount rs 'CLOSE_YN_' i|add:1 %}" />
+                                </td>
+                                {% elif fn_weekday resultVO.SALE_DATE|ToDateTime|AddDays:i == "토" %}
+                                <td class="sat" align="center" ><!--<%'= rs("DAY_" + Convert.ToString(Cellnum_i + 1)).Value.ToString %>-->
+                                    <input type="checkbox" name="CLOSE_OUT_YN" value="{% width CLOSE_YN_=AddCount rs 'CLOSE_YN_' i|add:1 %}{% if CLOSE_YN_ == 'Y'%}checked{% endif %}{% endwith %}" />
+                                    <input type="hidden" name="CLOSE_OUT_SALE_DATE" value="{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString'%Y%m%d'}}" />
+                                    <input type="hidden" name="CLOSE_OUT_YN2" value="{% AddCount rs 'CLOSE_YN_' i|add:1 %}" />
+                                </td>
+                                {% elif fn_weekday resultVO.SALE_DATE|ToDateTime|AddDays:i == "일" %}
+                                <td class="sun" align="center" ><!--<%'= rs("DAY_" + Convert.ToString(Cellnum_i + 1)).Value.ToString %>-->
+                                    <input type="checkbox" name="CLOSE_OUT_YN" value="{% width CLOSE_YN_=AddCount rs 'CLOSE_YN_' i|add:1 %}{% if CLOSE_YN_ == 'Y'%}checked{% endif %}{% endwith %}" />
+                                    <input type="hidden" name="CLOSE_OUT_SALE_DATE" value="{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString'%Y%m%d'}}" />
+                                    <input type="hidden" name="CLOSE_OUT_YN2" value="{% AddCount rs 'CLOSE_YN_' i|add:1 %}" />
+                                </td>
+                                {% else %}
+                                <td align="center" ><!--<%'= rs("DAY_" + Convert.ToString(Cellnum_i + 1)).Value.ToString %>-->
+                                    <input type="checkbox" name="CLOSE_OUT_YN" value="{% width CLOSE_YN_=AddCount rs 'CLOSE_YN_' i|add:1 %}{% if CLOSE_YN_ == 'Y'%}checked{% endif %}{% endwith %}" />
+                                    <input type="hidden" name="CLOSE_OUT_SALE_DATE" value="{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString'%Y%m%d'}}" />
+                                    <input type="hidden" name="CLOSE_OUT_YN2" value="{% AddCount rs 'CLOSE_YN_' i|add:1 %}" />
+                                </td>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    </tr>
+                    {% endfor %}
+                {% endif %}
+                </tbody>
+            </table>
+            <br />
+            <p>&nbsp;<b>{% trans "12614 Peak season setting" %}</b>&nbsp;<!--<%&#45;&#45;<a href="javascript:;" onclick="funcSubmit('SEASON_YN_')">&#45;&#45;%>-->
+                <input type="button" class="RLINK_button62" onclick="funcSubmit('SEASON_YN_')" value="{% trans '12503 Save' %}" id="noprint" border="0" />
+            </p>
+
+
+            <table class="f4tbl f4tblline" style="width: {% if resultVO.AVA_WEEK == '2W' %}938px{% else %}1680px{% endif %};">
+                <colgroup>
+                    <col />
+                    <col width="44" />
+
+                    {% if resultVO.AVA_WEEK == "2W" %}
+                        {% for i in 13|Range %}
+                        <col width="53" />
+                        {% endfor %}
+                    {% elif resultVO.AVA_WEEK == "4W" %}
+                        {% for i in 27|Range %}
+                        <col width="53" />
+                        {% endfor %}
+                    {% endif %}
+                </colgroup>
+                <tr align="center">
+                    <th>{% trans "11474 Product Name" %}</th>
+                    <th></th>
+                    {% if resultVO.AVA_WEEK == "4W" %}
+                        {% for i in 27|Range %}
+                            {% if resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString:"%Y-%m-%d" == G_SALEDATE %}
+                            <th class="today" align="center">
+                                <b>{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString:"%m.%d"}}</b>
+                                <br />
+                                {% strdaydate resultVO.SALE_DATE|ToDateTime|AddDays:i %}
+                                <input type="checkbox" id="SEASON" value="{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString:'%Y%m%d'}}" />
+                            </th>
+                            {% elif fn_weekday resultVO.SALE_DATE|ToDateTime|AddDays:i == "토" %}
+                            <th class="sat" align="center">
+                                <b>{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString:"%m.%d"}}</b>
+                                <br />
+                                {% strdaydate resultVO.SALE_DATE|ToDateTime|AddDays:i %}
+                                <input type="checkbox" id="SEASON" value="{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString:'%Y%m%d'}}" />
+                            </th>
+                            {% elif fn_weekday resultVO.SALE_DATE|ToDateTime|AddDays:i == "일" %}
+                            <th class="sun" align="center">
+                                <b>{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString:"%m.%d"}}</b>
+                                <br />
+                                {% strdaydate resultVO.SALE_DATE|ToDateTime|AddDays:i %}
+                                <input type="checkbox" id="SEASON" value="{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString:'%Y%m%d'}}" />
+                            </th>
+                            {% else %}
+                            <th align="center">
+                                <b>{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString:"%m.%d"}}</b>
+                                <br />
+                                {% strdaydate resultVO.SALE_DATE|ToDateTime|AddDays:i %}
+                                <input type="checkbox" id="SEASON" value="{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString:'%Y%m%d'}}" />
+                            </th>
+                            {% endif %}
+                        {% endfor %}
+                    {% else %}
+                        {% for i in 13|Range %}
+                            {% if resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString:"%Y-%m-%d" == G_SALEDATE %}
+                            <th class="today" align="center">
+                                <b>{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString:"%m.%d"}}</b>
+                                <br />
+                                {% strdaydate resultVO.SALE_DATE|ToDateTime|AddDays:i %}
+                                <input type="checkbox" id="SEASON" value="{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString:'%Y%m%d'}}" />
+                            </th>
+                            {% elif fn_weekday resultVO.SALE_DATE|ToDateTime|AddDays:i == "토" %}
+                            <th class="sat" align="center">
+                                <b>{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString:"%m.%d"}}</b>
+                                <br />
+                                {% strdaydate resultVO.SALE_DATE|ToDateTime|AddDays:i %}
+                                <input type="checkbox" id="SEASON" value="{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString:'%Y%m%d'}}" />
+                            </th>
+                            {% elif fn_weekday resultVO.SALE_DATE|ToDateTime|AddDays:i == "일" %}
+                            <th class="sun" align="center">
+                                <b>{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString:"%m.%d"}}</b>
+                                <br />
+                                {% strdaydate resultVO.SALE_DATE|ToDateTime|AddDays:i %}
+                                <input type="checkbox" id="SEASON" value="{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString:'%Y%m%d'}}" />
+                            </th>
+                            {% else %}
+                            <th align="center">
+                                <b>{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString:"%m.%d"}}</b>
+                                <br />
+                                {% strdaydate resultVO.SALE_DATE|ToDateTime|AddDays:i %}
+                                <input type="checkbox" id="SEASON" value="{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString:'%Y%m%d'}}" />
+                            </th>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                </tr>
+                <tbody id="SEASON_AREA">
+                    {% if resultRS %}
+                    {% for rs in resultRS %}
+                        {% if rs.DISP_SEQ1 == "02" or rs.DISP_SEQ1 == "03" or rs.DISP_SEQ1 == "06" or rs.rtype_nm|Trim == "Available" %}
+                        <tr style="background-color: #eef7fe;" id="tr{{forloop.counter0}}" onmouseover="cellOver(this)" onmouseout="cellOut(this)">
+                            <td>{{rs.rtype_nm}}</td>
+                            <td align="center">
+                                <input type="checkbox" name="total3" id="total3_{{forloop.counter0}}" value="Y" />
+                            </td>
+                        {% else %}
+                        <tr style="background-color: FEFEFE;" id="tr{{forloop.counter0}}" onmouseover="cellOver(this)" onmouseout="cellOut(this)">
+                            <td>{{rs.rtype_nm}}</td>
+                            <td align="center">
+                                <input type="checkbox" name="total3" id="total3_{{forloop.counter0}}" value="Y" />
+                            </td>
+                        {% endif %}
+                        {% if resultVO.AVA_WEEK == "4W" %}
+                            {% for i in 27|Range %}
+                                {% if resultVO.HOLIDAYS|InStr:resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString:"%Y-%m-%d" > 0 %}
+                                <td class="holiday" align="center" ><!--<%'= rs("DAY_" + Convert.ToString(Cellnum_i + 1)).Value.ToString %>-->
+                                    <input type="checkbox" name="SEASON_YN" value="{% width SEASON_YN_=AddCount rs 'SEASON_YN_' i|add:1 %}{% if SEASON_YN_ == 'Y'%}checked{% endif %}{% endwith %}" />
+                                    <input type="hidden" name="SEASON_SALE_DATE" value="{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString'%Y%m%d'}}" />
+                                    <input type="hidden" name="SEASON_YN2" value="{% AddCount rs 'SEASON_YN_' i|add:1 %}" />
+                                </td>
+                                {% elif resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString'%Y-%m-%d' == G_SALESDATE %}
+                                <td class="today" align="center" ><!--<%'= rs("DAY_" + Convert.ToString(Cellnum_i + 1)).Value.ToString %>-->
+                                    <input type="checkbox" name="SEASON_YN" value="{% width SEASON_YN_=AddCount rs 'SEASON_YN_' i|add:1 %}{% if SEASON_YN_ == 'Y'%}checked{% endif %}{% endwith %}" />
+                                    <input type="hidden" name="SEASON_SALE_DATE" value="{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString'%Y%m%d'}}" />
+                                    <input type="hidden" name="SEASON_YN2" value="{% AddCount rs 'SEASON_YN_' i|add:1 %}" />
+                                </td>
+                                {% elif fn_weekday resultVO.SALE_DATE|ToDateTime|AddDays:i == "토" %}
+                                <td class="sat" align="center" ><!--<%'= rs("DAY_" + Convert.ToString(Cellnum_i + 1)).Value.ToString %>-->
+                                    <input type="checkbox" name="SEASON_YN" value="{% width SEASON_YN_=AddCount rs 'SEASON_YN_' i|add:1 %}{% if SEASON_YN_ == 'Y'%}checked{% endif %}{% endwith %}" />
+                                    <input type="hidden" name="SEASON_SALE_DATE" value="{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString'%Y%m%d'}}" />
+                                    <input type="hidden" name="SEASON_YN2" value="{% AddCount rs 'SEASON_YN_' i|add:1 %}" />
+                                </td>
+                                {% elif fn_weekday resultVO.SALE_DATE|ToDateTime|AddDays:i == "일" %}
+                                <td class="sun" align="center" ><!--<%'= rs("DAY_" + Convert.ToString(Cellnum_i + 1)).Value.ToString %>-->
+                                    <input type="checkbox" name="SEASON_YN" value="{% width SEASON_YN_=AddCount rs 'SEASON_YN_' i|add:1 %}{% if SEASON_YN_ == 'Y'%}checked{% endif %}{% endwith %}" />
+                                    <input type="hidden" name="SEASON_SALE_DATE" value="{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString'%Y%m%d'}}" />
+                                    <input type="hidden" name="SEASON_YN2" value="{% AddCount rs 'SEASON_YN_' i|add:1 %}" />
+                                </td>
+                                {% else %}
+                                <td align="center" ><!--<%'= rs("DAY_" + Convert.ToString(Cellnum_i + 1)).Value.ToString %>-->
+                                    <input type="checkbox" name="SEASON_YN" value="{% width SEASON_YN_=AddCount rs 'SEASON_YN_' i|add:1 %}{% if SEASON_YN_ == 'Y'%}checked{% endif %}{% endwith %}" />
+                                    <input type="hidden" name="SEASON_SALE_DATE" value="{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString'%Y%m%d'}}" />
+                                    <input type="hidden" name="SEASON_YN2" value="{% AddCount rs 'SEASON_YN_' i|add:1 %}" />
+                                </td>
+                                {% endif %}
+                            {% endfor %}
+                        {% else %}
+                            {% for i in 13|Range %}
+                                {% if resultVO.HOLIDAYS|InStr:resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString:"%Y-%m-%d" > 0 %}
+                                <td class="holiday" align="center" ><!--<%'= rs("DAY_" + Convert.ToString(Cellnum_i + 1)).Value.ToString %>-->
+                                    <input type="checkbox" name="SEASON_YN" value="{% width SEASON_YN_=AddCount rs 'SEASON_YN_' i|add:1 %}{% if SEASON_YN_ == 'Y'%}checked{% endif %}{% endwith %}" />
+                                    <input type="hidden" name="SEASON_SALE_DATE" value="{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString'%Y%m%d'}}" />
+                                    <input type="hidden" name="SEASON_YN2" value="{% AddCount rs 'SEASON_YN_' i|add:1 %}" />
+                                </td>
+                                {% elif resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString'%Y-%m-%d' == G_SALESDATE %}
+                                <td class="today" align="center" ><!--<%'= rs("DAY_" + Convert.ToString(Cellnum_i + 1)).Value.ToString %>-->
+                                    <input type="checkbox" name="SEASON_YN" value="{% width SEASON_YN_=AddCount rs 'SEASON_YN_' i|add:1 %}{% if SEASON_YN_ == 'Y'%}checked{% endif %}{% endwith %}" />
+                                    <input type="hidden" name="SEASON_SALE_DATE" value="{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString'%Y%m%d'}}" />
+                                    <input type="hidden" name="SEASON_YN2" value="{% AddCount rs 'SEASON_YN_' i|add:1 %}" />
+                                </td>
+                                {% elif fn_weekday resultVO.SALE_DATE|ToDateTime|AddDays:i == "토" %}
+                                <td class="sat" align="center" ><!--<%'= rs("DAY_" + Convert.ToString(Cellnum_i + 1)).Value.ToString %>-->
+                                    <input type="checkbox" name="SEASON_YN" value="{% width SEASON_YN_=AddCount rs 'SEASON_YN_' i|add:1 %}{% if SEASON_YN_ == 'Y'%}checked{% endif %}{% endwith %}" />
+                                    <input type="hidden" name="SEASON_SALE_DATE" value="{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString'%Y%m%d'}}" />
+                                    <input type="hidden" name="SEASON_YN2" value="{% AddCount rs 'SEASON_YN_' i|add:1 %}" />
+                                </td>
+                                {% elif fn_weekday resultVO.SALE_DATE|ToDateTime|AddDays:i == "일" %}
+                                <td class="sun" align="center" ><!--<%'= rs("DAY_" + Convert.ToString(Cellnum_i + 1)).Value.ToString %>-->
+                                    <input type="checkbox" name="SEASON_YN" value="{% width SEASON_YN_=AddCount rs 'SEASON_YN_' i|add:1 %}{% if SEASON_YN_ == 'Y'%}checked{% endif %}{% endwith %}" />
+                                    <input type="hidden" name="SEASON_SALE_DATE" value="{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString'%Y%m%d'}}" />
+                                    <input type="hidden" name="SEASON_YN2" value="{% AddCount rs 'SEASON_YN_' i|add:1 %}" />
+                                </td>
+                                {% else %}
+                                <td align="center" ><!--<%'= rs("DAY_" + Convert.ToString(Cellnum_i + 1)).Value.ToString %>-->
+                                    <input type="checkbox" name="SEASON_YN" value="{% width SEASON_YN_=AddCount rs 'SEASON_YN_' i|add:1 %}{% if SEASON_YN_ == 'Y'%}checked{% endif %}{% endwith %}" />
+                                    <input type="hidden" name="SEASON_SALE_DATE" value="{{resultVO.SALE_DATE|ToDateTime|AddDays:i|ToString'%Y%m%d'}}" />
+                                    <input type="hidden" name="SEASON_YN2" value="{% AddCount rs 'SEASON_YN_' i|add:1 %}" />
+                                </td>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    </tr>
+                    {% endfor %}
+                {% endif %}
+                </tbody>
+            </table>
+
+
+        </form>
+    </div>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            // table 사이즈 조정 시작
+            var tbl_max_width = 0;
+
+            $('.f4tbl').each(function (idx, ele) {
+                var tbl_width = $(ele).width();
+                if (tbl_max_width < tbl_width) {
+                    tbl_max_width = tbl_width; // 가장 큰 테이블 사이즈 구하기
+                }
+            });
+
+            $('.f4tbl').each(function (idx, ele) {
+                $(ele).width(tbl_max_width + 50);
+            });
+            // table 사이즈 조정 끝
+
+            //$('#btn_left_menu').click(function (e) {
+            //    var slideSize = 170;
+            //    var speed = 300;
+            //
+            //    var divLeftArea = $('#divLeftArea');
+            //    var divContents = $('#divContents');
+            //    var divFooter = $('#divFooter');
+            //    var _block = divLeftArea.css('display');
+            //
+            //    if (_block == 'block') {
+            //        divLeftArea.animate({ left: '-=' + slideSize + 'px' }, speed);
+            //        divContents.animate({ left: '-=' + slideSize + 'px' }, speed, function () { divLeftArea.hide(); lMenutatus(); });
+            //        divFooter.animate({ left: '-=' + slideSize + 'px' }, speed);
+            //        //
+            //        $(this).text('▶');
+            //    }
+            //    else {
+            //        divLeftArea.show();
+            //        divLeftArea.animate({ left: '+=' + slideSize + 'px' }, speed);
+            //        divContents.animate({ left: '+=' + slideSize + 'px' }, speed, function () { lMenutatus(); });
+            //        divFooter.animate({ left: '+=' + slideSize + 'px' }, speed);
+            //        $(this).text('◀');
+            //    }
+            //
+            //});
+        });
+
+        // 서버에 상태값 저장
+        function lMenutatus() {
+            var lmenu = ($('#divLeftArea').css('display') == 'block') ? 'N' : 'Y';
+            $.ajax({
+                url: '/CM/WCM140_S101',    //url: '/NsmdG/CM/WCM140_S101/lMenutatus',
+                data: 'lmenu=' + lmenu,
+                success: function (data) { }
+            });
+        }
+    </script>
+{% endblock content %}

@@ -110,14 +110,14 @@
         }
     }
 
-    function tmenu001() { location.href = '/CMM/wcm_110/main/?wcm=001'; } //홈화면
-    function tmenu002() { location.href = '/MB/WMB_102/main/'; } // 로그아웃
+    function tmenu001() { location.href = '/CMM/WCM_110?wcm=001'; } //홈화면
+    function tmenu002() { location.href = '/MB/WMB_102'; } // 로그아웃
 
 </script>
 
 {% if sessionInfo.LoginLevel >= "SA" and sessionInfo.MemberType == "REG" %}
 <script type="text/javascript">
-    function tmenu900() { location.href = '/MB/WMB110_S101/main/?wcm=900'; } // 운영센터 System Operation
+    function tmenu900() { location.href = '/MB/WMB110_S101?wcm=900'; } // 운영센터 System Operation
 </script>
 {% endif %}
 
@@ -204,14 +204,14 @@
         {% endif %}
 
         {% if sessionInfo.AcctAuth >= "R1" and sessionInfo.MemberType == "REG" %}
-        <li><a href="javascript:tmenu010();"><img src="/static/images/Skin/menu02_ov.gif" id="gwcm_010" class="menuimg" alt="예약관리" /><span class="menunm">{% trans 'Reservation' %}</span></a></li>
+        <li><a href="javascript:tmenu010();"><img src="/static/images/Skin/menu02_ov.gif" id="gwcm_010" class="menuimg" alt="예약관리" /><span class="menunm">{% trans '11509 Reservation' %}</span></a></li>
         {% endif %}
         {% if sessionInfo.ProductionAuth >= "R1" and sessionInfo.MemberType == "REG" %}
-        <li><a href="javascript:tmenu070();"><img src="/static/images/Skin/menu08_ov.gif" id="gwcm_070" class="menuimg" alt="코드관리" /><span class="menunm">{% trans 'Config' %}</span></a></li>
+        <li><a href="javascript:tmenu070();"><img src="/static/images/Skin/menu08_ov.gif" id="gwcm_070" class="menuimg" alt="코드관리" /><span class="menunm">{% trans '12034 Config' %}</span></a></li>
         {% endif %}
 
         {% if sessionInfo.LoginLevel >= "SA" and sessionInfo.MemberType == "REG" %}
-        <li><a href="javascript:tmenu900();"><img src="/static/images/Skin/menu10_ov.gif" id="gwcm_900" class="menuimg" alt="운영센터" /><span class="menunm">{% trans 'Operation' %}</span></a></li>
+        <li><a href="javascript:tmenu900();"><img src="/static/images/Skin/menu10_ov.gif" id="gwcm_900" class="menuimg" alt="운영센터" /><span class="menunm">{% trans '12037 Operation' %}</span></a></li>
         {% endif %}
 
         <li><a href="javascript:funcFdeskClone();"><img src="/static/images/Skin/menu99_ov.gif" alt="New Desk" /><span class="menunm">New Desk</span></a></li>

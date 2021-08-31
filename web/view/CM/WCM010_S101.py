@@ -48,7 +48,7 @@ def main(request):
     print(rstAuth2)
 
     if request.method == 'GET':
-        logger.debug(f'/CMM/WCM010_S101VO main, GET')
+        logger.debug(f'/CM/WCM010_S101VO main, GET')
 
         paramVO = WCM010_S101VO
         paramVO["CMS_NM"] = RqChk("CMS_NM", request)
@@ -60,15 +60,15 @@ def main(request):
         if not paramVO["Gotopage"]:
             paramVO["Gotopage"] = 1
 
-        ViewData["strParam"] = "&CMS_NM=" + paramVO["CMS_NM"]
+        ViewData["strParam"] = "&CMS_NM=" + str(paramVO["CMS_NM"])
 
         ViewData["resultrs"] = procSelect(paramVO)
         ViewData["resultVO"] = paramVO
 
-        return render(request, 'CMM/WCM010_S101.html', ViewData)
+        return render(request, 'CM/WCM010_S101.html', ViewData)
 
     elif request.method == 'POST':
-        logger.debug(f'/CMM/WCM010_S101VO main, POST')
+        logger.debug(f'/CM/WCM010_S101VO main, POST')
 
         paramVO = WCM010_S101VO
         rst = mainTran(request, paramVO, ViewData)
@@ -94,10 +94,11 @@ def procSelect(paramVO):
     if paramVO:
         paramVO["strSql"] = f"SCM010_S101 {0},{paramVO['Gotopage']},{paramVO['pagesize']},'{paramVO['CMS_NM']}'"
         rs = dbexecute(paramVO["strSql"])
+
         paramVO["recordcount"] = rs[0]
         paramVO["strSql"] =f"SCM010_S101 {1},{paramVO['Gotopage']},{paramVO['pagesize']},'{paramVO['CMS_NM']}'"
 
-        paramVO["pagecount"] = (int(paramVO["recordcount"] - 1) /paramVO["pagesize"]) + 1
+        paramVO["pagecount"] = (int(paramVO["recordcount"][0] - 1) /paramVO["pagesize"]) + 1
         paramVO["recnum"] = (paramVO["Gotopage"] - 1) * paramVO["pagesize"]
 
         # excel용 변수 정의 시작  (ex_sql에서 pagesize를 excel 최대한도인 65535 라인 설정 top 65535)===================================
@@ -116,7 +117,7 @@ def procSelect(paramVO):
 
 def procTran(paramVO, ViewData):
     for i in paramVO["intBound"]:
-        strSql = f"SCM010_T101 '{paramVO['tProc']}','{paramVO['arrIdx'][i]}','','','','','','','','','','','','','N',{ViewData['sessionInfo']['LoginId']}"
+        strSql = f"SCM010_T101 '{paramVO['tProc']}','{paramVO['arrIdx'][i]}','','','','','','','','','','','','','N','{ViewData['sessionInfo']['LoginId']}'"
         rs = dbexecute(paramVO["strSql"])
 
     paramVO["intResult"]= 1

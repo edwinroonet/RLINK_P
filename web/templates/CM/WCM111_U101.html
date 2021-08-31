@@ -1,0 +1,260 @@
+{% extends "CMM/_LayoutMainMaster.html" %}
+{% load i18n %}
+
+{% block head %}
+    <script>
+        function funcSubmit() {
+
+            if (document.frm.OFFICE_NO.value == "") {
+                alert("{% trans '12288 Please select a hotel.' %}");
+                document.frm.OFFICE_NO.focus();
+                return;
+            }
+
+            if (document.frm.CMS_CD.value == "") {
+                alert("{% trans '12587 Please Input CMS!' %}");
+                document.frm.CMS_CD.focus();
+                return;
+            }
+
+
+            if (document.frm.CMS_MRMTYPE.value == "") {
+                alert("{% trans '12588 Please Input M.Rm/T !' %}");
+                document.frm.CMS_MRMTYPE.focus();
+                return;
+            }
+
+
+            if (document.frm.CMS_RMTYPE.value == "") {
+                alert("{% trans '12590 Please Input CMS Rm/T !' %}");
+                document.frm.CMS_RMTYPE.focus();
+                return;
+            }
+
+
+
+            if (document.frm.CMS_RMTYPE_NM.value == "") {
+                alert("{% trans '12591 Please Input CMS Rm/T Name!' %}");
+                document.frm.CMS_RMTYPE_NM.focus();
+                return;
+            }
+
+
+            if (document.frm.OFFICE_NO.disabled == true) {
+
+                document.frm.OFFICE_NO.disabled = false
+            }
+
+            if (document.frm.CMS_CD.disabled == true) {
+
+                document.frm.CMS_CD.disabled = false
+            }
+
+
+            if (document.frm.CMS_MRMTYPE.disabled == true) {
+
+                document.frm.CMS_MRMTYPE.disabled = false
+            }
+
+            if (true == confirm("{% trans '10001 Do you want to save?' %}")) {
+                frm.action = "/CM/WCM111_U101"  //frm.action = "/NsmdG/CM/WCM111_U101/mainTran/"
+                frm.submit();
+            }
+        }
+
+
+        function enterNext(val) {
+            var keyCode = event.keyCode;
+
+            //alert(keyCode);
+            if (keyCode != 13 && keyCode != 9) {
+                //alert(keyCode);
+                return;
+            }
+            else {
+                //
+            }
+
+            if (keyCode == 9) {
+                event.returnValue = false;
+            }
+
+            //엔터키 입력시 포커스 이동 설정
+            if (keyCode == 13 || keyCode == 9) {
+                var tmpVal = val.replaceAll("inputBox", "");
+
+
+                //9번항목 Hidden 필드
+                if (tmpVal == "9") { tmpVal = "10" }
+
+
+                event.returnValue = false;
+                $("#inputBox" + (parseInt(tmpVal) + 1)).focus();
+                $("#inputBox" + (parseInt(tmpVal) + 1)).select();
+            }
+
+        }
+        function funcCMS_MRMTYPEChange() {
+
+
+            this.param = {
+                OFFICE_NO: $('select[name="OFFICE_NO"]').val()
+                , CMS_CD: $('select[name="CMS_CD"]').val()
+
+            }
+
+            //alert(param);
+            var BodyList = "";
+            var aarHtml1 = "";
+            $.ajax({
+                url: "/CM/WCM111_U101",    //url: "/NsmdG/CM/WCM111_U101/mainList1/"
+                type: 'POST',
+                data: this.param,
+                dataType: 'html',
+                timeout: 1000,
+                async: false,
+                ifModified: true,
+                success: function (html) {
+                    aarHtml1 = html.split("{@XX@}")
+                    BodyList = aarHtml1[0]
+                }
+            });
+
+            $("select[name='CMS_MRMTYPE'] option").remove();
+
+            $("#CMS_MRMTYPE").append(BodyList);
+
+
+
+        }
+
+        $(document).ready(function () {
+            funcCMS_MRMTYPEChange();
+
+            $("select[name='CMS_MRMTYPE'] option[value='{{resultVO.CMS_MRMTYPE}}']").attr("selected", true);
+        });
+    </script>
+{% endblock head %}
+
+{% block content %}
+{% load SetSelectBox2 %}
+    <h2 class="pagetitle">CMS RoomType.Sub</h2>
+    <div class="pageid">CM111 U101</div>
+
+    <div class="info">
+        <!-----기본사항 시작----->
+        <form name="frm" method="post" action="/CM/WCM111_U101" enctype="MULTIPART/FORM-DATA">  <!-- action="/NsmdG/CM/WCM111_U101/mainTran/" -->
+            <input type="hidden" name="tProc" value="{{resultVO.tProc}}">
+            <table width="100%" class="f4tblview">
+                    <colgroup>
+                        <col width="15%" />
+                        <col/>
+                        <col width="15%" />
+                        <col width="15%" />
+                    </colgroup>
+                <tr>
+                    <th>{% trans "11003 Hotel" %}</th>
+                    <td colspan="3">
+                        <select name="OFFICE_NO" id="OFFICE_NO" style="width: 150px;" onblur="chkInjection(this);" onfocus="" tabindex1="34" {% resultVO.tProc == "EDIT" %}disabled{% endif %} onchange="funcCMS_MRMTYPEChange()">
+                            {% SetSelectBox2 "Office_No" resultVO.OFFICE_NO "--" "" "" request sessionInfo.OfficeNo %}
+                        </select>
+                    </td>
+
+                </tr>
+
+                <tr>
+                    <th>CMS</th>
+                    <td colspan="3">
+                        <select name="CMS_CD" id="CMS_CD" style="width: 150px;" onblur="chkInjection(this);" onfocus="" tabindex1="34" {% resultVO.tProc == "EDIT" %}disabled{% endif %} onchange="funcCMS_MRMTYPEChange()">
+                            {% load SetSelectBox1 %}
+                            {% SetSelectBox1 "CMS_CD_TLLC" resultVO.CMS_CD "" "" "" request sessionInfo.OfficeNo %}
+                        </select>
+                    </td>
+
+                </tr>
+
+                <tr>
+                    <th>M. Rm/T</th>
+                    <td colspan="3">
+                        <select name="CMS_MRMTYPE" id="CMS_MRMTYPE" style="width: 300px;" onblur="chkInjection(this);" onfocus="" tabindex1="34" {% resultVO.tProc == "EDIT" %}disabled{% endif %}>
+                        </select>
+                    </td>
+
+                </tr>
+
+                <tr>
+                    <th>CMS Rm/T
+                    </th>
+                    <td>
+                        <input type="text" name="CMS_RMTYPE" id="CMS_RMTYPE" onblur="chkInjection(this,10)" style="width: 100" value="{{resultVO.CMS_RMTYPE}}" {% resultVO.tProc == "EDIT" %}readonly{% endif %}>
+                    </td>
+                    <th>  {% trans "11837 Use" %}
+                    </th>
+                    <td >
+                        <select id="USE_FLAG" name="USE_FLAG" style="width: 40px;">
+                            <option {% resultVO.USE_FLAG == "Y" %}selected {% endif %} value="Y">Y</option>
+                            <option {% resultVO.USE_FLAG == "N" %}selected {% endif %} value="N">N</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Rm/T Name</th>
+                    <td colspan="3">
+                        <input type="text" name="CMS_RMTYPE_NM" onblur="chkInjection(this,50)" style="width:250px;" value="{{resultVO.CMS_RMTYPE_NM}}" />
+                    </td>
+                </tr>
+                <tr>
+                    <th height="30">PMS Rm/T</th>
+                    <td height="30" colspan="3">
+                        <select name="ROOM_TYPE" id="ROOM_TYPE" style="width: 300px;">
+                            {% SetSelectBox2 "RM_TYPE2" resultVO.ROOM_TYPE "--" resultVO.OFFICE_NO "" request sessionInfo.OfficeNo %}
+                        </select>
+                       <!-- <%&#45;&#45;<input type="text" name="RTYPE_NM" id="RTYPE_NM" style="width:250"  value="<%'=ViewData("resultVO").RTYPE_NM %>">&#45;&#45;%>-->
+                    </td>
+                </tr>
+                <tr>
+                    <th>{% trans "12556 Room image" %}(S)</th>
+                    <td colspan="7">
+                        <input type="file" name="attach_file1" size="43" class="inputText" />
+                        <a href="/data/Eroomtype/{{resultVO.RTYPE_IMGS}}" target="blink">{{resultVO.RTYPE_IMGS}}</a>
+                    </td>
+                </tr>
+                <tr>
+                    <th>{% trans "12556 Room image" %}(L)</th>
+                    <td colspan="7">
+                        <input type="file" name="attach_file2" size="43" class="inputText" />
+                        <a href="/data/Eroomtype/{{resultVO.RTYPE_IMGL}}" target="blink">{{resultVO.RTYPE_IMGL}}</a>
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <th>{% trans "11712 Remark" %}</th>
+                    <td colspan="3">
+                        <textarea name="remark" rows="3" style="width: 500px;">{{resultVO.remark}}</textarea>
+                    </td>
+                </tr>
+                {% if resultVO.tProc == "EDIT" %}
+                <tr> <th> {% trans "12087 Input" %}
+                    </th>
+                    <td>
+                        {{resultVO.Input_User}}
+                    </td>
+                    <td></td>
+                    <th> {% trans "12310 Update" %}
+                    </th>
+                    <td>
+                        {{resultVO.Update_User}}
+                    </td>
+                </tr>
+                {% endif %}
+                <tr>
+                    <td colspan="4" align="center">
+                        <input type="button" class="RLINK_button62" onclick="funcSubmit();" value="{% trans '12503 Save' %}" id="noprint" border="0" />
+                        <a onclick="parent.$('#dialog').dialog('close');"><input type="button" class="RLINK_button62" onclick="funcClose();" value="{% trans '12405 Close' %}" id="noprint" border="0" /></a>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+{% endblock content %}

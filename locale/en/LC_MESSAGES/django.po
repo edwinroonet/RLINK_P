@@ -29,29 +29,53 @@ msgstr ""
 msgid "안녕하세요"
 msgstr ""
 
-msgid "10001"
+msgid "10001 Do you want to save?"
 msgstr "Do you want to save?"
 
-msgid "Reservation"
+msgid "11509 Reservation"
 msgstr "Reservation"
 
-msgid "Config"
+msgid "12034 Config"
 msgstr "Config"
 
-msgid "Operation"
+msgid "12037 Operation"
 msgstr "Operation"
 
-msgid "Reseve"
-msgstr "Reseve"
+msgid "10003 Please, Select record."
+msgstr "Please, Select record."
 
-msgid "Booking List"
-msgstr "Booking List"
+msgid "11026 Do you want to delete selected data?"
+msgstr "Do you want to delete selected data?"
 
-msgid "Execute"
-msgstr "Execute"
+msgid "12540 Master CMS"
+msgstr "Master CMS"
 
-msgid "Log"
-msgstr "Log"
+msgid "12225 Name"
+msgstr "Name"
 
-msgid "Changed"
-msgstr "Changed"
+msgid "11540 Search"
+msgstr "Search"
+
+msgid "12501 Add"
+msgstr "Add"
+
+msgid "12502 Modify"
+msgstr "Modify"
+
+msgid "11664 Delete"
+msgstr "Delete"
+
+msgid "11053 Code"
+msgstr "Code"
+
+msgid "11668 Use"
+msgstr "Use"
+
+msgid "12250 Modify"
+msgstr "Modify"
+
+msgid "11952 Insert Date"
+msgstr "Insert Date"
+
+msgid "10007 No data."
+msgstr "No data."

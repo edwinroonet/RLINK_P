@@ -1,0 +1,254 @@
+{% extends "CMM/_LayoutMainMaster.html" %}
+{% load i18n %}
+
+{% block head %}
+    <script type="text/javascript">
+        function funcSubmit(val) {
+
+            if (document.frm.G_OFFICE_NO.value == "") {
+
+                alert("{% trans '12288 Please select a hotel.' %}");
+                  document.frm.G_OFFICE_NO.focus();
+                  return;
+            }
+
+
+
+            if (document.frm.FR_DATE.value == "") {
+
+                alert("{% trans '11278 Please enter a validity period.' %}");
+                document.frm.FR_DATE.focus();
+                return;
+            }
+
+            if (document.frm.TO_DATE.value == "") {
+
+                alert("{% trans '11278 Please enter a validity period.' %}");
+                document.frm.TO_DATE.focus();
+                return;
+            }
+
+            if (document.frm.CMS_CD2.value == "") {
+
+                alert("{% trans '12587 Please Input CMS!' %}");
+                document.frm.CMS_CD2.focus();
+                return;
+            }
+
+            $("input[name=tProc]").val(val)
+
+        if (true == confirm("{% trans '10001 Do you want to save?' %}")) {
+            frm.action = "/CM/WCM140_U103"; //frm.action = "/NsmdG/CM/WCM140_U103/mainTran/";
+              frm.submit();
+          }
+      }
+
+
+      function enterNext(val) {
+          var keyCode = event.keyCode;
+
+          //alert(keyCode);
+          if (keyCode != 13 && keyCode != 9) {
+              //alert(keyCode);
+              return;
+          }
+          else {
+              //
+          }
+
+          if (keyCode == 9) {
+              event.returnValue = false;
+          }
+
+          //엔터키 입력시 포커스 이동 설정
+          if (keyCode == 13 || keyCode == 9) {
+              var tmpVal = val.replaceAll("inputBox", "");
+
+
+              //9번항목 Hidden 필드
+              if (tmpVal == "9") { tmpVal = "10" }
+
+
+              event.returnValue = false;
+              $("#inputBox" + (parseInt(tmpVal) + 1)).focus();
+              $("#inputBox" + (parseInt(tmpVal) + 1)).select();
+          }
+
+      }
+
+        function funcCMS_Change() {
+
+
+            this.param = {
+                G_OFFICE_NO: $('select[name="G_OFFICE_NO"]').val()
+
+            }
+
+            //alert(param);
+            var BodyList = "";
+            var aarHtml1 = "";
+            $.ajax({
+                url: "/CM/WCM140_S101",  //url: "/NsmdG/CM/WCM140_S101/selectList1/",
+                type: 'POST',
+                data: this.param,
+                dataType: 'html',
+                timeout: 1000,
+                async: false,
+                ifModified: true,
+                success: function (html) {
+                    aarHtml1 = html.split("{@XX@}");
+                    BodyList = aarHtml1[0];
+                }
+            });
+
+            $("select[name='CMS_CD'] option").remove();
+
+            $("#CMS_CD").append(BodyList);
+
+            $("select[name='CMS_CD2'] option").remove();
+
+            $("#CMS_CD2").append(BodyList);
+
+
+            funcCHNL_Change();
+
+
+        }
+
+
+        function funcCHNL_Change() {
+
+            this.param = {
+                G_OFFICE_NO: $('select[name="G_OFFICE_NO"]').val()
+                , CMS_CD: $('select[name="CMS_CD"]').val()
+            }
+
+            //alert(param);
+            var BodyList = "";
+            var aarHtml1 = "";
+            $.ajax({
+                url: "/CM/WCM140_S101",  //url: "/NsmdG/CM/WCM140_S101/selectList2/",
+                type: 'POST',
+                data: this.param,
+                dataType: 'html',
+                timeout: 1000,
+                async: false,
+                ifModified: true,
+                success: function (html) {
+                    aarHtml1 = html.split("{@XX@}");
+                    BodyList = aarHtml1[0];
+                }
+            });
+            $("select[name='CHNL_NO'] option").remove();
+
+            $("#CHNL_NO").append(BodyList);
+
+
+        }
+
+        function funcCHNL2_Change() {
+
+            this.param = {
+                G_OFFICE_NO: $('select[name="G_OFFICE_NO"]').val()
+                , CMS_CD: $('select[name="CMS_CD"]').val()
+            }
+
+            //alert(param);
+            var BodyList = "";
+            var aarHtml1 = "";
+            $.ajax({
+                url: "/CM/WCM140_S101",  //url: "/NsmdG/CM/WCM140_S101/selectList2/",
+                type: 'POST',
+                data: this.param,
+                dataType: 'html',
+                timeout: 1000,
+                async: false,
+                ifModified: true,
+                success: function (html) {
+                    aarHtml1 = html.split("{@XX@}");
+                    BodyList = aarHtml1[0];
+                }
+            });
+            $("select[name='CHNL_NO'] option").remove();
+
+            $("#CHNL_NO").append(BodyList);
+
+
+        }
+        $(document).ready(function () {
+            funcCMS_Change();
+        });
+    </script>
+{% endblock head %}
+
+{% block content %}
+{% load SetSelectBox1 %}
+    <h2 class="pagetitle">{% trans '12611 copy Chanel' %}</h2>
+     <div class="pageid" id="noprint">CM140 U103</div>
+    <div class="info">
+        <form name="frm" method="post" action="WCM140_U103">
+            <input type="hidden" name="tProc" value="{{resultVO.tProc}}">
+            <table width="98%" class="f4tbl f4tblview">
+                <tr>
+                    <th align="right">{% trans '11003 Hotel' %}</th>
+                    <td>
+                        <select name="G_OFFICE_NO" id="G_OFFICE_NO" style="width: 150px;" onblur="chkInjection(this);" onfocus=""  onchange="funcCMS_Change()">
+                            {% load SetSelectBox2 %}
+                            {% SetSelectBox2 "Office_No" resultVO.G_OFFICE_NO "--" "" "" request sessionInfo.OfficeNo %}
+                        </select>
+                    </td>
+                    <th align="right">{% trans '12619 Base Date' %}</th>
+                    <td colspan="3">
+                    <input type="text" name="FR_DATE" value="" class="inputText maskdate" size="9" maxlength="10" />
+                    ~
+                    <input type="text" name="TO_DATE" value="" class="inputText maskdate" size="9" maxlength="10" />
+                    </td>
+                </tr>
+                <tr>
+
+                    <th align="right">{% trans '12624 기존' %} CMS</th>
+                    <td>
+                        <select name="CMS_CD" id="CMS_CD" style="width:150px;" onblur="chkInjection(this);" onfocus=""   onchange="funcCHNL_Change()">
+                            {% SetSelectBox1 "CMS_CD" resultVO.CMS_CD "--" "" "" request sessionInfo.OfficeNo %}
+                        </select>
+                    </td>
+                    <th align="right">CMS</th>
+                    <td>
+                        <select name="CMS_CD2" id="CMS_CD2" style="width:150px;" onblur="chkInjection(this);" onfocus=""   onchange="funcCHNL2_Change()">
+                            {% SetSelectBox1 "CMS_CD" "" "--" "" "" request sessionInfo.OfficeNo %}
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+
+                    <th align="right">{% trans '12624 기존' %} {% trans '12551 Channel' %}</th>
+                    <td>
+                        <select name="CHNL_NO" id="CHNL_NO" style="width:150px;" onblur="chkInjection(this);" onfocus=""  >
+                            {% SetSelectBox1 "CHNL_NO" resultVO.CHNL_NO "--" "" "" request sessionInfo.OfficeNo %}
+                        </select>
+                    </td>
+                    <th align="right">{% trans '12551 Channel' %}</th>
+                    <td>
+                        <select name="CHNL_NO2" id="CHNL_NO2" style="width:150px;" onblur="chkInjection(this);" onfocus=""  >
+                            {% SetSelectBox1 "CHNL_NO" "" "--" "" "" request sessionInfo.OfficeNo %}
+                        </select>
+                    </td>
+
+                </tr>
+
+            </table>
+            <div style="text-align: center; padding: 7px 0;">
+                <a href="javascript:funcSubmit('EDIT');"><img src="/static/images/btn/btn_copyall.gif" id="noprint"><!--전체복사--></a>&nbsp;
+                <a href="javascript:funcSubmit('ALLOT_CNT_EDIT');"><img src="/static/images/btn/btn_copyroom.gif" id="noprint"><!--객실복사--></a>&nbsp;
+                <a href="javascript:funcSubmit('SALES_AMT_EDIT');"><img src="/static/images/btn/btn_copyrate.gif" id="noprint"><!--요금복사--></a>&nbsp;
+                <a href="javascript:funcSubmit('CLOSE_SALE_EDIT');"><img src="/static/images/btn/btn_copydiscount.gif" id="noprint"><!--마감세일복사--></a>&nbsp;
+                <a href="javascript:funcSubmit('CLOSE_YN_EDIT');"><img src="/static/images/btn/btn_copyclosing.gif" id="noprint"><!--예약종료복사--></a>&nbsp;
+                <a href="javascript:funcSubmit('SEASON_YN_EDIT');"><img src="/static/images/btn/btn_copyseoson.gif" id="noprint"><!--시즌복사--></a>&nbsp;
+
+                <br /><br /><br />
+                <a href="javascript:window.close();"><img src="/static/images/btn/btn_close.gif"></a>
+
+            </div>
+        </form>
+    </div>
+{% endblock content %}

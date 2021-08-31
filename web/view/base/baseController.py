@@ -135,9 +135,9 @@ def basemain(request):
 def RqChk(str, request):
 	strRq = ''
 	if request.method == 'GET':
-		strRq = request.GET.get(str, None)
+		strRq = request.GET.get(str, '')
 	elif request.method == 'POST':
-		strRq = request.POST.get(str, None)
+		strRq = request.POST.get(str, '')
 	if type(strRq) is not int:
 		strRq = fnReplace(strRq)
 	if type(strRq) is str:

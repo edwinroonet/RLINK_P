@@ -1,8 +1,52 @@
+from web.view.base.baseController import *
+
 def alertMsg(Msg, goUrl):
     if goUrl == "":
         return "<script language='javascript'>alert('" + Msg + "');history.back();</script>"
     else:
         return "<script language='javascript'>alert('" + Msg + "');location.replace('" + goUrl + "');</script>"
+
+def alertCloseMsg(Msg):
+    if Msg == "":
+        return "<script language='javascript'>self.close();</script>"
+    else:
+        return "<script language='javascript'>alert('" + Msg + "');self.close();</script>"
+
+def alertParentDialogCloseMsg2(Msg, func):
+    if Msg == "":
+        return "<script language='javascript'>parent.$('#dialog').dialog('close');</script>"
+    else:
+        return "<script language='javascript'>alert('" + Msg + "');parent.$('#dialog').dialog('close');parent." + func + "</script>"
+
+def GetCms_CD():
+    GetCms_CD = ""
+    strSql = "SELECT Top 1 A.CMS_CD FROM T_CM_100 A JOIN T_CM_010 B ON B.CMS_CD = A.CMS_CD WHERE CMS_USE_YN = 'Y' AND office_no= '" + G_OFFICE_NO + "' ORDER BY B.SORT_SEQ ASC, CMS_NM DESC "
+    tmpRs = dbexecute(strSql)
+    if tmpRs:
+        GetCms_CD = str(tmpRs[0])
+    return GetCms_CD
+
+def checkSort(pSort, strSort):
+    checkSort = pSort
+    if pSort == strSort:
+        strFirst = pSort[0:strSort.find(" ")-1]
+        strSecond = pSort[strSort.find(" ")+1]
+        if strSecond == "asc":
+            strSecond = "desc"
+        else:
+            strSecond = "asc"
+        checkSort = strFirst + " " + strSecond
+    return checkSort
+
+def ChkWordIn(CheckValue):
+    CheckValue = CheckValue.replace("&", "&amp;")
+    CheckValue = CheckValue.replace("<", "&lt;")
+    CheckValue = CheckValue.replace(">", "&gt;")
+    CheckValue = CheckValue.replace("'", "&rsquo;")
+    CheckValue = CheckValue.replace("\"\"", "&quot;")
+    CheckValue = CheckValue.replace("&", "&amp;")
+    CheckValue = CheckValue.replace("/n", "<br>")
+    return CheckValue
 
 def setMultiLang(multi_lang):
     if multi_lang.strip() == "":

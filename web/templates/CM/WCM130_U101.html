@@ -1,0 +1,178 @@
+{% extends "CMM/_LayoutMainMaster.html" %}
+{% load i18n %}
+
+{% block head %}
+    <script type="text/javascript">
+        function funcSubmit() {
+            if (document.frm.OFFICE_NO.value == "") {
+                alert("Please, select Hotel.");
+                document.frm.OFFICE_NO.focus();
+                return;
+            }
+
+      if (document.frm.CMS_CD.value == "") {
+
+          alert("{% trans '12587 Please Input CMS!' %}");
+          document.frm.CMS_CD.focus();
+          return;
+      }
+
+
+      if (document.frm.CHNL_NM.value == "") {
+          alert("{% trans '12598 Please, Enter Channel Name.' %}");
+          document.frm.CHNL_NM.focus();
+          return;
+      }
+
+
+      if (document.frm.OFFICE_NO.disabled == true) {
+
+          document.frm.OFFICE_NO.disabled = false;
+      }
+
+      if (document.frm.CMS_CD.disabled == true) {
+
+          document.frm.CMS_CD.disabled = false;
+      }
+
+
+        if (true == confirm("{% trans '10001 Do you want to save?' %}")) {
+            frm.action = "/CM/WCM130_U101"; //frm.action = "/NsmdG/CM/WCM130_U101/mainTran/";
+              frm.submit();
+          }
+      }
+
+
+      function enterNext(val) {
+          var keyCode = event.keyCode;
+
+          //alert(keyCode);
+          if (keyCode != 13 && keyCode != 9) {
+              //alert(keyCode);
+              return;
+          }
+          else {
+              //
+          }
+
+          if (keyCode == 9) {
+              event.returnValue = false;
+          }
+
+          //엔터키 입력시 포커스 이동 설정
+          if (keyCode == 13 || keyCode == 9) {
+              var tmpVal = val.replaceAll("inputBox", "");
+
+
+              //9번항목 Hidden 필드
+              if (tmpVal == "9") { tmpVal = "10" }
+
+
+              event.returnValue = false;
+              $("#inputBox" + (parseInt(tmpVal) + 1)).focus();
+              $("#inputBox" + (parseInt(tmpVal) + 1)).select();
+          }
+
+      }
+
+    </script>
+{% endblock head %}
+
+{% block content %}
+    <h2 class="pagetitle">CMS {% trans "11668 Channel" %}</h2>
+    <div class="pageid">CM130 U101</div>
+    <div class="info">
+        <form name="frm" method="post" action="WCM130_U101">
+            <input type="hidden" name="tProc" value="{{resultVO.tProc}}">
+            <table width="98%" class="f4tbl f4tblview">
+                <tr>
+                    <th align="right">{% trans "11003 Hotel" %}</th>
+                    <td colspan="4">
+                        <select name="OFFICE_NO" id="OFFICE_NO" style="width: 150px;" onblur="chkInjection(this);" onfocus="" tabindex1="34" {% if resultVO.tProc == "EDIT" %}disabled{% endif %}>
+                            {% load SetSelectBox2 %}
+                            {% SetSelectBox2 "Office_No" resultVO.OFFICE_NO "" "" "" request sessionInfo.OfficeNo %}
+                        </select>
+                    </td>
+
+                </tr>
+                <tr>
+                    <th align="right">CMS</th>
+                    <td colspan="4">
+                        <select name="CMS_CD" id="CMS_CD" style="width: 150px;" onblur="chkInjection(this);" onfocus="" tabindex1="34" {% if resultVO.tProc == "EDIT" %}disabled{% endif %}>
+                            {% load SetSelectBox1 %}
+                            {% SetSelectBox1 "CMS_CD" resultVO.CMS_CD "" "" "" request sessionInfo.OfficeNo %}
+                        </select>
+                    </td>
+
+                </tr>
+                <tr>
+                    <th align="right" width="20%">
+                        {% trans "11668 Channel" %}
+                    </th>
+                    <td width="29%">
+                        <input type="text" name="CHNL_NO" id="CHNL_NO" class="inputText" onblur="chkInjection(this,10)" style="width:50px" value="{{resultVO.CHNL_NO}}" readonly>
+                    </td>
+                    <td width="2%"></td>
+                    <th align="right" width="20%">
+                        {% trans "11668 use" %}
+                    </th>
+                    <td width="29%">
+                        <select id="USE_FLAG" name="USE_FLAG" style="width: 40px;">
+                            <option {% if resultVO.USE_FLAG == "Y" %}selected {% endif %} value="Y">Y</option>
+                            <option {% if resultVO.USE_FLAG == "N" %}selected {% endif %} value="N">N</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th align="right">{% trans "11668 Channel" %} {% trans "12225 Name" %}
+                    </th>
+                    <td colspan="4">
+                        <input type="text" name="CHNL_NM" class="inputText" onblur="chkInjection(this,100)" style="width: 350px" value="{{resultVO.CHNL_NM}}">
+                    </td>
+                </tr>
+                <tr>
+
+                    <th align="right">{% trans "11447 Remark" %}
+                    </th>
+                    <td colspan="4">
+                        <input type="text" name="CHNL_NICKNM" class="inputText" onblur="chkInjection(this,100)" style="width: 350px" value="{{resultVO.CHNL_NICKNM}}">
+                    </td>
+                </tr>
+                <tr>
+                    <th align="right">{% trans "11762 Auth Code" %}  </th>
+                    <td colspan="4">
+                        <input type="text" name="AUTH_CD" class="inputText" onblur="chkInjection(this,100)" style="width: 350px" value="{{resultVO.AUTH_CD}}">
+                </tr>
+                <tr>
+                    <th align="right">
+                        {% trans "11712 Remark" %}
+                    </th>
+                    <td colspan="4">
+
+                        <textarea name="remark" class="inputText" rows="3" style="width: 500px;">{{resultVO.remark}}</textarea>
+                    </td>
+
+                </tr>
+                {% if resultVO.tProc == "EDIT" %}
+               <tr>
+                    <th>{% trans "11208 Entry" %}
+                    </th>
+                    <td>
+                        {{resultVO.Input_User}}
+                    </td>
+                    <td></td>
+                    <th>{% trans "12310 Update" %}
+                    </th>
+                    <td>
+                        {{resultVO.Update_User}}
+                    </td>
+                </tr>
+                {% endif %}
+            </table>
+            <div style="text-align: center; padding: 7px 0;">
+               <input type="button" class="RLINK_button62" onclick="funcSubmit();" value="{% trans '12503 Save' %}" id="noprint" border="0" />
+                        <a onclick="parent.$('#dialog').dialog('close');"><input type="button" class="RLINK_button62" onclick="funcClose();" value="{% trans '12405 Close' %}" id="noprint" border="0" /></a>
+            </div>
+        </form>
+    </div>
+{% endblock content %}

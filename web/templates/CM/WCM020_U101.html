@@ -1,0 +1,255 @@
+{% extends "CMM/_LayoutMainMaster.html" %}
+{% load i18n %}
+
+{% block head %}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var vl_view = $("select[name=CMS_CD]").val();
+            //var option_value = document.getElementById("CMS_CD");
+            //option_value = option_value.options[division.selectedIndex].value;
+            checkView(vl_view);
+        });
+
+        function checkView(ojb) {
+            if ("{{resultVO.tproc}}" == "EDIT")
+            {
+                var val = ojb
+            } else {
+                var val = ojb.value
+            }
+
+            if (val == "TLLC")
+            {
+                document.getElementById("TLLC").style.display = ''
+            }
+            else
+            {
+                document.getElementById("TLLC").style.display = 'none'
+            }
+        }
+        function funcSubmit() {
+
+            if (document.frm.CMS_CD.value == "") {
+                alert("{% trans '12587 Please Input CMS!' %}");
+                document.frm.CMS_CD.focus();
+                return;
+            }
+
+            if (document.frm.OTA_CD.value == "") {
+                alert("{% trans '11218 Please, Enter code.' %}");
+                document.frm.OTA_CD.focus();
+                return;
+            }
+
+            if (document.frm.OTA_NM.value == "") {
+                 alert("{% trans '10004 Please, Enter Name.' %}(kor)");
+                document.frm.OTA_NM.focus();
+                return;
+            }
+
+            if (document.frm.CMS_CD.disabled == true) {
+
+                document.frm.CMS_CD.disabled = false
+            }
+
+            if (true == confirm("{% trans '10001 Do you want to save?' %}")) {
+                frm.action = "/CM/WCM020_U101"  //frm.action = "/NsmdG/CM/WCM020_U101/mainTran/"
+                frm.submit();
+            }
+        }
+
+
+        function enterNext(val) {
+            var keyCode = event.keyCode;
+
+            //alert(keyCode);
+            if (keyCode != 13 && keyCode != 9) {
+                //alert(keyCode);
+                return;
+            }
+            else {
+                //
+            }
+
+            if (keyCode == 9) {
+                event.returnValue = false;
+            }
+
+            //엔터키 입력시 포커스 이동 설정
+            if (keyCode == 13 || keyCode == 9) {
+                var tmpVal = val.replaceAll("inputBox", "");
+
+
+                //9번항목 Hidden 필드
+                if (tmpVal == "9") { tmpVal = "10" }
+
+
+                event.returnValue = false;
+                $("#inputBox" + (parseInt(tmpVal) + 1)).focus();
+                $("#inputBox" + (parseInt(tmpVal) + 1)).select();
+            }
+
+        }
+
+    </script>
+{% endblock head %}
+
+{% block content %}
+{% load SetSelectBox1 %}
+    <h2 class="pagetitle">OTA Master</h2>
+    <div class="pageid" id="noprint">CM020 U101</div>
+
+    <div class="info">
+        <form name="frm" method="post" action="WCM020_U101">
+            <input type="hidden" name="tProc" value="{{resultVo.tProc}}">
+            <table width="100%" class="f4tblview">
+                <colgroup>
+                    <col width="10%" />
+                    <col width="15%" />
+                    <col width="10%" />
+                    <col width="25%" />
+                    <col width="10%" />
+                    <col />
+                </colgroup>
+
+                <tr>
+                    <th>CMS</th>
+                    <td colspan="5">
+                        <select name="CMS_CD" id="CMS_CD" onchange="checkView(this);" style="width: 150px;" onblur="chkInjection(this);" onfocus="" tabindex1="34" {% if resultVO.tProc == "EDIT" %}disabled{% endif %}>
+                            {% SetSelectBox1 "CMS_ALL" resultVO.CMS_CD "" "" "" request sessionInfo.OfficeNo %}
+                        </select>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>{% trans "11053 Code" %}</th>
+                    <td>
+                        <input type="text" name="OTA_CD" maxlength="10" style="width: 200" value="{{resultVO.OTA_CD}}" {% if resultVO.tProc == "EDIT" %}readonly{% endif %}>
+                    </td>
+                    <th>{% trans "11661 Type" %}</th>
+                    <td>
+                        <select name="OTA_TYPE" id="OTA_TYPE" style="ime-mode: active;" style="width: 80px;">
+                            {% SetSelectBox1 "OTA_TYPE" resultVO.OTA_TYPE "--" "" "" request sessionInfo.OfficeNo %}
+                        </select>
+                    </td>
+                    <th align="right">{% trans "12553 Amt Flag" %}</th>
+                    <td>
+                        <select name="AMT_FLAG" id="AMT_FLAG" style="ime-mode: active;" style="width: 100px;">
+                            {% SetSelectBox1 "AMT_FLAG" resultVO.AMT_FLAG "--" "" "" request sessionInfo.OfficeNo %}
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th>{% trans "12225 Name" %}(Kor)</th>
+                    <td>
+                        <input type="text" name="OTA_NM" onblur="chkInjection(this,100)" style="width: 250" value="{{resultVO.OTA_NM}}">
+                    </td>
+                    <th>{% trans "12539 Contract" %}</th>
+                    <td>
+
+                        <select id="CONTRACT_YN" name="CONTRACT_YN">
+                            <option {% if resultVO.CONTRACT_YN == "Y" %}selected {% endif %} value="Y">Y</option>
+                            <option {% if resultVO.CONTRACT_YN == "N" %}selected {% endif %} value="N">N</option>
+                        </select>
+                    </td>
+                    <th>{% trans "11668 Use" %}
+                    </th>
+                    <td>
+                        <select id="use_flag" name="use_flag">
+                            <option {% if resultVO.use_flag == "Y" %}selected {% endif %} value="Y">Y</option>
+                            <option {% if resultVO.use_flag == "N" %}selected {% endif %} value="N">N</option>
+                        </select>
+                    </td>
+
+                </tr>
+                <tr>
+                    <th>{% trans "12225 Name" %}(Eng)</th>
+                    <td>
+                        <input type="text" name="OTA_ENM" onblur="chkInjection(this,100)" style="width: 250" value="{{resultVO.OTA_ENM}}">
+                    </td>
+                    <th>{% trans "11950 Period" %}</th>
+                    <td colspan="3">
+                        <input type="text" class="inputText maskdate" style="width: 80px; background-color: #ffcef4; font-weight: bold; color: #f0177e; ime-mode: disabled;" name="CONTRACT_START" value="{{resultVO.CONTRACT_START}}" />
+                        ~
+                                                            <input type="text" class="inputText maskdate" style="width: 80px; background-color: #ffcef4; font-weight: bold; color: #f0177e; ime-mode: disabled;" name="CONTRACT_END" value="{{resultVO.CONTRACT_END}}" />
+                    </td>
+                </tr>
+                <tr>
+                    <th>{% trans "11369 Name" %}</th>
+                    <td align="right">Tel&nbsp;<input type="text" name="TEL_NO" onblur="chkInjection(this,20)" style="width: 200" value="{{resultVO.TEL_NO}}"></td>
+                    <td align="right" class="txt_roomviwe">{% trans "11057 fax" %}</td>
+                    <td colspan="3">
+                        <input type="text" name="FAX_NO" onblur="chkInjection(this,20)" style="width: 200" value="{{resultVO.FAX_NO}}">
+                    </td>
+                </tr>
+                <tr>
+                    <th rowspan="2">{% trans "12250 Name" %}</th>
+                    <td align="right" class="txt_roomviwe">{% trans "12250 Name" %}&nbsp;<input type="text" name="INCHARGE_NM" onblur="chkInjection(this,50)" style="width: 200" value="{{resultVO.INCHARGE_NM}}"></td>
+                    <td align="right">Tel</td>
+                    <td colspan="3">
+                        <input type="text" name="INCHARGE_TEL" onblur="chkInjection(this,20)" style="width: 200" value="{{resultVO.INCHARGE_TEL}}">
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right" class="txt_roomviwe">Email&nbsp;<input type="text" name="INCHARGE_EMAIL" onblur="chkInjection(this,50)" style="width: 200" value="{{resultVO.INCHARGE_EMAIL}}"></td>
+                    <td  align="right">{% trans "11057 fax" %}</td>
+                    <td colspan="3">
+                        <input type="text" name="INCHARGE_FAX" onblur="chkInjection(this,20)" style="width: 200" value="{{resultVO.INCHARGE_FAX}}">
+                    </td>
+                </tr>
+                <tr>
+                    <th>{% trans "11712 Rem" %}</th>
+                    <td colspan="5">
+                        <textarea name="remark" rows="3" style="width: 500px;">{{resultVO.remark}}</textarea>
+                    </td>
+                </tr>
+
+                <tr id="TLLC" name ="TLLC">
+                    <th >TL</th>
+                    <td colspan="5">
+                        SOCC&nbsp;
+                        <input type="text" name="TL_SOCC" maxlength="10" style="width: 50" value="{{resultVO.TL_SOCC}}" {% if resultVO.tProc == "EDIT" %}readonly{% endif %} />&nbsp;
+
+                        RTA&nbsp;
+                        <select id="TL_SUPPORT1" name="TL_SUPPORT1">
+                            <option {% if resultVO.TL_SUPPORT1 == "N" %}selected {% endif %} value="N">N</option>
+                            <option {% if resultVO.TL_SUPPORT1 == "Y" %}selected {% endif %} value="Y">Y</option>
+                        </select>&nbsp;
+
+                        IA&nbsp;
+                        <select id="TL_SUPPORT2" name="TL_SUPPORT2">
+                            <option {% if resultVO.TL_SUPPORT2 == "N" %}selected {% endif %} value="N">N</option>
+                            <option {% if resultVO.TL_SUPPORT2 == "Y" %}selected {% endif %} value="Y">Y</option>
+                        </select>
+
+                        RPA&nbsp;
+                         <select id="TL_SUPPORT3" name="TL_SUPPORT3">
+                            <option {% if resultVO.TL_SUPPORT3 == "N" %}selected {% endif %} value="N">N</option>
+                            <option {% if resultVO.TL_SUPPORT3 == "Y" %}selected {% endif %} value="Y">Y</option>
+
+                        </select>
+                    </td>
+                </tr>
+
+                {% if resultVO.tProc == "EDIT" %}
+                <tr>
+                    <th>{% trans "11208 Entry" %}</th>
+                    <td>{{resultVO.Input_User}}</td>
+                    <th>{% trans "12310 Update" %}</th>
+                    <td>{{resultVO.Update_User}}</td>
+                </tr>
+                {% endif %}
+            </table>
+
+            <table width="100%">
+                <tr>
+                    <td align="center">
+                       <input type="button" class="RLINK_button62" onclick="funcSubmit();" value="{% trans '12503 Save' %}" id="noprint" border="0" />
+                        <a onclick="parent.$('#dialog').dialog('close');"><input type="button" class="RLINK_button62" onclick="funcClose();" value="{% trans '12405 Close' %}" id="noprint" border="0" /></a>
+                    </td>
+                </tr>
+            </table>
+
+        </form>
+    </div>
+{% endblock content %}

@@ -1,0 +1,423 @@
+{% extends "CMM/_LayoutMainMaster.html" %}
+{% load i18n %}
+
+{% block head %}
+    <script type="text/javascript">
+        function funcSubmit() {
+
+            if (document.frm.G_OFFICE_NO.value == "") {
+
+                alert("{% trans '12288 Please select a hotel.' %}");
+          document.frm.G_OFFICE_NO.focus();
+          return;
+            }
+
+            if (document.frm.ROOM_TYPE.value == "") {
+                alert("{% trans '12599 Please, select Room Type.' %}");
+                document.frm.ROOM_TYPE.focus();
+                return;
+            }
+
+            if (document.frm.FR_DATE.value == "") {
+
+                alert("{% trans '11278 Please enter a validity period.' %}")%>");
+                document.frm.FR_DATE.focus();
+                return;
+            }
+
+            if (document.frm.TO_DATE.value == "") {
+
+                alert("{% trans '11278 Please enter a validity period.' %}");
+                document.frm.TO_DATE.focus();
+                return;
+            }
+
+
+            var RM_CNT = $("input[name=RM_CNT").val();
+
+            var DATA_VALUE1 = $("input[name=DATA_VALUE1").val();
+            var DATA_VALUE2 = $("input[name=DATA_VALUE2").val();
+            var DATA_VALUE3 = $("input[name=DATA_VALUE3").val();
+
+            if (parseInt(RM_CNT) < parseInt(DATA_VALUE1) ) {
+
+                alert("{% trans '11713 Overbooking' %}");
+                document.frm.DATA_VALUE1.focus();
+                return;
+            }
+
+            if (parseInt(RM_CNT) < parseInt(DATA_VALUE2) ) {
+
+                alert("{% trans '11713 Overbooking' %}");
+                document.frm.DATA_VALUE2.focus();
+                return;
+            }
+
+            if (parseInt(RM_CNT) < parseInt(DATA_VALUE3)) {
+
+                alert("{% trans '11713 Overbooking' %}");
+                document.frm.DATA_VALUE3.focus();
+                return;
+            }
+
+            var check = "false";
+            $("#total1").parent().parent().parent().find("input[type=checkbox]").each(function (idx) {
+
+                    if ($(this).is(":checked") == true) {
+                        check = "true";
+                    }
+
+            });
+
+            if (check == "false") {
+
+                alert("{% trans '11166 Select valid access day.' %}");
+                return;
+            }
+
+
+            var DAY1 = "";
+            var DAY2 = "";
+            var DAY3 = "";
+
+            $("#total1").parent().parent().parent().find("input[type=checkbox]").each(function (idx) {
+                if( idx > 0 && idx <= 7 ){
+                    if ($(this).is(":checked") == true) {
+                        DAY1 = DAY1 + "on,";
+                    } else {
+                        DAY1 = DAY1 + ",";
+                    }
+                }
+                if (idx > 8 && idx <= 15) {
+                    if ($(this).is(":checked") == true) {
+                        DAY2 = DAY2 + "on,";
+                    } else {
+                        DAY2 = DAY2 + ",";
+                    }
+                }
+                if (idx > 16) {
+                    if ($(this).is(":checked") == true) {
+                        DAY3 = DAY3 + "on,";
+                    } else {
+                        DAY3 = DAY3 + ",";
+                    }
+                }
+
+
+            });
+
+            //alert(DAY1)
+            //alert(DAY2)
+            //alert(DAY3)
+
+
+            $("#DAY1").val(DAY1);
+            $("#DAY2").val(DAY2);
+            $("#DAY3").val(DAY3);
+
+           // return;
+
+        if (true == confirm("{% trans '10001 Do you want to save?' %}")) {
+            frm.action = "/CM/WCM140_U101"; //frm.action = "/NsmdG/CM/WCM140_U101/mainTran/";
+              frm.submit();
+          }
+      }
+
+
+      function enterNext(val) {
+          var keyCode = event.keyCode;
+
+          //alert(keyCode);
+          if (keyCode != 13 && keyCode != 9) {
+              //alert(keyCode);
+              return;
+          }
+          else {
+              //
+          }
+
+          if (keyCode == 9) {
+              event.returnValue = false;
+          }
+
+          //엔터키 입력시 포커스 이동 설정
+          if (keyCode == 13 || keyCode == 9) {
+              var tmpVal = val.replaceAll("inputBox", "");
+
+
+              //9번항목 Hidden 필드
+              if (tmpVal == "9") { tmpVal = "10"; }
+
+
+              event.returnValue = false;
+              $("#inputBox" + (parseInt(tmpVal) + 1)).focus();
+              $("#inputBox" + (parseInt(tmpVal) + 1)).select();
+          }
+
+      }
+        $(document).ready(function () {
+            //객실 타입 셀렉트 박스 변경시
+            //$(document).on('change', "select[name=ROOM_TYPE]", function (e) {
+            //    var roomCnt = $(this).find('option:selected').attr('data-room_cnt');
+            //    $("#roomCntInfo").val(roomCnt);
+            //});
+
+            //채널 그룹 변경 시
+            //$(document).on('change', "select[name=CHANNEL_GRP]", function (e) {
+            //    $("#searchChannelGroup").val($(this).val());
+            //    var searchChannelCd = '';
+            //    var param = $('#frm').serializeArray();
+            //    var result = fnCommonAjax("fnChannelList", "/tr/wtr041_u102Ajax.do", "post", $.param(param, true), "", "");
+            //    var selectBoxHtml = '<option value="">::: 선택 :::</option>';
+            //    var checkStr = '';
+
+            //    $.each(result.channelList, function (index, result) {
+            //        if (searchChannelCd == result.CHANNEL_CD) {
+            //            checkStr = 'selected="selected"';
+            //        } else {
+            //            checkStr = '';
+            //        }
+            //        selectBoxHtml += '<option value="' + result.CHANNEL_CD + '" ' + checkStr + ' >' + result.CHANNEL_NM + '</option>';
+            //    });
+            //    $("select[name=CHANNEL_CD]").empty().append(selectBoxHtml);
+            //});
+            //$("select[name=CHANNEL_GRP]").val('').prop('selected', true).trigger('change', ['']);
+
+            //요일 전체 선택
+            $(document).on('change', "#total1, #total2, #total3", function (e) {
+                var chkBoxId = $(this).attr("id");
+                var chk = $(this).prop("checked");
+                $(this).parent().parent().parent().find("input[type=checkbox]").prop("checked", false);
+                $(this).parent().find("input[type=checkbox]").prop("checked", chk);
+            });
+
+            //요일 선택
+            $(document).on('change', "input[name=sun], input[name=mon], input[name=tue], input[name=wed], input[name=thu], input[name=fri], input[name=sat]", function (e) {
+                var chkBoxNm = $(this).attr("name");
+                var chk = $(this).prop("checked");
+                if (chk == true) {
+                    $(this).parent().parent().parent().find("input[name=" + chkBoxNm + "]").prop("checked", false);
+                    $(this).prop("checked", true)
+                }
+            });
+
+            //if ($("#CMS_CD").val == "") funcCMS_Change()
+            funcCMS_Change();
+        });
+
+        function funcCMS_Change() {
+
+
+            this.param = {
+                G_OFFICE_NO: $('select[name="G_OFFICE_NO"]').val();
+
+            }
+
+            //alert(param);
+            var BodyList = "";
+            var aarHtml1 = "";
+            $.ajax({
+                url: "/CM/WCM140_S101",  //url: "/NsmdG/CM/WCM140_S101/selectList1/",
+                type: 'POST',
+                data: this.param,
+                dataType: 'html',
+                timeout: 1000,
+                async: false,
+                ifModified: true,
+                success: function (html) {
+                    aarHtml1 = html.split("{@XX@}")
+                    BodyList = aarHtml1[0]
+                }
+            });
+
+            $("select[name='CMS_CD'] option").remove();
+
+            $("#CMS_CD").append(BodyList);
+
+            funcCHNL_Change();
+
+
+        }
+
+
+        function funcCHNL_Change() {
+
+            this.param = {
+                G_OFFICE_NO: $('select[name="G_OFFICE_NO"]').val()
+                , CMS_CD: $('select[name="CMS_CD"]').val()
+            }
+
+            //alert(param);
+            var BodyList = "";
+            var aarHtml1 = "";
+            $.ajax({
+                url: "/CM/WCM140_S101",  //url: "/NsmdG/CM/WCM140_S101/selectList2/",
+                type: 'POST',
+                data: this.param,
+                dataType: 'html',
+                timeout: 1000,
+                async: false,
+                ifModified: true,
+                success: function (html) {
+                    aarHtml1 = html.split("{@XX@}");
+                    BodyList = aarHtml1[0];
+                }
+            });
+            $("select[name='CHNL_NO'] option").remove();
+
+            $("#CHNL_NO").append(BodyList);
+
+
+        }
+
+        function funcRoomType_Change() {
+
+            this.param = {
+                G_OFFICE_NO: $('select[name="G_OFFICE_NO"]').val()
+                , ROOM_TYPE: $('select[name="ROOM_TYPE"]').val()
+            }
+
+            //alert(param);
+            var BodyList = "";
+            var aarHtml1 = "";
+            $.ajax({
+                url: "/CM/WCM140_S101",    //url: "/NsmdG/CM/WCM140_S101/textList1/",
+                type: 'POST',
+                data: this.param,
+                dataType: 'html',
+                timeout: 1000,
+                async: false,
+                ifModified: true,
+                success: function (html) {
+                    BodyList = html;
+                }
+            });
+
+            $("#RM_CNT").val(BodyList);
+
+
+        }
+
+
+
+    </script>
+{% endblock head %}
+
+{% block content %}
+{% load SetSelectBox2 %}
+{% load SetSelectBox1 %}
+    <h2 class="pagetitle"><%=RLINK.GetConvertText(12618, "Room Allocation")%></h2>
+     <div class="pageid" id="noprint">CM140 U101</div>
+    <div class="info">
+        <form name="frm" method="post" action="WCM140_U101">
+            <input type="hidden" name="tProc" value="{{resultVO.tProc}}">
+            <input type="hidden" id="DAY1" name="DAY1" value="{{resultVO.tProc}}">
+            <input type="hidden" id="DAY2"name="DAY2" value="{{resultVO.tProc}}">
+            <input type="hidden" id="DAY3"name="DAY3" value="{{resultVO.tProc}}">
+            <table width="98%" class="f4tbl f4tblview">
+                <tr>
+                    <th align="right">{% trans '11003 Hotel' %}</th>
+                    <td colspan="5" >
+                        <select name="G_OFFICE_NO" id="G_OFFICE_NO" style="width: 150px;" onblur="chkInjection(this);" onfocus=""  onchange="funcCMS_Change()">
+                            {% SetSelectBox2 "Office_No" resultVO.G_OFFICE_NO "--" "" "" request sessionInfo.OfficeNo %}
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th align="right">{% trans "11308 Room Type" %}</th>
+                    <td>
+                        <select name="ROOM_TYPE" style="ime-mode: inactive; width: 108px;font-size:9pt" class="inputText" onchange="funcRoomType_Change()">
+                            {% SetSelectBox2 "RM_TYPE3" "" "--" "" "" request sessionInfo.OfficeNo %}
+                        </select>
+                    </td>
+
+                    <th align="right">{% trans "12620 Rm Count" %}</th>
+                    <td>
+                        <input type="text" id="RM_CNT" name="RM_CNT" value=""  class="inputText"  readonly="readonly" />
+                    </td>
+                    <th align="right">CMS</th>
+                    <td>
+                        <select name="CMS_CD" id="CMS_CD" style="width:150px;" onblur="chkInjection(this);" onfocus=""   onchange="funcCHNL_Change()">
+                            {% SetSelectBox1 "CMS_CD" request.CMS_CD "--" "" "" request sessionInfo.OfficeNo %}
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th align="right">{% trans "12619 Date" %}</th>
+                    <td colspan="3">
+                    <input type="text" name="FR_DATE" value="" class="inputText maskdate" size="9" maxlength="10" />
+                    ~
+                    <input type="text" name="TO_DATE" value="" class="inputText maskdate" size="9" maxlength="10" />
+                    </td>
+                    <th align="right">{% trans "12551 CHANNEL" %}</th>
+                    <td>
+                        <select name="CHNL_NO" id="CHNL_NO" style="width:150px;" onblur="chkInjection(this);" onfocus=""  >
+                            {% SetSelectBox1 "CHNL_NO" resultVO.CHNL_NO "--" "" "" request sessionInfo.OfficeNo %}
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th align="right" width="20%">
+                        {% trans "11942 Date" %}
+                    </th>
+                    <td colspan="3">
+                        <input type="checkbox" name="total1" id="total1" value="Y" /> {% trans "12489 ALL" %}
+                        <input type="checkbox" name="sun" value="1" /> {% trans "11690 Sun" %}
+					    <input type="checkbox" name="mon" value="2" /> {% trans "11684 Mon" %}
+					    <input type="checkbox" name="tue" value="3" /> {% trans "11685 Tue" %}
+					    <input type="checkbox" name="wed" value="4" /> {% trans "11686 Wed" %}
+					    <input type="checkbox" name="thu" value="5" /> {% trans "11687 Thu" %}
+					    <input type="checkbox" name="fri" value="6" /> {% trans "11688 Fri" %}
+					    <input type="checkbox" name="sat" value="7" /> {% trans "11689 Sat" %}
+                    </td>
+                    <th>{% trans "11673 Rms" %}</th>
+                    <td>
+                        <input type="text" name="DATA_VALUE1" value="0" class="inputText"  onkeyup="onlyNumber1(this)"  onclick="this.select()" maxlength="2" />
+                    </td>
+                </tr>
+                <tr>
+                    <th align="right" width="20%">
+                        {% trans "11942 Date" %}
+                    </th>
+                    <td colspan="3">
+                        <input type="checkbox" name="total2" id="total2" value="Y" /> {% trans "12489 ALL" %}
+					    <input type="checkbox" name="sun" value="1" /> {% trans "11690 Sun" %}
+					    <input type="checkbox" name="mon" value="2" /> {% trans "11684 Mon" %}
+					    <input type="checkbox" name="tue" value="3" /> {% trans "11685 Tue" %}
+					    <input type="checkbox" name="wed" value="4" /> {% trans "11686 Wed" %}
+					    <input type="checkbox" name="thu" value="5" /> {% trans "11687 Thu" %}
+					    <input type="checkbox" name="fri" value="6" /> {% trans "11688 Fri" %}
+					    <input type="checkbox" name="sat" value="7" /> {% trans "11689 Sat" %}
+                    </td>
+                    <th>{% trans "11673 Rms" %}</th>
+                    <td>
+                        <input type="text" name="DATA_VALUE2" value="0"  class="inputText"  onkeyup="onlyNumber1(this)"  onclick="this.select()" maxlength="2" />
+                    </td>
+                </tr>
+                <tr>
+                    <th align="right" width="20%">
+                        {% trans "11942 Date" %}
+                    </th>
+                    <td colspan="3">
+                        <input type="checkbox" name="total3" id="total3" value="Y" /> {% trans "12489 ALL" %}
+					    <input type="checkbox" name="sun" value="1" /> {% trans "11690 Sun" %}
+					    <input type="checkbox" name="mon" value="2" /> {% trans "11684 Mon" %}
+					    <input type="checkbox" name="tue" value="3" /> {% trans "11685 Tue" %}
+					    <input type="checkbox" name="wed" value="4" /> {% trans "11686 Wed" %}
+					    <input type="checkbox" name="thu" value="5" /> {% trans "11687 Thu" %}
+					    <input type="checkbox" name="fri" value="6" /> {% trans "11688 Fri" %}
+					    <input type="checkbox" name="sat" value="7" /> {% trans "11689 Sat" %}
+                    </td>
+                    <th>{% trans "11673 Rms" %}</th>
+                    <td>
+                        <input type="text" name="DATA_VALUE3" value="0"  class="inputText" onkeyup="onlyNumber1(this)"  onclick="this.Select()" maxlength="2" />
+                    </td>
+                </tr>
+            </table>
+            <div style="text-align: center; padding: 7px 0;">
+                <input type="button" class="RLINK_button62" onclick="funcSubmit();" value="{% trans '12503 Save' %}" id="noprint" border="0" />
+                        <a onclick="parent.$('#dialog').dialog('close');"><input type="button" class="RLINK_button62" onclick="funcClose();" value="{% trans '12405 Close' %}" id="noprint" border="0" /></a>
+            </div>
+        </form>
+    </div>
+{% endblock content %}

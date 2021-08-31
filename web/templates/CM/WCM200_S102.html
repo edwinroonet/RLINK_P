@@ -1,0 +1,192 @@
+{% extends "CMM/_LayoutMaster.html" %}
+{% load i18n %}
+
+{% block head %}
+{% endblock head %}
+
+{% block content %}
+{% load humanize %}
+    <h2 class="pagetitle">Booking Detail View</h2>
+
+    <div class="pageid">WCM200 S102</div>
+
+    <div class="info">
+                    <table class="f4tblview"><!--<%&#45;&#45;f4tbl f4tblview4&#45;&#45;%>-->
+                        <colgroup>
+	                        <col width="100" />
+	                        <col />
+	                        <col width="100" />
+	                        <col />
+	                        <col width="100" />
+	                        <col />
+                        </colgroup>
+
+                        <tr>
+                            <th>SERR_CD</th><td>{{resultRS.SERR_CD}}</td>
+                            <th>TRAN_DATE</th><td>{{resultRS.TRAN_DATE2}}</td>
+							<th></th><td></td>
+                        </tr>
+                        <tr>
+                            <th>SERR_MSG</th><td colspan="5"><font color = "red">{{resultRS.SERR_MSG}}</font></td>
+                        </tr>
+                        <tr>
+                            <th>SERR_REMARK</th><td colspan="5">{{resultRS.SERR_REMARK}}</td>
+                        </tr>
+                        <tr>
+                            <th>SITE_CD</th><td>{{resultRS.SITE_CD}}</td>
+                            <th>HOTEL_CD</th><td>{{resultRS.HOTEL_CD}}</td>
+                            <th>PROC CD</th><td>{{resultRS.PROC_CD}}</td>
+                        </tr>
+                        <tr>
+                            <th>SITE_RMCD</th><td>{{resultRS.SITE_RMCD}}</td>
+                            <th>OTA_CD</th><td>{{resultRS.OTA_CD}}</td>
+                            <th>OTA_RMCD</th><td>{{resultRS.OTA_RMCD}}</td>
+                        </tr>
+                        <tr>
+                            <th>OFFICE_NO</th><td>{{resultRS.OFFICE_NO}}</td>
+                            <th>FOLIO_NO</th><td>{{resultRS.FOLIO_NO}}</td>
+                            <th>BOOKING_NO</th><td>{{resultRS.BOOKING_NO}}</td>
+                        </tr>
+                        <tr>
+                            <th>RV_NM</th><td>{{resultRS.RV_NM}}</td>
+                            <th>RV_TEL</th><td>{{resultRS.RV_TEL}}</td>
+                            <th>RV_MOBILE</th><td>{{resultRS.RV_MOBILE}}</td>
+                        </tr>
+                        <tr>
+                            <th>RV_FAX</th><td>{{resultRS.RV_FAX}}</td>
+                            <th>RV_EMAIL</th><td>{{resultRS.RV_EMAIL}}</td>
+                            <th>GUEST_GENDER</th><td>{{resultRS.GUEST_GENDER}}</td>
+                        </tr>
+                        <tr>
+                            <th>GUEST_NM</th><td>{{resultRS.GUEST_NM}}</td>
+                            <th>GUEST_NM2</th><td>{{resultRS.GUEST_NM2}}</td>
+                            <th>FIRST_NM</th><td>{{resultRS.FIRST_NM}}</td>
+                        </tr>
+                        <tr>
+                            <th>LAST_NM</th><td>{{resultRS.LAST_NM}}</td>
+                            <th>ADULT_CNT</th><td>{{resultRS.ADULT_CNT}}</td>
+                            <th>CHILD_CNT</th><td>{{resultRS.CHILD_CNT}}</td>
+                        </tr>
+                        <tr>
+                            <th>BABY_CNT</th><td>{{resultRS.BABY_CNT}}</td>
+                            <th>ARR_DATE</th><td>{{resultRS.ARR_DATE}}</td>
+                            <th>DEP_DATE</th><td>{{resultRS.DEP_DATE}}</td>
+                        </tr>
+                        <tr>
+                            <th>ARR_TIME</th><td>{{resultRS.ARR_TIME}}</td>
+                            <th>DEP_TIME</th><td>{{resultRS.DEP_TIME}}</td>
+                            <th>ROOM_CNT_STR</th><td>{{resultRS.ROOM_CNT_STR}}</td>
+                        </tr>
+                        <tr>
+                            <th>ROOM_NET</th><td>{{resultRS.ROOM_NET|intcomma}}</td>
+                            <th>SERVICE_NET</th><td>{{resultRS.SERVICE_NET|intcomma}}</td>
+                            <th>TOTAL_PRICE</th><td>{{resultRS.TOTAL_PRICE|intcomma}}</td>
+                        </tr>
+                        <tr>
+                            <th>SVC_AMT</th><td>{{resultRS.SVC_AMT|intcomma}}</td>
+                            <th>TAX_AMT</th><td>{{resultRS.TAX_AMT|intcomma}}</td>
+                            <th>TOT_AMT</th><td>{{resultRS.TOT_AMT|intcomma}}</td>
+                        </tr>
+                        <tr>
+                            <th>DAILY_RATES</th><td>{{resultRS.DAILY_RATES}}</td>
+                            <th>DAILY_AMTS</th><td>{{resultRS.DAILY_AMTS}}</td>
+							<th></th><td></td>
+                        </tr>
+                        <tr>
+                            <th>EXTRA_SERVICES</th><td colspan="5">{{resultRS.EXTRA_SERVICES}}</td>
+                        </tr>
+                        <tr>
+                            <th>BREAKFAST_CNT</th><td>{{resultRS.BREAKFAST_CNT}}</td>
+                            <th>BREAKFASTS</th><td>{{resultRS.BREAKFASTS}}</td>
+                            <th>PACKAGE_YN</th><td>{{resultRS.PACKAGE_YN}}</td>
+                        </tr>
+                        <tr>
+                            <th>REQUEST#</th><td colspan="5"><p style="white-space:normal;">{{resultRS.REQUEST}}</p></td>
+                        </tr>
+                        <tr>
+                            <th>TEL_NO</th><td>{{resultRS.TEL_NO}}</td>
+                            <th>HP_NO</th><td>{{resultRS.HP_NO}}</td>
+                            <th>EMAIL</th><td>{{resultRS.EMAIL}}</td>
+                        </tr>
+                        <tr>
+                            <th>BIRTH_DATE</th><td>{{resultRS.BIRTH_DATE}}</td>
+                            <th>PASSPORT_NO</th><td>{{resultRS.PASSPORT_NO}}</td>
+                            <th>COUNTRY_CD</th><td>{{resultRS.COUNTRY_CD}}</td>
+                        </tr>
+                        <tr>
+                            <th>COUNTRY_CD2</th><td>{{resultRS.COUNTRY_CD2}}</td>
+                            <th>AREA_CD</th><td>{{resultRS.AREA_CD}}</td>
+                            <th>CITY_CD</th><td>{{resultRS.CITY_CD}}</td>
+                        </tr>
+                        <tr>
+                            <th>FOREIGN_YN</th><td>{{resultRS.FOREIGN_YN}}</td>
+                            <th>MEMBERSHIP_NO</th><td>{{resultRS.MEMBERSHIP_NO}}</td>
+                            <th>MEMBERSHIP_NM</th><td>{{resultRS.MEMBERSHIP_NM}}</td>
+                        </tr>
+                        <tr>
+                            <th>POST_CD</th><td>{{resultRS.POST_CD}}</td>
+                            <th>ADDRESS1</th><td>{{resultRS.POST_CD}}</td>
+                            <th>ADDRESS2</th><td>{{resultRS.ADDRESS2}}</td>
+                        </tr>
+                        <tr>
+                            <th>SMOKE_YN</th><td>{{resultRS.SMOKE_YN}}</td>
+                            <th>MEMBER_ID</th><td>{{resultRS.MEMBER_ID}}</td>
+                            <th>ROOM_TYPE</th><td>{{resultRS.ROOM_TYPE}}</td>
+                        </tr>
+                        <tr>
+                            <th>REMARK</th><td colspan="5">{{resultRS.REMARK}}</td>
+                        </tr>
+                        <tr>
+                            <th>CC_NO</th><td>{{resultRS.CC_NO}}</td>
+                            <th>CC_DATE</th><td>{{resultRS.CC_DATE}}</td>
+                            <th>CC_OWNER</th><td>{{resultRS.CC_OWNER}}</td>
+                        </tr>
+                        <tr>
+                            <th>CC_CODE</th><td>{{resultRS.CC_CODE}}</td>
+                            <th>CC_AUTH_NO</th><td>{{resultRS.CC_AUTH_NO}}</td>
+                            <th>CC_INSTALLMENT</th><td>{{resultRS.CC_INSTALLMENT}}</td>
+                        </tr>
+                        <tr>
+                            <th>PAY_AMT</th><td>{{resultRS.PAY_AMT|intcomma}}</td>
+                            <th>CARD_AMT</th><td>{% if not CARD_AMT %}0{% else %}{{resultRS.CARD_AMT|intcomma}}{% endif %}</td>
+                            <th>CASH_AMT</th><td>{% if not CASH_AMT %}0{% else %}{{resultRS.CASH_AMT|intcomma}}{% endif %}</td>
+                        </tr>
+                        <tr>
+                            <th>PG_KEY</th><td>{{resultRS.PG_KEY}}</td>
+                            <th>PAY_METHOD</th><td>{{resultRS.PAY_METHOD}}</td>
+                            <th>PAY_DESC</th><td>{{resultRS.PAY_DESC}}</td>
+                        </tr>
+                        <tr>
+                            <th>DIRECTPAY_YN</th><td>{{resultRS.DIRECTPAY_YN}}</td>
+                            <th>COUPON_NO</th><td>{{resultRS.COUPON_NO}}</td>
+                            <th>COUPON_AMT</th><td>{% if not COUPON_AMT %}0{% else %}{{resultRS.COUPON_AMT|intcomma}}{% endif %}</td>
+                        </tr>
+                        <tr>
+                            <th>COUPON_DESC</th><td colspan="5">{{resultRS.COUPON_DESC}}</td>
+                        </tr>
+                        <tr>
+                            <th>USED_POINT</th><td>{{resultRS.USED_POINT|intcomma}}</td>
+                            <th>POINT_DESC</th><td>{{resultRS.POINT_DESC}}</td>
+							<th></th><td></td>
+                        </tr>
+                        <tr>
+                            <th>GUIDE_NM</th><td>{{resultRS.GUIDE_NM}}</td>
+                            <th>GUIDE_TEL</th><td>{{resultRS.GUIDE_TEL}}</td>
+                            <th>GUIDE_MOBILE</th><td>{{resultRS.GUIDE_MOBILE}}</td>
+                        </tr>
+                        <tr>
+                            <th>CAR_NO</th><td>{{resultRS.CAR_NO}}</td>
+							<th></th><td></td>
+							<th></th><td></td>
+                        </tr>
+
+						<tr>
+							<th>Telegram Data</th>
+							<td colspan="5">{{resultRS.TELEGRAM_DATA}}</td>
+						</tr>
+
+
+                    </table>
+
+    </div>
+{% endblock content %}

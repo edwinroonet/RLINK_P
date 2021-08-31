@@ -1,0 +1,216 @@
+{% extends "CMM/_LayoutMainMaster.html" %}
+{% load i18n %}
+
+{% block head %}
+    <script type="text/javascript">
+        function funcSubmit() {
+
+            if (document.frm.OFFICE_NO.value == "") {
+                alert("{% trans '12288 Please select a hotel.' %}");
+                document.frm.OFFICE_NO.focus();
+                return;
+            }
+
+            if (document.frm.CMS_CD.value == "") {
+                alert("{% trans '12587 Please Input CMS!' %}");
+                document.frm.CMS_CD.focus();
+                return;
+            }
+
+            if (document.frm.OFFICE_NO.disabled == true) {
+
+                document.frm.OFFICE_NO.disabled = false
+            }
+
+            if (document.frm.CMS_CD.disabled == true) {
+
+                document.frm.CMS_CD.disabled = false
+            }
+
+            if (true == confirm("{% trans '10001 Do you want to save?' %}")) {
+                frm.action = "/CM/WCM100_U101"  //frm.action = "/NsmdG/CM/WCM100_U101/mainTran/"
+                frm.submit();
+            }
+        }
+
+
+        function enterNext(val) {
+            var keyCode = event.keyCode;
+
+            //alert(keyCode);
+            if (keyCode != 13 && keyCode != 9) {
+                //alert(keyCode);
+                return;
+            }
+            else {
+                //
+            }
+
+            if (keyCode == 9) {
+                event.returnValue = false;
+            }
+
+            //엔터키 입력시 포커스 이동 설정
+            if (keyCode == 13 || keyCode == 9) {
+                var tmpVal = val.replaceAll("inputBox", "");
+
+
+                //9번항목 Hidden 필드
+                if (tmpVal == "9") { tmpVal = "10" }
+
+
+                event.returnValue = false;
+                $("#inputBox" + (parseInt(tmpVal) + 1)).focus();
+                $("#inputBox" + (parseInt(tmpVal) + 1)).select();
+            }
+
+        }
+
+    </script>
+{% endblock head %}
+
+{% block content %}
+{% load SetSelectBox2 %}
+    <h2 class="pagetitle">CMS {% trans "11003 Hotel" %}</h2>
+    <div class="pageid">CM100 U101</div>
+    <div class="info">
+        <form name="frm" method="post" action="WCM100_U101">
+            <input type="hidden" name="tProc" value="{{resultVO.tProc}}">
+
+            <table class="f4tblview">
+                <colgroup>
+                    <col width="15%" />
+                    <col width="32%" />
+                    <col width="2%" />
+                    <col width="15%" />
+                    <col />
+                </colgroup>
+                <tr >
+                    <th>{% trans "11003 Hotel" %}</th>
+                    <td>
+                        <select name="OFFICE_NO" id="OFFICE_NO" style="width: 200px;" onblur="chkInjection(this);" onfocus="" {% if resultVO.tProc == "EDIT" %}disabled{% endif %}>
+                            {% SetSelectBox2 "Office_No" resultVO.OFFICE_NO "--" "" "" request sessionInfo.OfficeNo %}
+                        </select>
+                    </td>
+                    <td></td>
+                    <th>CMS</th>
+                    <td>
+                        <select name="CMS_CD" id="CMS_CD" style="width: 200px;" onblur="chkInjection(this);" onfocus=""  {% if resultVO.tProc == "EDIT" %}disabled{% endif %}>
+                            {% load SetSelectBox1 %}
+                            {% SetSelectBox1 "CMS_CD" resultVO.CMS_CD "" "" "" request sessionInfo.OfficeNo %}
+                        </select>
+                    </td>
+                </tr>
+                <tr >
+                    <th>{% trans "12082 Hotel.No" %}</th>
+                    <td>
+                        <input type="text" name="CMS_HOTELCODE" onblur="chkInjection(this,10)" style="width: 200px" value="{{resultVO.CMS_HOTELCODE}}">
+                    </td>
+                    <td></td>
+                    <th>Sys ID</th>
+                    <td >
+                        <input type="text" name="CMS_SYSID" onblur="chkInjection(this,40)" style="width: 200px" value="{{resultVO.CMS_SYSID}}">
+                    </td>
+                </tr>
+
+                <tr >
+                    <th>{% trans "11668 Use" %}</th>
+                    <td>
+                        <select id="Select1" name="CMS_USE_YN" style="width: 40px;">
+                            <option {% if resultVO.CMS_USE_YN == "Y" %}selected {% endif %} value="Y">Y</option>
+                            <option {% if resultVO.CMS_USE_YN == "N" %}selected {% endif %} value="N">N</option>
+                        </select>
+                    </td>
+                    <td></td>
+                    <th>{% trans "12255 User" %} ID
+                    </th>
+                    <td>
+                        <input type="text" name="CMS_USERID" onblur="chkInjection(this,20)" style="width: 200px" value="{{resultVO.CMS_USERID}}">
+                    </td>
+                </tr>
+                <tr >
+                    <td colspan="3"></td>
+                    <th>{% trans "12255 User" %} PWD</th>
+                    <td > <!-- 이용자에게 호텔스토리 마스터암호 숨기기기 -->
+                        <input type="text" name="CMS_USERPWD" onblur="chkInjection(this,20)" style="width: 200px;{% if sessionInfo.LoginLevel < 'SA' and resultVO.CMS_CD == 'STY' %} display:none;{% endif %}" value="{{resultVO.CMS_USERPWD}}">
+                    </td>
+                </tr>
+
+                <tr >
+                    <th>{% trans "12604 Deny-days" %}
+                    </th>
+                    <td colspan="4">&nbsp;Modify<select id="deny_modify_day" name="deny_modify_day" style="width: 40px;">
+                        <option {% if resultVO.deny_modify_day == "-1" %}selected {% endif %} value="-1">-1</option>
+                        <option {% if resultVO.deny_modify_day == "00" %}selected {% endif %} value="00">00</option>
+                        <option {% if resultVO.deny_modify_day == "01" %}selected {% endif %} value="01">01</option>
+                        <option {% if resultVO.deny_modify_day == "02" %}selected {% endif %} value="02">02</option>
+                        <option {% if resultVO.deny_modify_day == "03" %}selected {% endif %} value="03">03</option>
+                        <option {% if resultVO.deny_modify_day == "04" %}selected {% endif %} value="04">04</option>
+                        <option {% if resultVO.deny_modify_day == "05" %}selected {% endif %} value="05">05</option>
+                        <option {% if resultVO.deny_modify_day == "06" %}selected {% endif %} value="06">06</option>
+                        <option {% if resultVO.deny_modify_day == "07" %}selected {% endif %} value="07">07</option>
+                        <option {% if resultVO.deny_modify_day == "14" %}selected {% endif %} value="14">14</option>
+                        <option {% if resultVO.deny_modify_day == "30" %}selected {% endif %} value="30">30</option>
+                    </select>
+
+                        {% trans "11337 Cancel" %}<select id="deny_cancel_day" name="deny_cancel_day" style="width: 40px;">
+                            <option {% if resultVO.deny_cancel_day == "-1" %}selected {% endif %} value="-1">-1</option>
+                            <option {% if resultVO.deny_cancel_day == "00" %}selected {% endif %} value="00">00</option>
+                            <option {% if resultVO.deny_cancel_day == "01" %}selected {% endif %} value="01">01</option>
+                            <option {% if resultVO.deny_cancel_day == "02" %}selected {% endif %} value="02">02</option>
+                            <option {% if resultVO.deny_cancel_day == "03" %}selected {% endif %} value="03">03</option>
+                            <option {% if resultVO.deny_cancel_day == "04" %}selected {% endif %} value="04">04</option>
+                            <option {% if resultVO.deny_cancel_day == "05" %}selected {% endif %} value="05">05</option>
+                            <option {% if resultVO.deny_cancel_day == "06" %}selected {% endif %} value="06">06</option>
+                            <option {% if resultVO.deny_cancel_day == "07" %}selected {% endif %} value="07">07</option>
+                            <option {% if resultVO.deny_cancel_day == "14" %}selected {% endif %} value="14">14</option>
+                            <option {% if resultVO.deny_cancel_day == "30" %}selected {% endif %} value="30">30</option>
+                        </select>
+                        &nbsp;( -1 for All Arr.Date Accepted. 00 Deny for Today, 01 Deny Till Tomorrow...)
+                    </td>
+                </tr>
+                {% resultVO.DEFAULT_RMTYPE_YN == "Y" %}
+                <tr >
+                    <th>{% trans "12606 Default" %} Rm/T</th>
+                    <td colspan="4">&nbsp;
+                        <select name="DEFAULT_RMTYPE" id="DEFAULT_RMTYPE" style="width: 200px;" onblur="chkInjection(this);" onfocus="" >
+                            {% SetSelectBox2 "RM_TYPE2" resultVO.DEFAULT_RMTYPE "--" "" "" request sessionInfo.OfficeNo %}
+                        </select> If room_type is assigned, Booking without room_type will be avilable automatically.
+                    </td>
+                </tr>
+                {% endif %}
+                <tr >
+                    <th>{% trans "11712 Remark" %}</th>
+                    <td colspan="4">
+                        <textarea name="remark" rows="5" style="width: 500px;">{{resultVO.remark}}</textarea>
+                    </td>
+
+                </tr>
+                {% if resultVO.tProc == "EDIT" %}
+                <tr >
+                    <th>{% trans "12087 Input" %}</th>
+                    <td>
+                        {{resultVO.Input_User}}
+                    </td>
+                    <td></td>
+                    <th>{% trans "12310 Update" %}</th>
+                    <td>
+                        {{resultVO.Update_User}}
+                    </td>
+                </tr>
+                {% endif %}
+            </table>
+
+            <table width="100%">
+                <tr>
+                    <td align="center">
+                       <input type="button" class="RLINK_button62" onclick="funcSubmit();" value="{% trans '12503 Save' %}" id="noprint" border="0" />
+                        <a onclick="parent.$('#dialog').dialog('close');"><input type="button" class="RLINK_button62" onclick="funcClose();" value="{% trans '12405 Close' %}" id="noprint" border="0" /></a>
+                    </td>
+                </tr>
+            </table>
+        </form>
+
+
+    </div>
+{% endblock content %}

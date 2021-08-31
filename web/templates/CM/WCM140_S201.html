@@ -1,0 +1,231 @@
+{% extends "CMM/_LayoutMaster.html" %}
+{% load i18n %}
+
+{% block head %}
+  <script type="text/javascript">
+    function funcAdd() {
+      open("/CM/WCM140_U201?pp=Y", "mngOfficeStaffA", cnjOpenShape(700, 240, 'no'));
+    }
+
+    function funcSearch() {
+      var f = document.searchform;
+      f.submit();
+    }
+
+    function funcSave() {
+      var objIdx, objOfficeNo, objCmsNo, objRoomType, objYmd, objSalesAmt, objAllotCnt, objCloseSale;
+      var OFFICE_NO= [], CMS_CD = [], ROOM_TYPE = [], YMD = [], SALES_AMT = [], ALLOT_CNT = [], CLOSE_SALE = [];
+
+      objIdx = $("input[name=userIdx]");
+      objOfficeNo = $("input[name=OFFICE_NO]");
+      objCmsNo = $("input[name=CMS_CD]");
+      objRoomType = $("input[name=ROOM_TYPE]");
+      objYmd = $("input[name=YMD]");
+      objSalesAmt = $("input[name=SALES_AMT]");
+      objAllotCnt = $("input[name=ALLOT_CNT]");
+      objCloseSale = $("input[name=CLOSE_SALE]");
+
+      for (i = 0; i < objIdx.length; i++) {
+        if (objIdx.eq(i).prop("checked")) {
+          if ($.trim(objSalesAmt[i].value) == "") {
+            alert("Input Sales Amount!");
+            objSalesAmt[i].focus();
+            return;
+          }
+
+          if ($.trim(objAllotCnt[i].value) == "") {
+            alert("Input Allotment!");
+            objAllotCnt[i].focus();
+            return;
+          }
+
+          OFFICE_NO.push(objOfficeNo[i].value);
+          CMS_CD.push(objCmsNo[i].value);
+          ROOM_TYPE.push(objRoomType[i].value);
+          YMD.push(objYmd[i].value);
+          SALES_AMT.push(objSalesAmt[i].value);
+          ALLOT_CNT.push(objAllotCnt[i].value);
+          CLOSE_SALE.push(objCloseSale[i].checked ? "Y" : "N");
+        }
+      }
+
+      if (OFFICE_NO.length > 0 && confirm("Do you want to save?")) {
+        $.post("/CM/WCM140_S201", { //post("/NsmdG/CM/WCM140_S201/mainTran/"
+          OFFICE_NO: OFFICE_NO.join("|"),
+          CMS_CD: CMS_CD.join("|"),
+          ROOM_TYPE: ROOM_TYPE.join("|"),
+          YMD: YMD.join("|"),
+          SALES_AMT: SALES_AMT.join("|"),
+          ALLOT_CNT: ALLOT_CNT.join("|"),
+          CLOSE_SALE: CLOSE_SALE.join("|")
+        }, function (data) {
+          if (data.result == "1") {
+            alert(data.message);
+            document.location.reload();
+          } else {
+            alert(data.message)
+          }
+        }, "json").fail(function (xhr) { alert(xhr.responseText) });
+      }
+    }
+
+    function funcAllApply() {
+      var frm = $(document.frm);
+
+      if (confirm("일괄 적용 하시겠습니까?")) {
+        if ($.trim(document.applyform.SalesAmt.value) != "") { frm.find("input[name=SALES_AMT]").val(document.applyform.SalesAmt.value); }
+        if ($.trim(document.applyform.AllotCnt.value) != "") { frm.find("input[name=ALLOT_CNT]").val(document.applyform.AllotCnt.value); }
+        frm.find("input[name=CLOSE_SALE]").prop("checked", document.applyform.CloseSale.checked);
+      }
+    }
+
+    function GetRoomType() {  //get("/NsmdG/CM/WCM140_S201/GetRoomType/"
+      $.get("/CM/WCM140_S201", { OFFICE_NO: document.searchform.OFFICE_NO.value, CMS_CD: document.searchform.CMS_CD.value, ROOM_TYPE: document.searchform.ROOM_TYPE.value }, function (data) {
+        $("select#ROOM_TYPE").html(data);
+      }).fail(function (xhr) { alert(xhr.responseText) });
+    }
+
+    $(document).ready(function () {
+      GetRoomType();
+    });
+  </script>
+{% endblock head %}
+
+{% block content %}
+  <!-- excel 다운로드용 start -->
+  <form name="exfrm" method="post" action="/CMM/excel_02" target="_self">
+    <input type="hidden" name="ex_sql" value="{{resultVO.ex_sql}}">
+    <input type="hidden" name="ex_title" value="{{resultVO.ex_title}}">
+    <input type="hidden" name="ex_cond" value="{{resultVO.ex_cond}}">
+    <input type="hidden" name="ex_head" value="{{resultVO.ex_head}}">
+    <input type="hidden" name="ex_datatype" value="{{resultVO.ex_datatype}}">
+    <input type="hidden" name="ex_column" value="{{resultVO.ex_column}}">
+    <input type="hidden" name="ex_page" value="/CM/WCM140_S201">
+    <!--<%&#45;&#45;<a href="javascript:document.exfrm.submit();"> <img src="/Content/images/xls.gif"></a>&#45;&#45;%>-->
+  </form>
+  <!-- excel 다운로드용 end -->
+
+  <h2 class="pagetitle">CMS {% trans "12636 Room Block&Rate" %}</h2>
+     <div class="pageid" id="noprint">CM140 S201</div>
+  <div class="search">
+    <form name="searchform" method="get" action="/CM/WCM140_S201">
+      <input type="hidden" name="bOpened" value="true" />
+      <table width="100%">
+        <tr>
+          <td align="left">
+            <table>
+              <tr>
+                <td>{% trans "11003 Hotel" %}</td>
+                <td>
+                  <select name="OFFICE_NO" id="OFFICE_NO" onchange="GetRoomType()">
+                    {% load SetSelectBox2 %}
+                    {% SetSelectBox2 "Office_No" resultVO.OFFICE_NO "" "" "" request sessionInfo.OfficeNo %}
+                  </select>
+                </td>
+                <td>&nbsp;CMS</td>
+                <td>
+                  <select name="CMS_CD" id="CMS_CD" onchange="GetRoomType()">
+                    {% load SetSelectBox1 %}
+                    {% SetSelectBox1 "CMS_CD" resultVO.CMS_CD "ALL" "" "" request sessionInfo.OfficeNo %}
+                  </select>
+                </td>
+                <td>&nbsp;{% trans "11308 Room Type" %}</td>
+                <td>
+                  <select name="ROOM_TYPE" id="ROOM_TYPE">
+                    <option value="<%=ROOM_TYPE%>">ALL</option>
+                  </select>
+                </td>
+                {% load NowDate %}
+                {% load DateAdd %}
+                {% load Trim %}
+                <td>&nbsp;{% trans "12031 Date" %}<input name="SDATE" class="maskdate" type="text" size="10" maxlength="10" value="{% if resultVO.SDATE|Trim == '' or resultVO.EDATE|Trim == '' %}{% NowDate %}{% else %}{{resultVO.SDATE}}{% endif %}">~<input name="EDATE" class="maskdate" type="text" size="10" maxlength="10" value="{% if resultVO.SDATE|Trim == '' or resultVO.EDATE|Trim == '' %}{% DateAdd 'd' 14 NowDate %}{% else %}{{resultVO.EDATE}}{% endif %}">
+                </td>
+                <td>&nbsp;<input type="button" class="RLINK_button82" onclick="funcSearch();" value="{% trans '11540 Search' %}(F2)" id="noprint" border="0" /></td>
+              </tr>
+            </table>
+          </td>
+          <td width="30"></td>
+         <!--<%&#45;&#45; <td align="right"><input type="button" class="RLINK_button62" onclick="funcAdd();" value="<%=RLINK.GetConvertText(12501, "Add")%>" id="noprint" border="0" /></td>&#45;&#45;%>-->
+        </tr>
+      </table>
+    </form>
+  </div>
+  <div class="search">
+    <form name="applyform">
+      <table width="100%">
+        <tr>
+          <td align="left">
+            <table>
+              <tr>
+                <td>{% trans "12383 Price" %}</td>
+                <td>
+                  <input type="text" name="SalesAmt" class="inputText" size="8" numberonly /></td>
+                <td>&nbsp;{% trans "12622 Remaining" %}</td>
+                <td>
+                  <input type="text" name="AllotCnt" class="inputText" size="8" numberonly /></td>
+                <td>&nbsp;{% trans "12623 Sell Stop" %}</td>
+                <td>
+                  <input type="checkbox" name="CloseSale" /></td>
+                <td>&nbsp;<input type="button" name="btnApply" class="inputText" value="{% trans '12335 Bath App' %}" onclick="funcAllApply()" /></td>
+              </tr>
+            </table>
+          </td>
+          <td width="30"></td>
+          <td align="right"> <input type="button" class="RLINK_button62" onclick="funcSave();" value="{% trans '12503 Save' %}" id="noprint" border="0" /></td>
+        </tr>
+      </table>
+    </form>
+  </div>
+  <div class="info">
+    <form name="frm" method="post" action="">
+      <input type="hidden" name="TPROC" value="">
+      <input type="hidden" name="O_URL" value="/CM/WCM140_S201">  <!-- value="/EBANK/CM/WCM140_S201/main/" -->
+      <table class="f4tbl">
+        <tr>
+          <th width="30">
+            <input type="checkbox" onclick="chkboxall();"></th>
+          <th width="40">NO</th>
+          <th width="60">YMD</th>
+          <th width="80">CMS</th>
+          <th width="300">{% trans "11308 Room Type" %}</th>
+          <th width="80">{% trans "12383 Price" %}</th>
+          <th width="80">{% trans "12621 Allotment" %}</th>
+          <th width="80">{% trans "11439 Sale" %} Cnt</th>
+          <th width="80">{% trans "12622 Remaining" %}</th>
+          <th width="80">{% trans "126223 Sell Stop" %}</th>
+        </tr>
+        {% if resultrs == "" %}
+        <tr id="tr0" bgcolor="#FEFEFE">
+          <td height="20" colspan="10" align="center">{% trans "10007 Nodata" %}</td>
+        </tr>
+        {% else %}
+          {% for rs in resultrs %}
+          <input type="hidden" name="OFFICE_NO" value="{{rs.OFFICE_NO}}" />
+          <input type="hidden" name="CMS_CD" value="{{rs.CMS_CD}}" />
+          <input type="hidden" name="ROOM_TYPE" value="{{rs.ROOM_TYPE}}" />
+          <input type="hidden" name="YMD" value="{{rs.YMD}}" />
+          <tr align="center" id="tr{{forloop.counter}}" onmouseover="cellOver(this)" onmouseout="cellOut(this)" bgcolor="FEFEFE">
+            <td style="height: 22px;">
+              <input type="checkbox" name="userIdx" value="" onclick="chkboxcel('tr{{forloop.counter}}', this);"></td>
+            <td align="center">{{forloop.counter}}</td>
+            <td align="center">{{rs.YMD}}</td>
+            <td align="center">{{rs.CMS_CD}}</td>
+            <td align="left">{{rs.ROOMTYPE_NM}}</td>
+            <td align="center">
+              <input type="text" name="SALES_AMT" size="8" value="{{rs.SALES_AMT}}" numberonly /></td>
+            <td align="center">
+              <input type="text" name="ALLOT_CNT" value="{{rs.ALLOT_CNT}}" size="8" numberonly /></td>
+            <td align="center">{{rs.SALES_CNT}}</td>
+            <td align="center">{{rs.ALLOT_CNT|add:-rs.SALES_CNT}}</td>
+            <td align="center">
+              <input type="checkbox" name="CLOSE_SALE" value="Y" {% if rs.CLOSE_SALE == 'Y' %}checked="checked"{% endif %} /></td>
+          </tr>
+          {% endfor %}
+        {% endif %}
+        <tr bgcolor="#F7F7F7" align="right">
+          <td id="noprint" colspan="20">&nbsp;</td>
+        </tr>
+      </table>
+    </form>
+  </div>
+{% endblock content %}

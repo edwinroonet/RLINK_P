@@ -29,35 +29,53 @@ msgstr ""
 msgid "안녕하세요"
 msgstr ""
 
-msgid "10001"
+msgid "10001 Do you want to save?"
 msgstr "저장 하시겠습니까?"
 
-msgid "Reservation"
+msgid "11509 Reservation"
 msgstr "예약관리"
 
-msgid "Config"
+msgid "12034 Config"
 msgstr "환경설정"
 
-msgid "Operation"
+msgid "12037 Operation"
 msgstr "운영센터"
 
-msgid "Reseve"
-msgstr "Reseve"
+msgid "10003 Please, Select record."
+msgstr "레코드를 선택하세요."
 
-msgid "Booking List"
-msgstr "예약 목록"
+msgid "11026 Do you want to delete selected data?"
+msgstr "선택한 자료를 삭제하시겠습니까?"
 
-msgid "Booking TL-Lincoln"
-msgstr "TL-링컨 예약"
+msgid "12540 Master CMS"
+msgstr "마스터 CMS"
 
-msgid "Booking API List"
-msgstr "예약 API 목록"
+msgid "12225 Name"
+msgstr "이름"
 
-msgid "Execute"
-msgstr "실행"
+msgid "11540 Search"
+msgstr "검색"
 
-msgid "Log"
-msgstr "로그"
+msgid "12501 Add"
+msgstr "추가"
 
-msgid "Changed"
-msgstr "변경됨"
+msgid "12502 Modify"
+msgstr "수정"
+
+msgid "11664 Delete"
+msgstr "삭제"
+
+msgid "11053 Code"
+msgstr "코드"
+
+msgid "11668 Use"
+msgstr "사용"
+
+msgid "12250 Modify"
+msgstr "수정자"
+
+msgid "11952 Insert Date"
+msgstr "작성일시"
+
+msgid "10007 No data."
+msgstr "검색결과가 없습니다."
