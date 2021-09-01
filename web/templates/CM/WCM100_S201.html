@@ -270,7 +270,7 @@
                     <th width="80">{% trans "12255 User" %}</th>
                     <th width="*">{% trans "11952 Insert Date" %}</th>
                 </tr>
-                {% if resultVO.recordCount == 0 %}
+                {% if resultVO.recordcount == 0 %}
                 <tr id="tr0" bgcolor="#FEFEFE" >
                     <td height="20" colspan="20" align="center">{% trans "10007 No Data" %}</td>
 
@@ -309,6 +309,7 @@
                         {% else %}
                         <a href="/CM/WCM100_S201?gotopage={{blockpage|add:-10}}&pagesize={{resultVO.pagesize}}{{strParam}}"><img src="/static/images/btn/btn_pre_on.gif" border="0" align=absmiddle"></a>
                         {% endif %}
+                        {% with ''|center:10 as range %}
                         {% for k in range %}
                             {% if not blockpage|add:forloop.counter0 > resultVO.pagecount %}
                                 {% if blockpage|add:forloop.counter0 == resultVO.Gotopage %}

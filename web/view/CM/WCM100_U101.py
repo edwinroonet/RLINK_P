@@ -81,16 +81,16 @@ def main(request):
                 paramVO["DEFAULT_RMTYPE"] = rs["DEFAULT_RMTYPE"]
                 paramVO["CMS_USE_YN"] = rs["CMS_USE_YN"]
                 paramVO["remark"] = rs["REMARK"]
-                paramVO["Input_User"] = rs["INSERT_ID"] + "/" + rs["INSERT_DATE"]
-                paramVO["Update_User"] = rs["UPDATE_ID"] + "/" + rs["UPDATE_DATE"]
+                paramVO["Input_User"] = rs["insert_id"] + "/" + rs["insert_date"]
+                paramVO["Update_User"] = rs["update_id"] + "/" + rs["UPDATE_DATE"]
         else:
             paramVO["tproc"] = "ADD"
 
-        paramVO["strSql"] = f"SELECT DEFAULT_RMTYPE_YN fROM DBO.T_TO_107 WHERE OFFICE_NO = '{ViewData('sessionInfo').officeNo}'"
-        rs2 = procSelect(.strSql)
+        paramVO["strSql"] = f"SELECT DEFAULT_RMTYPE_YN fROM DBO.T_TO_107 WHERE OFFICE_NO = '{ViewData['sessionInfo']['OfficeNo']}'"
+        rs2 = procSelect(paramVO["strSql"])
 
         if rs2:
-            paramVO["DEFAULT_RMTYPE_YN"] = rs2[0]
+            paramVO["DEFAULT_RMTYPE_YN"] = rs2["DEFAULT_RMTYPE_YN"]
 
         ViewData["resultVO"] = paramVO
         return render(request, 'CM/WCM100_U101.html', ViewData)
@@ -133,7 +133,7 @@ def main(request):
 
 
 def procSelect(strSql):
-    return dbexecute(strSql)
+    return dbexecuteQuery(strSql,'')[0]
 
 def procTran(strSql):
     return dbexecute(strSql)

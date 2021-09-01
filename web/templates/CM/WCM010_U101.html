@@ -72,7 +72,7 @@
 
     <div class="info">
         <form name="frm" method="post" action="WCM010_U101">
-            <input type="hidden" name="tProc" value="{{resultVO.tProc}}">
+            <input type="hidden" name="tProc" value="{{resultVO.tproc}}">
             <table width="100%" class="f4tblview">
                 <colgroup>
                     <col width="15%" />
@@ -85,7 +85,7 @@
                     <th>{% trans "11053 Code" %}
                     </th>
                     <td>
-                        <input type="text" name="CMS_CD" maxlength="10" style="width: 70px" value="{{resultVO.CMS_CD}}" {% if resultVO.tProc == "EDIT" %} readonly="readonly" {% endif %}>
+                        <input type="text" name="CMS_CD" maxlength="10" style="width: 70px" value="{{resultVO.CMS_CD}}" {% if resultVO.tproc == "EDIT" %} readonly="readonly" {% endif %}>
                     </td>
                     <td width="2%"></td>
                     <th>{% trans "11668 Use" %}  </th>
@@ -212,7 +212,7 @@
                     </td>
 
                 </tr>
-                {% if resultVO.tProc == "EDIT" %}
+                {% if resultVO.tproc == "EDIT" %}
                 <tr>
                     <th> {% trans "12087 Input" %}
                     </th>

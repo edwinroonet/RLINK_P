@@ -1,6 +1,7 @@
 from django import template
+from django.utils.safestring import mark_safe
 
-from web.models import dbexecute
+from web.models import *
 
 register = template.Library()
 
@@ -146,8 +147,7 @@ def SetSelectBox2(cFlag, strSelValue, strSelMent, QUERY_OFFICE, strOption1, _hcb
 
     else:
         return ""
-
-    tmpRs = dbexecute(strSql)
+    tmpRs = dbexecuteQuery(strSql, '')
     print(tmpRs)
     if strSelMent != "":
         rtnValue = "<option	value=''>" + strSelMent + "</option>"
@@ -165,4 +165,4 @@ def SetSelectBox2(cFlag, strSelValue, strSelMent, QUERY_OFFICE, strOption1, _hcb
 
         rtnValue = rtnValue + "<option  value='" + t["comp_no"] + "'" + strSel + ">" + t["comp_nm"] + "</option>"
 
-    return rtnValue
+    return mark_safe(rtnValue)

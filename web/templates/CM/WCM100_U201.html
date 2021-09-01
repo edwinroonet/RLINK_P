@@ -67,12 +67,12 @@
 
     <div class="info">
         <form name="frm" method="post" action="WCM100_U201">
-            <input type="hidden" name="tproc" value="{{resultVO.tProc}}">
+            <input type="hidden" name="tproc" value="{{resultVO.tproc}}">
             <table width="100%" class="f4tblview">
                 <tr>
                     <th align="right">{% trans "11003 Hotel" %}</th>
                     <td>
-                        <select name="OFFICE_NO" id="OFFICE_NO" style="width: 150px;" onblur="chkInjection(this);" onfocus="" tabindex1="34" {% if resultVO.tProc == "EDIT" %}disabled{% endif %}>
+                        <select name="OFFICE_NO" id="OFFICE_NO" style="width: 150px;" onblur="chkInjection(this);" onfocus="" tabindex1="34" {% if resultVO.tproc == "EDIT" %}disabled{% endif %}>
                             {% load SetSelectBox2 %}
                             {% SetSelectBox2 "CMS_OFFICE" resultVO.OFFICE_NO "--" "" "" request sessionInfo.OfficeNo %}
                         </select>
@@ -81,7 +81,7 @@
                     <td width="2%"></td>
                     <th align="right">CMS</th>
                     <td>
-                        <select name="CMS_CD" id="CMS_CD" style="width: 160px;" onblur="chkInjection(this);" onfocus="" tabindex1="34" {% if resultVO.tProc == "EDIT" %}disabled{% endif %}>
+                        <select name="CMS_CD" id="CMS_CD" style="width: 160px;" onblur="chkInjection(this);" onfocus="" tabindex1="34" {% if resultVO.tproc == "EDIT" %}disabled{% endif %}>
                             {% load SetSelectBox1 %}
                             {% SetSelectBox1 "CMS_ALL" resultVO.CMS_CD "" "" "" request sessionInfo.OfficeNo %}
                         </select>
@@ -106,13 +106,13 @@
                     </th>
                     <td colspan="2">
                         <select id="Select1" name="CMS_USE_YN" style="width: 40px;" >
-                            <option {% resultVO.CMS_USE_YN == "Y" %}selected {% endif %} value="Y">Y</option>
-                            <option {% resultVO.CMS_USE_YN == "N" %}selected {% endif %} value="N">N</option>
+                            <option {% if resultVO.CMS_USE_YN == "Y" %}selected {% endif %} value="Y">Y</option>
+                            <option {% if resultVO.CMS_USE_YN == "N" %}selected {% endif %} value="N">N</option>
                         </select>
                         &nbsp;&nbsp;&nbsp;USE{% trans "11003 Hotel" %}&nbsp;
                         <select id="Select2" name="USE_YN" style="width: 40px;" >
-                            <option {% resultVO.USE_YN == "Y" %}selected {% endif %} value="Y">Y</option>
-                            <option {% resultVO.USE_YN == "N" %}selected {% endif %} value="N">N</option>
+                            <option {% if resultVO.USE_YN == "Y" %}selected {% endif %} value="Y">Y</option>
+                            <option {% if resultVO.USE_YN == "N" %}selected {% endif %} value="N">N</option>
                         </select>
                     </td>
                     <th align="right">{% trans "12255 User" %} {% trans "12349 ID" %}
@@ -125,14 +125,14 @@
                     <th align="right">API2PMS</th>
                     <td  colspan="2">{% trans "12501 ADD" %}&nbsp;
                         <select id="RSVN_ADD" name="RSVN_ADD" style="width: 40px;">
-                            <option {% resultVO.RSVN_ADD == "N" %}selected {% endif %} value="N">N</option>
-                            <option {% resultVO.RSVN_ADD == "Y" %}selected {% endif %} value="Y">Y</option>
+                            <option {% if resultVO.RSVN_ADD == "N" %}selected {% endif %} value="N">N</option>
+                            <option {% if resultVO.RSVN_ADD == "Y" %}selected {% endif %} value="Y">Y</option>
                         </select>&nbsp;UPD&nbsp;<select id="RSVN_UPDATE" name="RSVN_UPDATE" style="width: 40px;">
-                            <option {% resultVO.RSVN_UPDATE == "N" %}selected {% endif %} value="N">N</option>
-                            <option {% resultVO.RSVN_UPDATE == "Y" %}selected {% endif %} value="Y">Y</option>
+                            <option {% if resultVO.RSVN_UPDATE == "N" %}selected {% endif %} value="N">N</option>
+                            <option {% if resultVO.RSVN_UPDATE == "Y" %}selected {% endif %} value="Y">Y</option>
                         </select>&nbsp;CXL&nbsp;<select id="RSVN_CANCEL" name="RSVN_CANCEL" style="width: 40px;">
-                            <option {% resultVO.RSVN_CANCEL == "N" %}selected {% endif %} value="N">N</option>
-                            <option {% resultVO.RSVN_CANCEL == "Y" %}selected {% endif %} value="Y">Y</option>
+                            <option {% if resultVO.RSVN_CANCEL == "N" %}selected {% endif %} value="N">N</option>
+                            <option {% if resultVO.RSVN_CANCEL == "Y" %}selected {% endif %} value="Y">Y</option>
                         </select>
                     </td>
                     <th align="right">{% trans "12255 User" %} {% trans "11798 PWD" %}</th>
@@ -144,31 +144,31 @@
                     <th align="right">{% trans "12604 Deny-days" %}
                     </th>
                     <td colspan="4">{% trans "12250 Modify" %}&nbsp;<select id="deny_modify_day" name="deny_modify_day" style="width: 40px;">
-                        <option {% if resultVO.deny_modify_day == "-1" %}selected {% endif %} value="-1">-1</option>
-                        <option {% if resultVO.deny_modify_day == "00" %}selected {% endif %} value="00">00</option>
-                        <option {% if resultVO.deny_modify_day == "01" %}selected {% endif %} value="01">01</option>
-                        <option {% if resultVO.deny_modify_day == "02" %}selected {% endif %} value="02">02</option>
-                        <option {% if resultVO.deny_modify_day == "03" %}selected {% endif %} value="03">03</option>
-                        <option {% if resultVO.deny_modify_day == "04" %}selected {% endif %} value="04">04</option>
-                        <option {% if resultVO.deny_modify_day == "05" %}selected {% endif %} value="05">05</option>
-                        <option {% if resultVO.deny_modify_day == "06" %}selected {% endif %} value="06">06</option>
-                        <option {% if resultVO.deny_modify_day == "07" %}selected {% endif %} value="07">07</option>
-                        <option {% if resultVO.deny_modify_day == "14" %}selected {% endif %} value="14">14</option>
-                        <option {% if resultVO.deny_modify_day == "30" %}selected {% endif %} value="30">30</option>
+                        <option {% if resultVO.DENY_MODIFY_DAY == "-1" %}selected {% endif %} value="-1">-1</option>
+                        <option {% if resultVO.DENY_MODIFY_DAY == "00" %}selected {% endif %} value="00">00</option>
+                        <option {% if resultVO.DENY_MODIFY_DAY == "01" %}selected {% endif %} value="01">01</option>
+                        <option {% if resultVO.DENY_MODIFY_DAY == "02" %}selected {% endif %} value="02">02</option>
+                        <option {% if resultVO.DENY_MODIFY_DAY == "03" %}selected {% endif %} value="03">03</option>
+                        <option {% if resultVO.DENY_MODIFY_DAY == "04" %}selected {% endif %} value="04">04</option>
+                        <option {% if resultVO.DENY_MODIFY_DAY == "05" %}selected {% endif %} value="05">05</option>
+                        <option {% if resultVO.DENY_MODIFY_DAY == "06" %}selected {% endif %} value="06">06</option>
+                        <option {% if resultVO.DENY_MODIFY_DAY == "07" %}selected {% endif %} value="07">07</option>
+                        <option {% if resultVO.DENY_MODIFY_DAY == "14" %}selected {% endif %} value="14">14</option>
+                        <option {% if resultVO.DENY_MODIFY_DAY == "30" %}selected {% endif %} value="30">30</option>
                     </select>
 
                         &nbsp;{% trans "11337 Cancel" %}&nbsp;<select id="deny_cancel_day" name="deny_cancel_day" style="width: 40px;">
-                            <option {% if resultVO.deny_cancel_day == "-1" %}selected {% endif %} value="-1">-1</option>
-                            <option {% if resultVO.deny_cancel_day == "00" %}selected {% endif %} value="00">00</option>
-                            <option {% if resultVO.deny_cancel_day == "01" %}selected {% endif %} value="01">01</option>
-                            <option {% if resultVO.deny_cancel_day == "02" %}selected {% endif %} value="02">02</option>
-                            <option {% if resultVO.deny_cancel_day == "03" %}selected {% endif %} value="03">03</option>
-                            <option {% if resultVO.deny_cancel_day == "04" %}selected {% endif %} value="04">04</option>
-                            <option {% if resultVO.deny_cancel_day == "05" %}selected {% endif %} value="05">05</option>
-                            <option {% if resultVO.deny_cancel_day == "06" %}selected {% endif %} value="06">06</option>
-                            <option {% if resultVO.deny_cancel_day == "07" %}selected {% endif %} value="07">07</option>
-                            <option {% if resultVO.deny_cancel_day == "14" %}selected {% endif %} value="14">14</option>
-                            <option {% if resultVO.deny_cancel_day == "30" %}selected {% endif %} value="30">30</option>
+                            <option {% if resultVO.DENY_CANCEL_DAY == "-1" %}selected {% endif %} value="-1">-1</option>
+                            <option {% if resultVO.DENY_CANCEL_DAY == "00" %}selected {% endif %} value="00">00</option>
+                            <option {% if resultVO.DENY_CANCEL_DAY == "01" %}selected {% endif %} value="01">01</option>
+                            <option {% if resultVO.DENY_CANCEL_DAY == "02" %}selected {% endif %} value="02">02</option>
+                            <option {% if resultVO.DENY_CANCEL_DAY == "03" %}selected {% endif %} value="03">03</option>
+                            <option {% if resultVO.DENY_CANCEL_DAY == "04" %}selected {% endif %} value="04">04</option>
+                            <option {% if resultVO.DENY_CANCEL_DAY == "05" %}selected {% endif %} value="05">05</option>
+                            <option {% if resultVO.DENY_CANCEL_DAY == "06" %}selected {% endif %} value="06">06</option>
+                            <option {% if resultVO.DENY_CANCEL_DAY == "07" %}selected {% endif %} value="07">07</option>
+                            <option {% if resultVO.DENY_CANCEL_DAY == "14" %}selected {% endif %} value="14">14</option>
+                            <option {% if resultVO.DENY_CANCEL_DAY == "30" %}selected {% endif %} value="30">30</option>
                         </select>
                         &nbsp;( -1 for All Arr.Date Accepted. 00 Deny for Today, 01 Deny Till Tomorrow...)
                     </td>
@@ -204,7 +204,7 @@
                         <textarea name="remark" rows="3" style="width: 625px;">{{resultVO.remark}}</textarea>
                     </td>
                 </tr>
-                {% if resultVO.tProc == "EDIT" %}
+                {% if resultVO.tproc == "EDIT" %}
                 <tr>
                     <th align="right"> {% trans "12087 Input" %}
                     </th>

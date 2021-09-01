@@ -155,7 +155,7 @@
                 <tr>
                     <th>{% trans "11003 Hotel" %}</th>
                     <td colspan="3">
-                        <select name="OFFICE_NO" id="OFFICE_NO" style="width: 150px;" onblur="chkInjection(this);" onfocus="" tabindex1="34" {% resultVO.tProc == "EDIT" %}disabled{% endif %} onchange="funcCMS_MRMTYPEChange()">
+                        <select name="OFFICE_NO" id="OFFICE_NO" style="width: 150px;" onblur="chkInjection(this);" onfocus="" tabindex1="34" {% if resultVO.tProc == "EDIT" %}disabled{% endif %} onchange="funcCMS_MRMTYPEChange()">
                             {% SetSelectBox2 "Office_No" resultVO.OFFICE_NO "--" "" "" request sessionInfo.OfficeNo %}
                         </select>
                     </td>
@@ -165,7 +165,7 @@
                 <tr>
                     <th>CMS</th>
                     <td colspan="3">
-                        <select name="CMS_CD" id="CMS_CD" style="width: 150px;" onblur="chkInjection(this);" onfocus="" tabindex1="34" {% resultVO.tProc == "EDIT" %}disabled{% endif %} onchange="funcCMS_MRMTYPEChange()">
+                        <select name="CMS_CD" id="CMS_CD" style="width: 150px;" onblur="chkInjection(this);" onfocus="" tabindex1="34" {% if resultVO.tProc == "EDIT" %}disabled{% endif %} onchange="funcCMS_MRMTYPEChange()">
                             {% load SetSelectBox1 %}
                             {% SetSelectBox1 "CMS_CD_TLLC" resultVO.CMS_CD "" "" "" request sessionInfo.OfficeNo %}
                         </select>
@@ -176,7 +176,7 @@
                 <tr>
                     <th>M. Rm/T</th>
                     <td colspan="3">
-                        <select name="CMS_MRMTYPE" id="CMS_MRMTYPE" style="width: 300px;" onblur="chkInjection(this);" onfocus="" tabindex1="34" {% resultVO.tProc == "EDIT" %}disabled{% endif %}>
+                        <select name="CMS_MRMTYPE" id="CMS_MRMTYPE" style="width: 300px;" onblur="chkInjection(this);" onfocus="" tabindex1="34" {% if resultVO.tProc == "EDIT" %}disabled{% endif %}>
                         </select>
                     </td>
 
@@ -186,14 +186,14 @@
                     <th>CMS Rm/T
                     </th>
                     <td>
-                        <input type="text" name="CMS_RMTYPE" id="CMS_RMTYPE" onblur="chkInjection(this,10)" style="width: 100" value="{{resultVO.CMS_RMTYPE}}" {% resultVO.tProc == "EDIT" %}readonly{% endif %}>
+                        <input type="text" name="CMS_RMTYPE" id="CMS_RMTYPE" onblur="chkInjection(this,10)" style="width: 100" value="{{resultVO.CMS_RMTYPE}}" {% if resultVO.tProc == "EDIT" %}readonly{% endif %}>
                     </td>
                     <th>  {% trans "11837 Use" %}
                     </th>
                     <td >
                         <select id="USE_FLAG" name="USE_FLAG" style="width: 40px;">
-                            <option {% resultVO.USE_FLAG == "Y" %}selected {% endif %} value="Y">Y</option>
-                            <option {% resultVO.USE_FLAG == "N" %}selected {% endif %} value="N">N</option>
+                            <option {% if resultVO.USE_FLAG == "Y" %}selected {% endif %} value="Y">Y</option>
+                            <option {% if resultVO.USE_FLAG == "N" %}selected {% endif %} value="N">N</option>
                         </select>
                     </td>
                 </tr>

@@ -197,7 +197,7 @@
     <div class="info">
         <!-----기본사항 시작----->
         <form name="frm" method="post" action="/CM/WCM031_U101">    <!-- action="/NsmdG/CM/WCM031_U101/mainTran/" -->
-            <input type="hidden" name="tProc" value="{{resultVO.tProc}}">
+            <input type="hidden" name="tProc" value="{{resultVO.tproc}}">
             <table width="100%" class="f4tblview">
                 <colgroup>
                     <col width="20%" />
@@ -208,13 +208,13 @@
                 <tr>
                     <th>Hotel</th>
                     <td>
-                        <select name="OFFICE_NO" id="OFFICE_NO" style="width: 130px;" onblur="chkInjection(this);" onfocus="" tabindex1="34" {% if resultVO.tProc == "EDIT" %}disabled{% endif %}>
+                        <select name="OFFICE_NO" id="OFFICE_NO" style="width: 130px;" onblur="chkInjection(this);" onfocus="" tabindex1="34" {% if resultVO.tproc == "EDIT" %}disabled{% endif %}>
                             {% SetSelectBox2 "Office_No" resultVO.OFFICE_NO "--" "" "" request sessionInfo.OfficeNo %}
                         </select>
                     </td>
                     <th>CMS</th>
                     <td>
-                        <select name="CMS_CD" id="CMS_CD" style="width: 150px;" onblur="chkInjection(this);" onfocus="" tabindex1="34" {% if resultVO.tProc == "EDIT" %}disabled{% endif %}>
+                        <select name="CMS_CD" id="CMS_CD" style="width: 150px;" onblur="chkInjection(this);" onfocus="" tabindex1="34" {% if resultVO.tproc == "EDIT" %}disabled{% endif %}>
                             {% load SetSelectBox1 %}
                             {% SetSelectBox1 "CMS_ALL" resultVO.CMS_CD "" "" "" request sessionInfo.OfficeNo %}
                         </select>
@@ -223,7 +223,7 @@
                 <tr>
                     <th>Service Code</th>
                     <td colspan="3">
-                        <input type="text" name="CMS_SVCCD" id="CMS_SVCCD" onblur="chkInjection(this,100)" style="width: 100px" value="{{resultVO.CMS_SVCCD}}" tabindex1="34" {% if resultVO.tProc == "EDIT" %}readonly{% endif %}>
+                        <input type="text" name="CMS_SVCCD" id="CMS_SVCCD" onblur="chkInjection(this,100)" style="width: 100px" value="{{resultVO.CMS_SVCCD}}" tabindex1="34" {% if resultVO.tproc == "EDIT" %}readonly{% endif %}>
                     </td>
                 </tr>
                 <tr>
@@ -257,7 +257,7 @@
                         <textarea name="remark" rows="3" style="width: 500px;" cols="1">{{resultVO.remark}}</textarea>
                     </td>
                 </tr>
-                {% if resultVO.tProc == "EDIT" %}
+                {% if resultVO.tproc == "EDIT" %}
                 <tr>
                     <th>Entry</th>
                     <td>{{resultVO.Input_User}}</td>

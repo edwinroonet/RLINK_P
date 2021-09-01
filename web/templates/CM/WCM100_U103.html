@@ -1,4 +1,4 @@
-{% extends "CMM/_LayoutMainMaster.html" %}
+{% extends "CMM/_LayoutMaster.html" %}
 {% load i18n %}
 
 {% block head %}
@@ -47,8 +47,8 @@
     <h2>&nbsp;&nbsp;&nbsp;호텔 소개</h2>
     <div class="pageid" id="noprint">CM100 U103</div>
     <div class="info">
-
         <form name="frm" method="post" action="/CM/WCM100_T103" enctype="multipart/form-data">
+            {% csrf_token %}
             <input type="hidden" name="CMS_CD" value="{{resultVO.CMS_CD}}" />
             <input type="hidden" name="OFFICE_NO" value="{{resultVO.OFFICE_NO}}" />
             <input type="hidden" name="DESC_KOR" value="{{resultrs.DESC_KOR}}" />

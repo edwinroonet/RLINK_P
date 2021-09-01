@@ -195,7 +195,7 @@
                             <td width="50">OTA
                             </td>
                             <td colspan="6">
-                                <input style="width: 170px" type="text" name="OTA_NM" id="OTA_NM" value="<%=OTA_NM%>" />
+                                <input style="width: 170px" type="text" name="OTA_NM" id="OTA_NM" value="{{resultVO.OTA_NM}}" />
                             </td>
                             <td style="padding-right: 2px; padding-left: 2px; text-align: right">
                                 <input type="button" class="RLINK_button82" onclick="funcSearch();" value="{% trans '11540 Search' %}(F2)" id="noprint" border="0" />
@@ -256,7 +256,7 @@
                             <th width="80">{% trans "12250 Insert" %}</th>
                             <th width="*">{% trans "11952 Insert Date" %}</th>
                         </tr>
-                        {% if resultVO.recordCount == 0 %}
+                        {% if resultVO.recordcount == 0 %}
                         <tr id="tr0" bgcolor="#FEFEFE" >
                             <td height="20" colspan="10">{% trans "10007 No Data" %}
                             </td>
@@ -289,6 +289,7 @@
                                 {% else %}
                                 <a href="/CM/WCM020_S101?gotopage={{blockpage|add:-10}}&pagesize={{resultVO.pagesize}}{{strParam}}"><img src="/static/images/btn/btn_pre_on.gif" border="0" align=absmiddle"></a>
                                 {% endif %}
+                                {% with ''|center:10 as range %}
                                 {% for k in range %}
                                     {% if not blockpage|add:forloop.counter0 > resultVO.pagecount %}
                                         {% if blockpage|add:forloop.counter0 == resultVO.Gotopage %}

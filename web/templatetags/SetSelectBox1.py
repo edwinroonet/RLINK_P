@@ -1,4 +1,5 @@
 from django import template
+from django.utils.safestring import mark_safe
 
 from web.models import dbexecute
 from web.view.base.commonFunction import *
@@ -17,7 +18,8 @@ def SetSelectBox1(cFlag, strSelValue, strSelMent, strOption1, strOption2, _hcb, 
 
     strSql = setCommonQuery(cFlag, strSelValue, strSelMent, strOption1, strOption2, sessionInfoVo, G_OFFICE_NO)
 
-    tmpRs = dbexecute(strSql)
+    tmpRs = dbexecuteQuery(strSql, '')
+    print(tmpRs)
     # RV/WRV010_S201/main/
 
     if strSelMent.strip() != "":
@@ -33,6 +35,6 @@ def SetSelectBox1(cFlag, strSelValue, strSelMent, strOption1, strOption2, _hcb, 
                 strSel = " selected"
             else:
                 strSel = ""
-        rtnValue = rtnValue + "<option	value='" + tmpRs["code"] + "'" + strSel + ">" + tmpRs["code_nm"] + "</option>"
+        rtnValue = rtnValue + "<option	value='" + t["code"] + "'" + strSel + ">" + t["code_nm"] + "</option>"
 
-    return rtnValue
+    return mark_safe(rtnValue)

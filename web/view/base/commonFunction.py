@@ -57,6 +57,10 @@ def setMultiLang(multi_lang):
     MultiLang = MultiLang[1:len(MultiLang)]
     return MultiLang
 
+def goOpenerLinkNew(Msg, goUrl):
+    return "<script language='javascript'>alert('" + Msg + "');window.opener.location.href='" + goUrl + "';self.close();</script>"
+    # goOpenerLinkNew = True
+
 def setCommonQuery(cFlag, strSelValue, strSelMent, strOption1, strOption2, sessionInfoVo, G_OFFICE_NO):
     strSql = ""
     selcolumnName = "code_nm"

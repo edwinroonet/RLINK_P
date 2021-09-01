@@ -25,10 +25,6 @@ msgstr ""
 msgid "English"
 msgstr ""
 
-#: .\web\view\CM\WCM010_S101.py:29
-msgid "안녕하세요"
-msgstr ""
-
 msgid "10001 Do you want to save?"
 msgstr "저장 하시겠습니까?"
 
@@ -79,3 +75,102 @@ msgstr "작성일시"
 
 msgid "10007 No data."
 msgstr "검색결과가 없습니다."
+
+msgid "12565 Booking List"
+msgstr "예약 목록"
+
+msgid "12566 Booking TL-Lincoln"
+msgstr "TL-링컨 예약"
+
+msgid "12567 Booking API List"
+msgstr "예약 API 목록"
+
+msgid "12568 Execute"
+msgstr "실행"
+
+msgid "12569 Log"
+msgstr "로그"
+
+msgid "12570 Changed"
+msgstr "변경됨"
+
+msgid "12229 Manage"
+msgstr "관리"
+
+msgid "12051 Config"
+msgstr "구성"
+
+msgid "12255 User"
+msgstr "이용자"
+
+msgid "11048 Site"
+msgstr "사업장"
+
+msgid "11816 Department"
+msgstr "부서"
+
+msgid "11003 Hotel"
+msgstr "호텔"
+
+msgid "11308 RoomType"
+msgstr "룸타입"
+
+msgid "12573 Sub"
+msgstr "서브"
+
+msgid "12548 Rate Type"
+msgstr "요금 유형"
+
+msgid "12546 Plan Type"
+msgstr "계획 유형"
+
+msgid "11539 Extra service"
+msgstr "부가서비스"
+
+msgid "12576 Block&Rate"
+msgstr "블록&요금"
+
+msgid "12551 Channel"
+msgstr "채널"
+
+msgid "12577 Sales Option"
+msgstr "판매 옵션"
+
+msgid "12636 Room Block&Rate"
+msgstr "룸블록&요금"
+
+msgid "12054 Operate"
+msgstr "Operate"
+
+msgid "11031 Site List"
+msgstr "사이트등록관리"
+
+msgid "11047 Hotel List"
+msgstr "사이트 리스트"
+
+msgid "11603 User"
+msgstr "이용자관리"
+
+msgid "11826 ALl User"
+msgstr "전체이용자관리"
+
+msgid "12563 Master"
+msgstr "마스터"
+
+msgid "11337 Cancel"
+msgstr "예약취소"
+
+msgid "11604 Online User"
+msgstr "온라인이용현황"
+
+msgid "11607 IP bandwidth List"
+msgstr "IP대역접속현황"
+
+msgid "11865 P/W Error List"
+msgstr "암호입력오류표"
+
+msgid "11308 Roomtype"
+msgstr "룸타입"
+
+msgid "12574 Code & Control"
+msgstr "코드 및 제어"

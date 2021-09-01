@@ -167,14 +167,14 @@
     <div class="pageid" id="noprint">CM010 S101</div>
     <!-- excel 다운로드용 start -->
 
-    <form name="exfrm" method="post" action="/CMM/excel_02/main/" target="_self">
+    <form name="exfrm" method="post" action="/CMM/excel_02" target="_self">
         <input type="hidden" name="ex_sql" value="{{ex_sql}}">
         <input type="hidden" name="ex_title" value="{{ex_title}}">
         <input type="hidden" name="ex_cond" value="{{ex_cond}}">
         <input type="hidden" name="ex_head" value="{{ex_head}}">
         <input type="hidden" name="ex_datatype" value="{{ex_datatype}}">
         <input type="hidden" name="ex_column" value="{{ex_column}}">
-        <input type="hidden" name="ex_page" value="/CM/WCM010_S101/main/">
+        <input type="hidden" name="ex_page" value="/CM/WCM010_S101">
     </form>
     <!--<%--    <a href="javascript:document.exfrm.submit();">
         <img src="/static/images/xls.gif"></a>--%>-->
@@ -234,7 +234,7 @@
                     <th width="80">{% trans "12250 Modify" %}</th>
                     <th width="*">{% trans "11952 Insert Date" %}</th>
                 </tr>
-                {% if resultVO.recordCount == 0 %}
+                {% if resultVO.recordcount == 0 %}
                 <tr id="tr0" bgcolor="#FEFEFE">
                     <td height="20" colspan="8">{% trans "10007 No data." %}
                     </td>

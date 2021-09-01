@@ -77,19 +77,19 @@
 {% if wcm == "010" %}
 <span><img src="/static/images/Skin/left_010.jpg" alt="" /></span>
 <ul class="filetree">
-    <li><span class="root">{% trans "Reseve" %}</span>
+    <li><span class="root">{% trans "11509 Reservation" %}</span>
         <ul>
             <!--
             <li><span class="square"><a href="javascript:funcGo('/NsmdG/RV/WRV900_S101/main/');">Rsvn Retrieve</a></span></li>
             <li><span class="square"><a href="javascript:funcGo('/NsmdG/RV/WRV900_S101/main/');">Rm/A Changed</a></span></li>
             -->
 
-            <li><span class="folder">{% trans "Booking List" %}</a></span>
+            <li><span class="folder">{% trans "12565 Booking List" %}</a></span>
                 <ul>
         {% if sessionInfo.TLLC_YN == "Y" %}
-                     <li><span class="square"><a href="javascript:funcGo('/RV/WRV900_S101');">{% trans "Booking TL-Lincoln" %}</a></span></li>
+                     <li><span class="square"><a href="javascript:funcGo('/RV/WRV900_S101');">{% trans "12566 Booking TL-Lincoln" %}</a></span></li>
         {% endif %}
-                     <li><span class="square"><a href="javascript:funcGo('/CM/WCM200_S101');">{% trans "Booking API List" %}</a></span></li>
+                     <li><span class="square"><a href="javascript:funcGo('/CM/WCM200_S101');">{% trans "12567 Booking API List" %}</a></span></li>
                 </ul>
             </li>
 
@@ -105,11 +105,11 @@
 {% if sessionInfo.TLLC_YN == "Y" %}
             <li><span class="folder">TL-Lincoln</span>
                 <ul>
-                    <li><span class="square"><a href="javascript:funcGo('/XM/WXM_TL100');">API {% trans "Execute" %}</a></span></li>
-                    <li><span class="square"><a href="javascript:funcGo('/XM/WXMLOG_S101');">API {% trans "Log" %}</a></span></li>
+                    <li><span class="square"><a href="javascript:funcGo('/XM/WXM_TL100');">API {% trans "12568 Execute" %}</a></span></li>
+                    <li><span class="square"><a href="javascript:funcGo('/XM/WXMLOG_S101');">API {% trans "12569 Log" %}</a></span></li>
 
         {% if sessionInfo.LoginLevel >= "ZA" %} <!--운영자용화면-->
-                     <li><span class="square"><a href="javascript:funcGo('/RM/WRM900_S101');">Rm/A {% trans "Changed" %}</a></span></li>
+                     <li><span class="square"><a href="javascript:funcGo('/RM/WRM900_S101');">Rm/A {% trans "12570 Changed" %}</a></span></li>
         {% endif %}
                 </ul>
             </li>
@@ -139,7 +139,7 @@
 {% elif wcm == "060" %}
 <span><img src="/static/images/Skin/left_060.jpg" alt="" /></span>
 <ul class="filetree">
-    <li><span class="root">{% trans "Manage" %}</span>
+    <li><span class="root">{% trans "12229 Manage" %}</span>
         {% if sessionInfo.LoginLevel >= "SA" %}<!-- 운영장 -->
                     <!--<li><span class="square"><a href="javascript:funcGo('/NsmdG/MA/WMA020_S101/main/');">Room Revenue Plan</a></span></li>-->
         {% endif %}
@@ -149,43 +149,43 @@
 {% elif wcm == "070" %}
 <span><img src="/static/images/Skin/left_070.jpg" alt="" /></span>
 <ul class="filetree">
-    <li><span class="root">{% trans "Config" %}</span>
+    <li><span class="root">{% trans "12051 Config" %}</span>
         <ul>
 
 
-            <li><span class="folder">{% trans "User" %}</span>
+            <li><span class="folder">{% trans "12255 User" %}</span>
                 <ul>
-                    <li><span class="square"><a href="javascript:funcGo('/MB/WTO100_S102');">{% trans "Site" %}</a></span></li>
-                    <li><span class="square"><a href="javascript:funcGo('/MB/WMB100_S101');">{% trans "User" %}</a></span></li>
-                    <li><span class="square"><a href="javascript:funcGo('/TO/WTO108_S101');">{% trans "Department" %}</a></span></li>
+                    <li><span class="square"><a href="javascript:funcGo('/MB/WTO100_S102');">{% trans "11048 Site" %}</a></span></li>
+                    <li><span class="square"><a href="javascript:funcGo('/MB/WMB100_S101');">{% trans "12255 User" %}</a></span></li>
+                    <li><span class="square"><a href="javascript:funcGo('/TO/WTO108_S101');">{% trans "11816 Department" %}</a></span></li>
 
                 </ul>
             </li>
-            <li><span class="folder">CMS {% trans "Setting" %}</span>
+            <li><span class="folder">CMS {% trans "12571 Setting" %}</span>
                 <ul>
-                    <li><span class="square"><a href="javascript:funcGo('/CM/WCM100_S101');">CMS {% trans "Hotel" %}</a></span></li>
-                    <li><span class="square"><a href="javascript:funcGo('/CM/WCM110_S101');">CMS {% trans "RoomType" %}</a></span></li>
+                    <li><span class="square"><a href="javascript:funcGo('/CM/WCM100_S101');">CMS {% trans "11003 Hotel" %}</a></span></li>
+                    <li><span class="square"><a href="javascript:funcGo('/CM/WCM110_S101');">CMS {% trans "11308 RoomType" %}</a></span></li>
 {% if sessionInfo.TTLC_YN == "Y" %}
-                    <li><span class="square"><a href="javascript:funcGo('/CM/WCM111_S101');">{% trans "RoomType" %}.{% trans "Sub" %}</a></span></li>
+                    <li><span class="square"><a href="javascript:funcGo('/CM/WCM111_S101');">{% trans "11308 RoomType" %}.{% trans "12573 Sub" %}</a></span></li>
 {% endif %}
 {% if sessionInfo.LoginLevel >= "SA" %} <!-- 테스트 + 운영자 -->
-                    <li><span class="square"><a href="javascript:funcGo('/CM/WCM115_S101');">CMS {% trans "Rate Type" %}</a></span></li>
-                    <li><span class="square"><a href="javascript:funcGo('/CM/WCM116_S101');">CMS {% trans " Plan Type" %}</a></span></li>
-                    <li><span class="square"><a href="javascript:funcGo('/CM/WCM031_S101');">CMS {% trans "Extra service" %}</a></span></li>
+                    <li><span class="square"><a href="javascript:funcGo('/CM/WCM115_S101');">CMS {% trans "12548 Rate Type" %}</a></span></li>
+                    <li><span class="square"><a href="javascript:funcGo('/CM/WCM116_S101');">CMS {% trans "12546 Plan Type" %}</a></span></li>
+                    <li><span class="square"><a href="javascript:funcGo('/CM/WCM031_S101');">CMS {% trans "11539 Extra service" %}</a></span></li>
 {% endif %}
-                    <li><span class="square"><a href="javascript:funcGo('/CM/WCM021_S101');">OTA {% trans "Code" %}</a></span></li>
-                    <li><span class="square"><a href="javascript:funcGo('/CM/WCM120_S101');">OTA {% trans "RoomType" %}</a></span></li>
+                    <li><span class="square"><a href="javascript:funcGo('/CM/WCM021_S101');">OTA {% trans "11053 Code" %}</a></span></li>
+                    <li><span class="square"><a href="javascript:funcGo('/CM/WCM120_S101');">OTA {% trans "11308 RoomType" %}</a></span></li>
                     <!--<li><span class="square"><a href="javascript:funcGo('/NsmdG/XM/WXM_TL010/main/');">XM010</a></span></li>-->
                 </ul>
             </li>
         </ul>
 {% if sessionInfo.LoginLevel >= "SA" %} <!-- 테스트 + 운영자 -->
         <ul>
-            <li><span class="folder">CMS {% trans "Block&Rate" %}</span>
+            <li><span class="folder">CMS {% trans "12576 Block&Rate" %}</span>
                 <ul>
-                    <li><span class="square"><a href="javascript:funcGo('/CM/WCM130_S101');">CMS {% trans "Channel" %}</a></span></li>
-                    <li><span class="square"><a href="javascript:funcGo('/CM/WCM140_S101');">CMS {% trans "Sales Option" %}</a></span></li>
-                    <li><span class="square"><a href="javascript:funcGo('/CM/WCM140_S201');">CMS {% trans "Room Block&Rate" %}</a></span></li>
+                    <li><span class="square"><a href="javascript:funcGo('/CM/WCM130_S101');">CMS {% trans "12551 Channel" %}</a></span></li>
+                    <li><span class="square"><a href="javascript:funcGo('/CM/WCM140_S101');">CMS {% trans "12577 Sales Option" %}</a></span></li>
+                    <li><span class="square"><a href="javascript:funcGo('/CM/WCM140_S201');">CMS {% trans "12636 Room Block&Rate" %}</a></span></li>
                 </ul>
             </li>
         </ul>
@@ -197,7 +197,7 @@
 {% elif wcm == "330" %} <!-- for sky AS33 STAFF FLAG-->
 <span><img src="/static/images/Skin/left_060.jpg" alt="" /></span>
 <ul class="filetree">
-    <li><span class="root">{% trans "Manage" %}</span>
+    <li><span class="root">{% trans "12229 Manage" %}</span>
         <ul>
             <!--<li><span class="square"><a href="javascript:funcGo('/NsmdG/RV/WRV010_s103/main/');">Rsv Inquiry Center</a></span></li>
             <li><span class="square"><a href="javascript:funcGo('/NsmdG/RV/WRV300_S201/main/');">In House List</a></span></li>
@@ -215,15 +215,15 @@
 {% elif wcm == "900" %} <!-- cateImg = "left_240.jpg" -->
 <span><img src="/static/images/Skin/left_900.jpg" alt="운영자용" /></span>
 <ul class="filetree">
-    <li><span class="root">{% trans "Operate" %}</span>
+    <li><span class="root">{% trans "12054 Operate" %}</span>
         {% if sessionInfo.LoginLevel >= "SA" %} <!-- 운영자용화면 -->
         <ul>
-            <li><span class="folder">{% trans "SITE" %}</span>
+            <li><span class="folder">{% trans "11048 Site" %}</span>
                 <ul>
-                    <li><span class="square"><a href="javascript:funcGo('TO/WTO100_S101');">{% trans "Site List" %}</a></span></li>
-                    <li><span class="square"><a href="javascript:funcGo('/TO/WTO100_S111');">{% trans "Hotel List" %}</a></span></li>
-                    <li><span class="square"><a href="javascript:funcGo('/MB/WMB100_S101');">{% trans "User" %}</a></span></li>
-                    <li><span class="square"><a href="javascript:funcGo('/MB/WMB100_S401');">{% trans "ALl User" %}</a></span></li>
+                    <li><span class="square"><a href="javascript:funcGo('TO/WTO100_S101');">{% trans "11031 Site List" %}</a></span></li>
+                    <li><span class="square"><a href="javascript:funcGo('/TO/WTO100_S111');">{% trans "11047 Hotel List" %}</a></span></li>
+                    <li><span class="square"><a href="javascript:funcGo('/MB/WMB100_S101');">{% trans "11603 User" %}</a></span></li>
+                    <li><span class="square"><a href="javascript:funcGo('/MB/WMB100_S401');">{% trans "11826 ALl User" %}</a></span></li>
                     <!--<li><span class="square"><a href="javascript:funcGo('/NsmdG/cp/wcp200_s901/main/');">전체거래처검색</a></span></li>-->
                 </ul>
             </li>
@@ -231,12 +231,12 @@
         <ul>
             <li><span class="folder">CMS</span>
                 <ul>
-                    <li><span class="square"><a href="javascript:funcGo('/CM/WCM010_S101');">{% trans "Master" %} CMS</a></span></li>
-                    <li><span class="square"><a href="javascript:funcGo('/CM/WCM020_S101');">{% trans "Master" %} OTA</a></span></li>
-                    <li><span class="square"><a href="javascript:funcGo('/TO/WTO200_S101');">{% trans "Master" %} {% trans "Hotel" %}</a></span></li>
-                    <li><span class="square"><a href="javascript:funcGo('/CM/WCM100_S201');">CMS vs {% trans "Hotel" %}</a></span></li>
+                    <li><span class="square"><a href="javascript:funcGo('/CM/WCM010_S101');">{% trans "12563 Master" %} CMS</a></span></li>
+                    <li><span class="square"><a href="javascript:funcGo('/CM/WCM020_S101');">{% trans "12563 Master" %} OTA</a></span></li>
+                    <li><span class="square"><a href="javascript:funcGo('/TO/WTO200_S101');">{% trans "12563 Master" %} {% trans "11003 Hotel" %}</a></span></li>
+                    <li><span class="square"><a href="javascript:funcGo('/CM/WCM100_S201');">CMS vs {% trans "11003 Hotel" %}</a></span></li>
                      <li><span class="square"><a href="javascript:funcGo('/RV/WRV800_S101');">Rsvn from CMS</a></span></li>
-                     <li><span class="square"><a href="javascript:funcGo('/RV/WRV800_S201');">{% trans "Cancel" %}</a></span></li>
+                     <li><span class="square"><a href="javascript:funcGo('/RV/WRV800_S201');">{% trans "11337 Cancel" %}</a></span></li>
                 </ul>
             </li>
         </ul>
@@ -244,20 +244,20 @@
             <li><span class="folder">CENTER</span>
                 <ul>
 
-                    <li><span class="square"><a href="javascript:funcGo('/MB/WMB110_S101');">{% trans "Online User" %}</a></span></li>
+                    <li><span class="square"><a href="javascript:funcGo('/MB/WMB110_S101');">{% trans "11604 Online User" %}</a></span></li>
                     <!--<li><span class="square"><a href="javascript:funcGo('/NsmdG/ps/wps210_s101/main/');">결제내역 상세</a></span></li>
                     <li><span class="square"><a href="javascript:funcGo('/NsmdG/ps/wps210_s201/main/');">결제내역 일별</a></span></li>
                     <li><span class="square"><a href="javascript:funcGo('/NsmdG/ps/wps210_s202/main/');">결제내역 월별</a></span></li>-->
-                    <li><span class="square"><a href="javascript:funcGo('/MB/WMB110_S103');">{% trans "IP bandwidth List" %}</a></span></li>
-                    <li><span class="square"><a href="javascript:funcGo('/MB/WMB110_S160');">{% trans "P/W Error List" %}</a></span></li>
+                    <li><span class="square"><a href="javascript:funcGo('/MB/WMB110_S103');">{% trans "11607 IP bandwidth List" %}</a></span></li>
+                    <li><span class="square"><a href="javascript:funcGo('/MB/WMB110_S160');">{% trans "11865 P/W Error List" %}</a></span></li>
                 </ul>
             </li>
         </ul>
         <ul>
-            <li><span class="folder">{% trans "TL-Lincoln" %}</span>
+            <li><span class="folder">{% trans "12566 Booking TL-Lincoln" %}</span>
                 <ul>
-                    <li><span class="square"><a href="javascript:funcGo('/XM/WXMLOG_S101?SEARCH_OPTION=ALLLOG');">API {% trans "Log" %}</a></span></li>
-                    <li><span class="square"><a href="javascript:funcGo('/XM/WXM_TL100');">API {% trans "Roomtype" %}</a></span></li>
+                    <li><span class="square"><a href="javascript:funcGo('/XM/WXMLOG_S101?SEARCH_OPTION=ALLLOG');">API {% trans "12569 Log" %}</a></span></li>
+                    <li><span class="square"><a href="javascript:funcGo('/XM/WXM_TL100');">API {% trans "11308 Roomtype" %}</a></span></li>
 
                     {% if sessionInfo.LoginLevel >= "ZZ" %} <!-- 관리자/개발자용 -->
 
@@ -267,7 +267,7 @@
             </li>
         </ul>
         <ul>
-            <li><span class="folder">{% trans "Code & Control " %}</span>
+            <li><span class="folder">{% trans "12574 Code & Control" %}</span>
                 <ul>
                     <li><span class="square"><a href="javascript:funcGo('/OP/WOP010_S101');">API Call</a></span></li>
                 </ul>

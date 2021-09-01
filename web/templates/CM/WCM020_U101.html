@@ -101,7 +101,7 @@
 
     <div class="info">
         <form name="frm" method="post" action="WCM020_U101">
-            <input type="hidden" name="tProc" value="{{resultVo.tProc}}">
+            <input type="hidden" name="tProc" value="{{resultVo.tproc}}">
             <table width="100%" class="f4tblview">
                 <colgroup>
                     <col width="10%" />
@@ -115,7 +115,7 @@
                 <tr>
                     <th>CMS</th>
                     <td colspan="5">
-                        <select name="CMS_CD" id="CMS_CD" onchange="checkView(this);" style="width: 150px;" onblur="chkInjection(this);" onfocus="" tabindex1="34" {% if resultVO.tProc == "EDIT" %}disabled{% endif %}>
+                        <select name="CMS_CD" id="CMS_CD" onchange="checkView(this);" style="width: 150px;" onblur="chkInjection(this);" onfocus="" tabindex1="34" {% if resultVO.tproc == "EDIT" %}disabled{% endif %}>
                             {% SetSelectBox1 "CMS_ALL" resultVO.CMS_CD "" "" "" request sessionInfo.OfficeNo %}
                         </select>
                     </td>
@@ -124,7 +124,7 @@
                 <tr>
                     <th>{% trans "11053 Code" %}</th>
                     <td>
-                        <input type="text" name="OTA_CD" maxlength="10" style="width: 200" value="{{resultVO.OTA_CD}}" {% if resultVO.tProc == "EDIT" %}readonly{% endif %}>
+                        <input type="text" name="OTA_CD" maxlength="10" style="width: 200" value="{{resultVO.OTA_CD}}" {% if resultVO.tproc == "EDIT" %}readonly{% endif %}>
                     </td>
                     <th>{% trans "11661 Type" %}</th>
                     <td>
@@ -208,7 +208,7 @@
                     <th >TL</th>
                     <td colspan="5">
                         SOCC&nbsp;
-                        <input type="text" name="TL_SOCC" maxlength="10" style="width: 50" value="{{resultVO.TL_SOCC}}" {% if resultVO.tProc == "EDIT" %}readonly{% endif %} />&nbsp;
+                        <input type="text" name="TL_SOCC" maxlength="10" style="width: 50" value="{{resultVO.TL_SOCC}}" {% if resultVO.tproc == "EDIT" %}readonly{% endif %} />&nbsp;
 
                         RTA&nbsp;
                         <select id="TL_SUPPORT1" name="TL_SUPPORT1">
@@ -231,7 +231,7 @@
                     </td>
                 </tr>
 
-                {% if resultVO.tProc == "EDIT" %}
+                {% if resultVO.tproc == "EDIT" %}
                 <tr>
                     <th>{% trans "11208 Entry" %}</th>
                     <td>{{resultVO.Input_User}}</td>

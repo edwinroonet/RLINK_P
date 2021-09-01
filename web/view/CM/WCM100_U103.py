@@ -90,7 +90,7 @@ def main(request):
 
 
 def procSelect(strSql):
-    return dbexecute(strSql)
+    return dbexecuteQuery(strSql,'')[0]
 
 def procDelete(paramVO, request, ViewData):
     DirectoryPath = "Data/EData/" + ViewData["G_OFFICE_NO"]

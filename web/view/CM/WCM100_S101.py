@@ -97,12 +97,14 @@ def main(request):
 def procSelect(paramVO, ViewData):
     if paramVO:
         paramVO["strSql"] = f"SCM100_S101 {0},'{paramVO['Gotopage']}','{paramVO['pagesize']}','{ViewData['G_OFFICE_NO']}','{paramVO['CMS_CD']}'"
+        #print(paramVO["strSql"])
         rs = dbexecute(paramVO["strSql"])
-        paramVO["recordcount"] = rs[0]
+        paramVO["recordcount"] = rs[0][0]
         paramVO["strSql"] = f"SCM100_S101 {1},'{paramVO['Gotopage']}','{paramVO['pagesize']}','{ViewData['G_OFFICE_NO']}','{paramVO['CMS_CD']}'"
-        rs = dbexecute(paramVO["strSql"])
+        #print(paramVO["strSql"])
+        rs = dbexecuteQuery(paramVO["strSql"],'')
 
-        paramVO["pagecount"] = (int(paramVO["recordcount"] - 1) /paramVO["pagesize"]) + 1
+        paramVO["pagecount"] = (int(paramVO["recordcount"] - 1) / paramVO["pagesize"]) + 1
         paramVO["recnum"] = (paramVO["Gotopage"] - 1) * paramVO["pagesize"]
 
         # excel용 변수 정의 시작  (ex_sql에서 pagesize를 excel 최대한도인 65535 라인 설정 top 65535)===================================

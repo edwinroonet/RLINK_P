@@ -148,7 +148,7 @@ def main(request):
 
 
 def procSelect(strSql):
-    return dbexecute(strSql)
+    return dbexecuteQuery(strSql,'')[0]
 
 def procTran(strSql):
     return dbexecute(strSql)

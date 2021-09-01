@@ -19,7 +19,8 @@ from django.views.generic import TemplateView
 from django.conf.urls.static import static
 from django.conf import settings
 from web import views
-from web.view.CM import WCM010_S101, WCM010_U101, WCM020_S101, WCM020_U101, WCM021_S101, WCM021_S201, WCM021_U101, WCM031_S101, WCM031_U101
+from web.view.CM import WCM010_S101, WCM010_U101, WCM020_S101, WCM020_U101, WCM021_S101, WCM021_S201, WCM021_U101, \
+    WCM031_S101, WCM031_U101, WCM100_U103, WCM100_T103, WCM100_S101, WCM100_S201, WCM100_U101, WCM100
 from web.view.CMM import WCM_110, WCM_200
 from web.view.MB import WMB_100
 
@@ -38,6 +39,13 @@ urlpatterns = [
     path('CM/WCM021_U101', WCM021_U101.main, name='WCM021_U101'), #
     path('CM/WCM031_S101', WCM031_S101.main, name='WCM031_S101'), #
     path('CM/WCM031_U101', WCM031_U101.main, name='WCM031_U101'), #
+
+    path('CM/WCM100_S101', WCM100_S101.main, name='WCM100_S101'), #
+    path('CM/WCM100_S201', WCM100_S201.main, name='WCM100_S201'), #
+    path('CM/WCM100_T103', WCM100_T103.main, name='WCM100_T103'), #
+    path('CM/WCM100_U101', WCM100_U101.main, name='WCM100_U101'), #
+    path('CM/WCM100_U103', WCM100_U103.main, name='WCM100_U103'), #
+    path('CM/WCM100', WCM100.main, name='WCM100'), #
 
     #path('', WMB_100.main, name='WMB_100'), #디폴트경로
     path('', WMB_100.main, name='WMB_100'), #디폴트경로

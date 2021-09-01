@@ -84,10 +84,6 @@ def basemain(request):
 
 	ViewData["Title"] = "RLink"
 	ViewData["pp"] = RqChk("pp", request)
-	ViewData["G_OFFICE_NO"] = G_OFFICE_NO or getSession(request, "G_OFFICE_NO")
-	ViewData["G_COMP_NO"] = G_COMP_NO or getSession(request, "G_COMP_NO")
-	ViewData["G_EMP_ID"] = G_EMP_ID or getSession(request, "G_EMP_ID")
-	ViewData["G_SALESDATE"] = G_SALESDATE or getSession(request, "G_SALESDATE")
 
 
 	if ViewData["pp"] == "Y":
@@ -113,6 +109,11 @@ def basemain(request):
 
 	ViewData["sessionInfo"] = SessionInfoVO
 	setSession(request, "LoginInfo", SessionInfoVO)
+
+	ViewData["G_OFFICE_NO"] = G_OFFICE_NO or SessionInfoVO["OfficeNo"]
+	ViewData["G_COMP_NO"] = G_COMP_NO or SessionInfoVO["CompNo"]
+	ViewData["G_EMP_ID"] = G_EMP_ID or getSession(request, "G_EMP_ID")
+	ViewData["G_SALESDATE"] = G_SALESDATE or getSession(request, "G_SALESDATE")
 
 	if ViewData["sessionInfo"]["Pms_lang"] == "K":
 		if translation.LANGUAGE_SESSION_KEY in request.session:

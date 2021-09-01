@@ -1,8 +1,11 @@
 from django.shortcuts import render, redirect
 import json
 import logging
+
+from web.view.base.FileUtil import fnUpload
 from web.view.base.baseController import *
 from web.view.base.commonFunction import *
+from web.view.base.FileUtil import *
 
 logger = logging.getLogger(__name__)
 
@@ -42,7 +45,7 @@ def main(request):
     rstAuth2 = auth_checkAuthSp(request, ViewData["G_OFFICE_NO"], ViewData["G_COMP_NO"], ViewData["G_EMP_ID"], ViewData["G_SALESDATE"], ViewData)
     print(rstAuth2)
 
-    if request.method == 'GET':
+    if request.method == 'POST':
         logger.debug(f'/CM/WCM100_T103 main, GET')
 
         paramVO = WCM100_T103VO

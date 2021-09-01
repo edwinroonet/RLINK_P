@@ -25,10 +25,6 @@ msgstr ""
 msgid "English"
 msgstr ""
 
-#: .\web\view\CM\WCM010_S101.py:29
-msgid "안녕하세요"
-msgstr ""
-
 msgid "10001 Do you want to save?"
 msgstr "Do you want to save?"
 
@@ -79,3 +75,102 @@ msgstr "Insert Date"
 
 msgid "10007 No data."
 msgstr "No data."
+
+msgid "12565 Booking List"
+msgstr "Booking List"
+
+msgid "12566 Booking TL-Lincoln"
+msgstr "Booking TL-Lincoln"
+
+msgid "12567 Booking API List"
+msgstr "Booking API List"
+
+msgid "12568 Execute"
+msgstr "Execute"
+
+msgid "12569 Log"
+msgstr "Log"
+
+msgid "12570 Changed"
+msgstr "Changed"
+
+msgid "12229 Manage"
+msgstr "Manage"
+
+msgid "12051 Config"
+msgstr "Config"
+
+msgid "12255 User"
+msgstr "User"
+
+msgid "11048 Site"
+msgstr "Site"
+
+msgid "11816 Department"
+msgstr "Department"
+
+msgid "11003 Hotel"
+msgstr "Hotel"
+
+msgid "11308 RoomType"
+msgstr "RoomType"
+
+msgid "12573 Sub"
+msgstr "Sub"
+
+msgid "12548 Rate Type"
+msgstr "Rate Type"
+
+msgid "12546 Plan Type"
+msgstr "Plan Type"
+
+msgid "11539 Extra service"
+msgstr "Extra service"
+
+msgid "12576 Block&Rate"
+msgstr "Block&Rate"
+
+msgid "12551 Channel"
+msgstr "Channel"
+
+msgid "12577 Sales Option"
+msgstr "Sales Option"
+
+msgid "12636 Room Block&Rate"
+msgstr "Room Block&Rate"
+
+msgid "12054 Operate"
+msgstr "Operate"
+
+msgid "11031 Site List"
+msgstr "Site List"
+
+msgid "11047 Hotel List"
+msgstr "Hotel List"
+
+msgid "11603 User"
+msgstr "User"
+
+msgid "11826 ALl User"
+msgstr "ALl User"
+
+msgid "12563 Master"
+msgstr "Master"
+
+msgid "11337 Cancel"
+msgstr "Cancel"
+
+msgid "11604 Online User"
+msgstr "Online User"
+
+msgid "11607 IP bandwidth List"
+msgstr "IP bandwidth List"
+
+msgid "11865 P/W Error List"
+msgstr "P/W Error List"
+
+msgid "11308 Roomtype"
+msgstr "Roomtype"
+
+msgid "12574 Code & Control"
+msgstr "Code & Control"

@@ -98,9 +98,9 @@ def procSelect(paramVO):
     if paramVO:
         paramVO["strSql"] = f"SCM100_S201 {0},'{paramVO['Gotopage']}','{paramVO['pagesize']}','{paramVO['OFFICE_NO']}','{paramVO['CMS_CD']}','{paramVO['OFFICE_NM']}'"
         rs = dbexecute(paramVO["strSql"])
-        paramVO["recordcount"] = rs[0]
+        paramVO["recordcount"] = rs[0][0]
         paramVO["strSql"] = f"SCM100_S201 {1},'{paramVO['Gotopage']}','{paramVO['pagesize']}','{paramVO['OFFICE_NO']}','{paramVO['CMS_CD']}','{paramVO['OFFICE_NM']}'"
-        rs = dbexecute(paramVO["strSql"])
+        rs = dbexecuteQuery(paramVO["strSql"],'')
 
         paramVO["pagecount"] = (int(paramVO["recordcount"] - 1) /paramVO["pagesize"]) + 1
         paramVO["recnum"] = (paramVO["Gotopage"] - 1) * paramVO["pagesize"]

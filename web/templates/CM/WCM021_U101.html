@@ -133,7 +133,7 @@
 
         <!-----기본사항 시작----->
         <form name="frm" method="post" action="WCM021_U101">
-            <input type="hidden" name="tProc" value="{{resultVO.tProc}}">
+            <input type="hidden" name="tProc" value="{{resultVO.tproc}}">
             <input type="hidden" name="CMS_CD" value="{{resultVO.CMS_CD}}" />
             <input type="hidden" name="TL_SOCC" value="{{resultVO.TL_SOCC}}" />
              <input type="hidden" name="OTA_CD" value="{{resultVO.OTA_CD}}" />
@@ -217,7 +217,7 @@
                         <textarea name="remark" rows="3" style="width: 562px;">{{resultVO.remark}}</textarea>
                     </td>
                 </tr>
-                {% if resultVO.tProc == "EDIT" %}
+                {% if resultVO.tproc == "EDIT" %}
                 <tr>
                     <th>{% trans "12087 Hotel" %}</th>
                     <td>{{resultVO.Input_User}}</td>
